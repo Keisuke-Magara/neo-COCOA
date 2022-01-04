@@ -1,4 +1,4 @@
-package com.example.neo_cocoa.ui.dashboard;
+package com.example.neo_cocoa.ui.proof;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,24 +12,23 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.neo_cocoa.R;
-import com.example.neo_cocoa.databinding.FragmentDashboardBinding;
+import com.example.neo_cocoa.databinding.FragmentProofBinding;
 
-public class DashboardFragment extends Fragment {
+public class ProofFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
-    private FragmentDashboardBinding binding;
+    private ProofViewModel ProofViewModel;
+    private FragmentProofBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        ProofViewModel =
+                new ViewModelProvider(this).get(ProofViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentProofBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        final TextView textView = binding.textProof;
+        ProofViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

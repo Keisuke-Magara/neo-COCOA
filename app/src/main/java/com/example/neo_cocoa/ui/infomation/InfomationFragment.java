@@ -1,4 +1,4 @@
-package com.example.neo_cocoa.ui.radar;
+package com.example.neo_cocoa.ui.infomation;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,24 +12,23 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.neo_cocoa.R;
-import com.example.neo_cocoa.databinding.FragmentRadarBinding;
+import com.example.neo_cocoa.databinding.FragmentInfomationBinding;
 
-public class RadarFragment extends Fragment {
+public class InfomationFragment extends Fragment {
 
-    private com.example.neo_cocoa.ui.radar.RadarViewModel RadarViewModel;
-    private FragmentRadarBinding binding;
+    private InfomationViewModel infomationViewModel;
+    private FragmentInfomationBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        RadarViewModel =
-                new ViewModelProvider(this).get(com.example.neo_cocoa.ui.radar.RadarViewModel.class);
+        infomationViewModel =
+                new ViewModelProvider(this).get(InfomationViewModel.class);
 
-        binding = FragmentRadarBinding.inflate(inflater, container, false);
+        binding = FragmentInfomationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textRadar;
-        RadarViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        final TextView textView = binding.textDashboard;
+        infomationViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

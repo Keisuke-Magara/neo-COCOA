@@ -1,16 +1,16 @@
-package com.example.neo_cocoa.ui.radar;
+package com.example.neo_cocoa.ui.infomation;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class RadarViewModel extends ViewModel {
+public class InfomationViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public RadarViewModel() {
+    public InfomationViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is radar fragment");
+        mText.setValue("This is infomation fragment");
     }
 
     public LiveData<String> getText() {
