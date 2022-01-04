@@ -1,2 +1,0 @@
-# neo-COCOA
-redesign COCOA.
