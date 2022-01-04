@@ -22,4 +22,10 @@
         android:name="com.example.neo_cocoa.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_radar"
+        android:name="com.example.neo_cocoa.ui.radar.RadarFragment"
+        android:label="@string/title_radar"
+        tools:layout="@layout/fragment_radar" />
 </navigation>

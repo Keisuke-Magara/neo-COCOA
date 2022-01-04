@@ -3,7 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neoCOCOA/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neoCOCOA/app/src/main/res/layout/activity_main.xml" value="0.16145307769929365" />
+        <entry key="..\:/Users/takek/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/Users/takek/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/fragment_home.xml" value="0.10144927536231885" />
+        <entry key="..\:/Users/takek/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/fragment_notifications.xml" value="0.13360507246376813" />
+        <entry key="..\:/Users/takek/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/fragment_radar.xml" value="0.1" />
+        <entry key="..\:/Users/takek/AndroidStudioProjects/neo-COCOA/app/src/main/res/menu/bottom_nav_menu.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/takek/AndroidStudioProjects/neo-COCOA/app/src/main/res/xml/root_preferences.xml" value="0.1" />
       </map>
     </option>
   </component>
