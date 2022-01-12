@@ -20,4 +20,12 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+    <string name="proof_title_num_of_contacts">2週間の接触者数</string>
+    <string name="proof_title_num_of_masculine">陽性者との接触</string>
+    <string name="proof_title_body_temperature">今日の体温</string>
+    <string name="proof_title_num_of_vaccine">ワクチン接種回数</string>
+    <string name="proof_button_body_temperature">体温を登録</string>
+    <string name="proof_button_vaccine">接種を登録</string>
+    <string name="proof_button_share">健康記録を共有する</string>
 </resources>
