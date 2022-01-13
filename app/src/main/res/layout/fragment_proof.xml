@@ -8,13 +8,15 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="215dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/light_blue"
-        android:text="Button"
-        app:cornerRadius="17dip"
+        android:text="@string/proof_button_share"
+        android:textColor="@color/black"
+        app:cornerRadius="@dimen/cornarRadius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/blue"
-        app:strokeWidth="5dip"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="56dp" />
+        app:strokeWidth="3dip" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
