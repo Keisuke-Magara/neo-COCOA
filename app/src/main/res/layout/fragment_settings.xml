@@ -6,208 +6,234 @@
     android:layout_height="match_parent"
     tools:context=".ui.settings.SettingsFragment">
 
-    <TextView
-        android:id="@+id/settings_quit_title3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:paddingEnd="60sp"
-        android:text="@string/settings_termsOfService_title"
-        android:textAlignment="viewStart"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider4" />
-
-    <TextView
-        android:id="@+id/settings_quit_title4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:paddingEnd="60sp"
-        android:text="@string/settings_privacyPolicy_title"
-        android:textAlignment="viewStart"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider5" />
-
-    <TextView
-        android:id="@+id/settings_quit_title5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:paddingEnd="60sp"
-        android:text="@string/settings_webAccessibilityPolicy"
-        android:textAlignment="viewStart"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider6" />
-
-    <Switch
-        android:id="@+id/settings_bgnotification_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/settings_bgnotification_title" />
-
-    <TextView
-        android:id="@+id/settings_bgnotification_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/settings_bgnotification_description"
-        app:layout_constraintEnd_toEndOf="@+id/settings_bgnotification_title"
-        app:layout_constraintStart_toStartOf="@id/settings_bgnotification_title"
-        app:layout_constraintTop_toBottomOf="@+id/settings_bgnotification_title" />
-
-    <TextView
-        android:id="@+id/settings_version_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="@string/settings_version_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/settings_quit_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:paddingEnd="60sp"
-        android:text="@string/settings_quit_title"
-        android:textAlignment="viewStart"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settings_bgnotification_description" />
-
-    <TextView
-        android:id="@+id/settings_quit_title2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:paddingEnd="60sp"
-        android:text="@string/settings_inquiry_title"
-        android:textAlignment="viewStart"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider3" />
-
-    <TextView
-        android:id="@+id/settings_quit_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:lines="2"
-        android:text="@string/settings_quit_description"
-        android:textSize="12dip"
-        app:layout_constraintEnd_toEndOf="@+id/settings_quit_title"
-        app:layout_constraintStart_toStartOf="@+id/settings_quit_title"
-        app:layout_constraintTop_toBottomOf="@+id/settings_quit_title" />
-
-    <Button
-        android:id="@+id/settings_quit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:backgroundTint="@color/light_blue"
-        android:text="@string/settings_quit_button_text"
-        android:textColor="@color/black"
-        app:cornerRadius="17dip"
-        app:layout_constraintStart_toEndOf="@+id/settings_quit_description"
-        app:layout_constraintTop_toTopOf="@id/settings_quit_title"
-        app:strokeColor="@color/blue"
-        app:strokeWidth="@dimen/strokeWidth" />
-
-    <TextView
-        android:id="@+id/settings_appversion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:text="取得中..."
-        app:layout_constraintBottom_toBottomOf="@+id/settings_version_title"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/settings_bgnotification_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:paddingEnd="30sp"
-        android:text="@string/settings_bgnotification_title"
-        android:textColor="@color/black"
-        android:textSize="@dimen/settings_title_textSize"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider1" />
-
-    <View
-        android:id="@+id/divider1"
-        android:layout_width="409dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="?android:attr/listDivider"
+    <ScrollView
+        android:id="@+id/settings_scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:isScrollContainer="false"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settings_version_title" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="409dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settings_bgnotification_description" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/divider3"
-        android:layout_width="409dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settings_quit_description" />
+            <TextView
+                android:id="@+id/settings_quit_title3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:paddingEnd="60sp"
+                android:text="@string/settings_termsOfService_title"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider4" />
 
-    <View
-        android:id="@+id/divider4"
-        android:layout_width="409dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settings_quit_title2" />
+            <TextView
+                android:id="@+id/settings_quit_title4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:paddingEnd="60sp"
+                android:text="@string/settings_privacyPolicy_title"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider5" />
 
-    <View
-        android:id="@+id/divider5"
-        android:layout_width="409dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settings_quit_title3" />
+            <TextView
+                android:id="@+id/settings_quit_title5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:paddingEnd="60sp"
+                android:text="@string/settings_webAccessibilityPolicy"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider6" />
 
-    <View
-        android:id="@+id/divider6"
-        android:layout_width="409dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settings_quit_title4" />
+            <Switch
+                android:id="@+id/settings_bgnotification_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="16dp"
+                android:minWidth="48dp"
+                app:layout_constraintBottom_toBottomOf="@+id/settings_bgnotification_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/settings_bgnotification_title" />
+
+            <TextView
+                android:id="@+id/settings_bgnotification_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/settings_bgnotification_description"
+                app:layout_constraintEnd_toStartOf="@+id/settings_bgnotification_switch"
+                app:layout_constraintStart_toStartOf="@id/settings_bgnotification_title"
+                app:layout_constraintTop_toBottomOf="@+id/settings_bgnotification_title" />
+
+            <TextView
+                android:id="@+id/settings_version_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/settings_version_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/settings_quit_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:paddingEnd="60sp"
+                android:text="@string/settings_quit_title"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/settings_quit_button"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+            <TextView
+                android:id="@+id/settings_quit_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:paddingEnd="60sp"
+                android:text="@string/settings_inquiry_title"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+            <TextView
+                android:id="@+id/settings_quit_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/settings_quit_description"
+                app:layout_constraintEnd_toStartOf="@+id/settings_quit_button"
+                app:layout_constraintStart_toStartOf="@+id/settings_quit_title"
+                app:layout_constraintTop_toBottomOf="@+id/settings_quit_title" />
+
+            <Button
+                android:id="@+id/settings_quit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/light_blue"
+                android:text="@string/settings_quit_button_text"
+                android:textColor="@color/black"
+                app:cornerRadius="17dip"
+                app:layout_constraintBottom_toBottomOf="@+id/settings_quit_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/settings_quit_title"
+                app:strokeColor="@color/blue"
+                app:strokeWidth="@dimen/strokeWidth" />
+
+            <TextView
+                android:id="@+id/settings_appversion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:text="取得中..."
+                app:layout_constraintBottom_toBottomOf="@+id/settings_version_title"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/settings_bgnotification_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:paddingEnd="30sp"
+                android:text="@string/settings_bgnotification_title"
+                android:textColor="@color/black"
+                android:textSize="@dimen/settings_title_textSize"
+                app:layout_constraintEnd_toStartOf="@+id/settings_bgnotification_switch"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider1" />
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settings_version_title" />
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settings_bgnotification_description" />
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settings_quit_description" />
+
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settings_quit_title2" />
+
+            <View
+                android:id="@+id/divider5"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settings_quit_title3" />
+
+            <View
+                android:id="@+id/divider6"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settings_quit_title4" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
