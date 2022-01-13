@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">neo-COCOA</string>
+    <string name="app_name" translatable="false">neo COCOA</string>
     <string name="title_home">ホーム</string>
     <string name="title_infomation">お知らせ</string>
     <string name="title_notifications">Notifications</string>
