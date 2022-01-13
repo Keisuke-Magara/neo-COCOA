@@ -6,13 +6,16 @@
     <string name="title_hazard">ハザード</string>
     <string name="title_proof">証明書</string>
     <string name="title_settings">設定</string>
-    <string name="settings_bgnotification_switch">バックグラウンドハザード通知</string>
+    <string name="settings_bgnotification_title">バックグラウンドハザード通知</string>
     <string name="settings_bgnotification_description">アプリを開いていない時や画面をロックしているときでもハザード通知を受けるには、この設定をオンにします。</string>
     <string name="settings_quit_title">アプリの使用中止</string>
     <string name="settings_quit_description">使用を中止して過去14日間の接触履歴を消去</string>
     <string name="settings_quit_button_text">使用中止</string>
     <string name="settings_version_title">アプリのバージョン :</string>
-    <string name="cornerRadius">17dip</string>
+    <string name="settings_inquiry_title">お問い合わせ</string>
+    <string name="settings_termsOfService_title">利用規約</string>
+    <string name="settings_privacyPolicy_title">プライバシーポリシー</string>
+    <string name="settings_webAccessibilityPolicy">ウェブアクセシビリティ方針</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
