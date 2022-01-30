@@ -38,4 +38,5 @@
     <string name="proof_button_body_temperature">体温を登録</string>
     <string name="proof_button_vaccine">接種を登録</string>
     <string name="proof_button_share">健康記録を共有する</string>
+    <string name="proof_title_update_date">更新日時</string>
 </resources>
