@@ -9,12 +9,15 @@ public class appSettings {
     private boolean backgroundHazardNotification;
     private int getTime;
     private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
     private enum pref_keys{
         backgroundHazardNotification
     };
 
     public appSettings(Context context) {
-        sharedPref = this.context.getActivity().getSharedPreference("settings", MODE_PRIVATE);
+        this.sharedPref = context.getSharedPreferences("settings", MODE_PRIVATE);
+        editor = sharedPref.edit();
+        sharedPref.getBoolean(pref_keys.backgroundHazardNotification, false);
     }
 
     public void refleshData() {

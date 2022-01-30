@@ -28,7 +28,7 @@ public class SettingsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         /*settingsViewModel =
                 new ViewModelProvider(this).get(SettingsViewModel.class);*/
-        appsettings = appSettings(this.getContext());
+        appsettings = new appSettings(this.getActivity());
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
