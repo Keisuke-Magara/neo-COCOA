@@ -15,18 +15,20 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.neo_cocoa.R;
+import com.example.neo_cocoa.appSettings;
 import com.example.neo_cocoa.databinding.FragmentSettingsBinding;
 
 public class SettingsFragment extends Fragment {
 
     private SettingsViewModel settingsViewModel;
     private FragmentSettingsBinding binding;
+    private appSettings appsettings;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         /*settingsViewModel =
                 new ViewModelProvider(this).get(SettingsViewModel.class);*/
-
+        appsettings = appSettings(this.getContext());
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
