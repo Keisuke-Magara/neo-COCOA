@@ -1,11 +1,21 @@
 <resources>
-    <string name="app_name">neo-COCOA</string>
+    <string name="app_name" translatable="false">neo COCOA</string>
+    <string name="playstore_url">https://play.google.com/store/apps/details?id=jp.go.mhlw.covid19radar&amp;hl=ja&amp;gl=US</string>
     <string name="title_home">ホーム</string>
     <string name="title_infomation">お知らせ</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_hazard">ハザード</string>
     <string name="title_proof">証明書</string>
     <string name="title_settings">設定</string>
+
+    <!-- General expression -->
+    <string name="ok">OK</string>
+    <string name="ng">キャンセル</string>
+    <string name="yes">はい</string>
+    <string name="no">いいえ</string>
+    <string name="agree">同意する</string>
+    <string name="disagree">同意しない</string>
+
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
@@ -20,4 +30,31 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+    <string name="proof_title_num_of_contacts">2週間の接触者数</string>
+    <string name="proof_title_num_of_masculine">陽性者との接触</string>
+    <string name="proof_title_body_temperature">今日の体温</string>
+    <string name="proof_title_num_of_vaccine">ワクチン接種回数</string>
+    <string name="proof_button_body_temperature">体温を登録</string>
+    <string name="proof_button_vaccine">接種を登録</string>
+    <string name="proof_button_share">健康記録を共有する</string>
+
+    <!-- Settings fragment -->
+    <string name="settings_bgnotification_title">バックグラウンドハザード通知</string>
+    <string name="settings_bgnotification_description">アプリを開いていない時や画面をロックしているときでも
+        ハザード通知を受けるには、この設定をオンにします。</string>
+    <string name="settings_quit_title">アプリの使用中止</string>
+    <string name="settings_quit_description">使用を中止して過去14日間の接触履歴を消去</string>
+    <string name="settings_quit_button_text">使用中止</string>
+    <string name="settings_quit_ad_title">アプリの使用中止します</string>
+    <string name="settings_quit_ad_descripstion">すべてのデータを削除して、アプリの使用を中止します。
+        よろしいですか？</string>
+    <string name="settings_version_title">アプリのバージョン :</string>
+    <string name="settings_inquiry_title">お問い合わせ</string>
+    <string name="settings_termsOfService_title">利用規約</string>
+    <string name="settings_privacyPolicy_title">プライバシーポリシー</string>
+    <string name="settings_webAccessibilityPolicy">ウェブアクセシビリティ方針</string>
+    <string name="settings_shareThisapp_button">アプリを周りの人に知らせる</string>
+    <string name="settings_shareThisapp_description">さらに多くの人にCOCOAを使ってもらえるように、
+        アプリを広めてください！</string>
 </resources>

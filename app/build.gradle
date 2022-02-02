@@ -7,10 +7,10 @@ android {
 
     defaultConfig {
         applicationId "com.example.neo_cocoa"
-        minSdk 23
+        minSdk 22
         targetSdk 31
         versionCode 1
-        versionName "1.0"
+        versionName "0.1 (beta)"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

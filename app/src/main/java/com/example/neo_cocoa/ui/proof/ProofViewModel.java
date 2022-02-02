@@ -10,7 +10,7 @@ public class ProofViewModel extends ViewModel {
 
     public ProofViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is infomation fragment");
+        mText.setValue("This is proof fragment");
     }
 
     public LiveData<String> getText() {
