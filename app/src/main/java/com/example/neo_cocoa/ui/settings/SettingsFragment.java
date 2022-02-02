@@ -5,43 +5,34 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.content.pm.PackageInfo;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.neo_cocoa.R;
 import com.example.neo_cocoa.appSettings;
 import com.example.neo_cocoa.databinding.FragmentSettingsBinding;
 
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
 
-    private SettingsViewModel settingsViewModel;
     private FragmentSettingsBinding binding;
     private appSettings appsettings;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        /*settingsViewModel =
-                new ViewModelProvider(this).get(SettingsViewModel.class);*/
+
         appsettings = new appSettings(this.getActivity());
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        //final TextView textView = binding.textNotifications;
-        /*settingsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                //textView.setText(s);
-            }
-        });
-*/
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        TextView version_number = (TextView) view.findViewById(R.id.settings_appversion);
+        TextView version_number = view.findViewById(R.id.settings_appversion);
+        Switch s = view.findViewById(R.id.settings_bgnotification_switch);
         // get app version.
         try {
             // get Java package name.
@@ -63,6 +54,9 @@ public class SettingsFragment extends Fragment {
             e.printStackTrace();
             version_number.setText("取得できませんでした.");
         }
+
+        s.setOnCheckedChangeListener(this);
+        s.setChecked(appsettings.getBgNotif());
         return view;
     }
 
@@ -70,5 +64,10 @@ public class SettingsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        appsettings.setBgNotif(isChecked);
     }
 }

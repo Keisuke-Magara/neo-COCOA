@@ -12,14 +12,26 @@ public class appSettings {
     private SharedPreferences.Editor editor;
     private enum pref_keys{
         backgroundHazardNotification
-    };
+    }
 
     public appSettings(Context context) {
         this.sharedPref = context.getSharedPreferences("settings", MODE_PRIVATE);
         editor = sharedPref.edit();
-        sharedPref.getBoolean(pref_keys.backgroundHazardNotification, false);
+        this.refleshData();
+    }
+
+    public void setBgNotif(boolean state) {
+        this.backgroundHazardNotification = state;
+        editor.putBoolean(String.valueOf(pref_keys.backgroundHazardNotification), state);
+        editor.apply();
+    }
+
+    public boolean getBgNotif() {
+        this.refleshData();
+        return this.backgroundHazardNotification;
     }
 
     public void refleshData() {
+        this.backgroundHazardNotification = this.sharedPref.getBoolean(String.valueOf(pref_keys.backgroundHazardNotification), false);
     }
 }
