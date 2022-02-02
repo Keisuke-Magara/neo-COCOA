@@ -15,6 +15,7 @@ import android.content.pm.PackageInfo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.neo_cocoa.R;
@@ -34,7 +35,6 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
         appsettings = new appSettings(this.getActivity());
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
 
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         TextView version_number = view.findViewById(R.id.settings_appversion);
@@ -46,6 +46,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         s.setOnCheckedChangeListener(this);
         s.setChecked(appsettings.getBgNotif());
         quit.setOnClickListener(quit_listener);
+        share.setOnClickListener(share_listener);
         return view;
     }
 
@@ -88,7 +89,6 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
     private View.OnClickListener quit_listener = new View.OnClickListener() {
         public void onClick(View view) {
-            System.out.println("Clicked!");
             AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
             ad.setTitle(getString(R.string.settings_quit_ad_title));
             ad.setMessage(getString(R.string.settings_quit_ad_descripstion));
@@ -103,5 +103,14 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         }
     };
 
+    private View.OnClickListener share_listener = new View.OnClickListener() {
+        public void onClick(View view) {
+            ShareCompat.IntentBuilder builder = ShareCompat.IntentBuilder.from(getActivity());
+            builder.setChooserTitle(getString(R.string.settings_shareMenu_chooserTitle))
+                    .setSubject(getString(R.string.settings_shareMenu_subject))
+                    .setText(getString(R.string.settings_shareMenu_text));
+            builder.startChooser();
+        }
+    };
 
 }

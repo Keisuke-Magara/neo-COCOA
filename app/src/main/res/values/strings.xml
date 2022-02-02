@@ -18,12 +18,15 @@
     <string name="settings_termsOfService_title">利用規約</string>
     <string name="settings_privacyPolicy_title">プライバシーポリシー</string>
     <string name="settings_webAccessibilityPolicy">ウェブアクセシビリティ方針</string>
-    <string name="settings_shareThisapp_button">このアプリをアプリをほかの人に広める</string>
+    <string name="settings_shareThisapp_button">アプリを周りの人に知らせる</string>
     <string name="ng">キャンセル</string>
     <string name="ok">OK</string>
     <string name="yes_text">はい</string>
     <string name="no_text">いいえ</string>
-    <string name="settings_shareThisapp_description">さらに多くの人にこのアプリを使ってもらえるようにご協力お願いいたします。</string>
+    <string name="settings_shareThisapp_description">さらに多くの人にCOCOAを使ってもらえるように、アプリを広めてください！</string>
+    <string name="settings_shareMenu_chooserTitle">COCOAを周りの人に知らせる</string>
+    <string name="settings_shareMenu_subject">新型コロナウイルス接触確認アプリ</string>
+    <string name="settings_shareMenu_text">https://play.google.com/store/apps/details?id=jp.go.mhlw.covid19radar&amp;hl=ja&amp;gl=US</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
