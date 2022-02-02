@@ -10,6 +10,7 @@
     <string name="no">いいえ</string>
     <string name="agree">同意する</string>
     <string name="disagree">同意しない</string>
+    <string name="getting">取得中...</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
@@ -40,6 +41,7 @@
     <string name="proof_dialog_message_num_of_vaccine">ワクチン接種回数を入力してください</string>
     <string name="proof_dialog_message_vaccine_1st">１回目の接種日を入力してください</string>
     <string name="proof_dialog_message_vaccine_2nd">2回目の接種日を入力してください</string>
+
 
     <!-- Hazard fragment -->
     <string name="title_hazard">ハザード</string>

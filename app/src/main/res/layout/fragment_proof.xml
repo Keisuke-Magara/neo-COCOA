@@ -38,7 +38,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                app:layout_constraintTop_toBottomOf="@+id/proof_data_num_of_contacts" />
 
             <TextView
                 android:id="@+id/proof_title_num_of_contacts"
@@ -101,7 +101,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/proof_title_update_date"
-                app:layout_constraintEnd_toStartOf="@+id/textView17"
+                app:layout_constraintEnd_toStartOf="@+id/proof_data_update_date"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
@@ -113,7 +113,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView12" />
+                app:layout_constraintTop_toBottomOf="@+id/proof_data_num_of_masculine" />
 
             <View
                 android:id="@+id/divider8"
@@ -124,7 +124,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13" />
+                app:layout_constraintTop_toBottomOf="@+id/proof_data_body_temperature" />
 
             <View
                 android:id="@+id/divider11"
@@ -135,7 +135,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView15" />
+                app:layout_constraintTop_toBottomOf="@+id/proof_data_num_of_vaccine" />
 
             <ImageView
                 android:id="@+id/proof_icon_num_of_contacts"
@@ -178,42 +178,42 @@
                 app:layout_constraintTop_toBottomOf="@+id/divider8" />
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/proof_data_num_of_contacts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
-                android:text="600人"
+                android:text="@string/getting"
                 app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_contacts"
                 app:layout_constraintTop_toBottomOf="@+id/proof_title_num_of_contacts" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/proof_data_num_of_masculine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
-                android:text="0人"
+                android:text="@string/getting"
                 app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_masculine"
                 app:layout_constraintTop_toBottomOf="@+id/proof_title_num_of_masculine" />
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/proof_data_body_temperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
-                android:text="36.5度"
+                android:text="@string/getting"
                 app:layout_constraintStart_toEndOf="@+id/proof_icon_body_temperature"
                 app:layout_constraintTop_toBottomOf="@+id/proof_title_body_temperature" />
 
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/proof_data_num_of_vaccine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
-                android:text="2回"
+                android:text="@string/getting"
                 app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_vaccine"
                 app:layout_constraintTop_toBottomOf="@+id/proof_title_num_of_vaccine" />
 
@@ -268,21 +268,20 @@
 
             <View
                 android:id="@+id/divider12"
-                android:layout_width="0dp"
+                android:layout_width="411dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="8dp"
                 android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/proof_title_update_date" />
+                app:layout_constraintTop_toBottomOf="@+id/proof_title_update_date"
+                tools:layout_editor_absoluteX="0dp" />
 
             <TextView
-                android:id="@+id/textView17"
+                android:id="@+id/proof_data_update_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="2021/01/31"
+                android:text="@string/getting"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

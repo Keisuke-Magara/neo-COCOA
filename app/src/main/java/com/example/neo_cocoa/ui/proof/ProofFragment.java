@@ -25,15 +25,21 @@ public class ProofFragment extends Fragment {
     private Button button_bt;
     private Button button_vac;
     private Button button_share;
+    private TextView btData;
+    private TextView vacData;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         appproof = new appProof(this.getActivity());
         binding = FragmentProofBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
 
         View view = inflater.inflate(R.layout.fragment_proof, container, false);
+
+        //データの表示
+        btData = (TextView)view.findViewById(R.id.proof_data_body_temperature);
+        btData.setText(appproof.getBodyTemperature());
+
         //体温入力ボタンのリスナを設定
         button_bt = (Button)view.findViewById(R.id.proof_button_body_temperature);
         button_bt.setOnClickListener(button_bt_listener);
@@ -47,9 +53,8 @@ public class ProofFragment extends Fragment {
     //体温入力ボタンのリスナ
     Button.OnClickListener button_bt_listener = new Button.OnClickListener() {
         public void onClick(View view) {
-            BodyTemperatureDialogFragment dialogFragment = new BodyTemperatureDialogFragment();
+            BodyTemperatureDialogFragment dialogFragment = new BodyTemperatureDialogFragment(appproof, btData);
             dialogFragment.show(getActivity().getSupportFragmentManager(), "BodyTemperatureDialogFragment");
-
         }
     };
     //ワクチン接種回数のリスナ

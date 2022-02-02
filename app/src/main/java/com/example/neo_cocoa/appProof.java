@@ -6,18 +6,32 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class appProof {
-    private boolean backgroundHazardNotification;
-    private int getTime;
+    private String bodyTemperature;
     private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
     private enum pref_keys{
-        backgroundHazardNotification
-    };
+        bodyTemperature;
+    }
 
     public appProof(Context context) {
         this.sharedPref = context.getSharedPreferences("proof", MODE_PRIVATE);
+        editor = sharedPref.edit();
+        this.refreshData();
     }
 
+    public void setBodyTemperature(String bt) {
+        this.bodyTemperature = bt;
+        editor.putString(String.valueOf(appProof.pref_keys.bodyTemperature), bt);
+        editor.apply();
+        this.refreshData();
+    }
 
-    public void refleshData() {
+    public String getBodyTemperature() {
+        this.refreshData();
+        return this.bodyTemperature;
+    }
+
+    public void refreshData() {
+        this.bodyTemperature = this.sharedPref.getString(String.valueOf(pref_keys.bodyTemperature), "取得中...");
     }
 }
