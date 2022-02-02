@@ -11,12 +11,18 @@
     <string name="settings_quit_title">アプリの使用中止</string>
     <string name="settings_quit_description">使用を中止して過去14日間の接触履歴を消去</string>
     <string name="settings_quit_button_text">使用中止</string>
+    <string name="settings_quit_ad_title">アプリの使用中止します</string>
+    <string name="settings_quit_ad_descripstion">すべてのデータを削除して、アプリの使用を中止します。よろしいですか？</string>
     <string name="settings_version_title">アプリのバージョン :</string>
     <string name="settings_inquiry_title">お問い合わせ</string>
     <string name="settings_termsOfService_title">利用規約</string>
     <string name="settings_privacyPolicy_title">プライバシーポリシー</string>
     <string name="settings_webAccessibilityPolicy">ウェブアクセシビリティ方針</string>
     <string name="settings_shareThisapp_button">このアプリをアプリをほかの人に広める</string>
+    <string name="ng">キャンセル</string>
+    <string name="ok">OK</string>
+    <string name="yes_text">はい</string>
+    <string name="no_text">いいえ</string>
     <string name="settings_shareThisapp_description">さらに多くの人にこのアプリを使ってもらえるようにご協力お願いいたします。</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
