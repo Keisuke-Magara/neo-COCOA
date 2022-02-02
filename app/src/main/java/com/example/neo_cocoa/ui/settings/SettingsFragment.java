@@ -93,7 +93,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
             ad.setTitle(getString(R.string.settings_quit_ad_title));
             ad.setMessage(getString(R.string.settings_quit_ad_descripstion));
-            ad.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            ad.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     quit quit = new quit();
@@ -108,7 +108,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         public void onClick(View view) {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.settings_shareMenu_text));
+            sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.playstore_url));
             sendIntent.setType("text/plain");
 
             Intent shareIntent = Intent.createChooser(sendIntent, null);
