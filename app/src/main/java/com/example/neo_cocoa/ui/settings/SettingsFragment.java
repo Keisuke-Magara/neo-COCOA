@@ -2,6 +2,7 @@ package com.example.neo_cocoa.ui.settings;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -105,11 +106,13 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
     private View.OnClickListener share_listener = new View.OnClickListener() {
         public void onClick(View view) {
-            ShareCompat.IntentBuilder builder = ShareCompat.IntentBuilder.from(getActivity());
-            builder.setChooserTitle(getString(R.string.settings_shareMenu_chooserTitle))
-                    .setSubject(getString(R.string.settings_shareMenu_subject))
-                    .setText(getString(R.string.settings_shareMenu_text));
-            builder.startChooser();
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.settings_shareMenu_text));
+            sendIntent.setType("text/plain");
+
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
         }
     };
 
