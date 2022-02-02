@@ -1,46 +1,69 @@
 package com.example.neo_cocoa.ui.settings;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.content.pm.PackageInfo;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.neo_cocoa.R;
+import com.example.neo_cocoa.appSettings;
 import com.example.neo_cocoa.databinding.FragmentSettingsBinding;
+import com.example.neo_cocoa.quit;
 
-public class SettingsFragment extends Fragment {
+import org.w3c.dom.Text;
 
-    private SettingsViewModel settingsViewModel;
+public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
+
     private FragmentSettingsBinding binding;
+    private appSettings appsettings;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        /*settingsViewModel =
-                new ViewModelProvider(this).get(SettingsViewModel.class);*/
 
+        appsettings = new appSettings(this.getActivity());
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
 
-        //final TextView textView = binding.textNotifications;
-        /*settingsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                //textView.setText(s);
-            }
-        });
-*/
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        TextView version_number = (TextView) view.findViewById(R.id.settings_appversion);
-        // get app version.
+        TextView version_number = view.findViewById(R.id.settings_appversion);
+        getAppVersion(version_number);
+        Switch s = view.findViewById(R.id.settings_bgnotification_switch);
+        Button quit = view.findViewById(R.id.settings_quit_button);
+        Button share = view.findViewById(R.id.settings_share_button);
+
+        s.setOnCheckedChangeListener(this);
+        s.setChecked(appsettings.getBgNotif());
+        quit.setOnClickListener(quit_listener);
+        share.setOnClickListener(share_listener);
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        appsettings.setBgNotif(isChecked);
+    }
+
+    // get app version.
+    public boolean getAppVersion (TextView version_number) {
         try {
             // get Java package name.
             // android.content.Context#getPackageName
@@ -60,13 +83,37 @@ public class SettingsFragment extends Fragment {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             version_number.setText("取得できませんでした.");
+            return false;
         }
-        return view;
+    return true;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
+    private View.OnClickListener quit_listener = new View.OnClickListener() {
+        public void onClick(View view) {
+            AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
+            ad.setTitle(getString(R.string.settings_quit_ad_title));
+            ad.setMessage(getString(R.string.settings_quit_ad_descripstion));
+            ad.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    quit quit = new quit();
+                }
+            });
+            ad.setNegativeButton(getString(R.string.ng), null);
+            ad.show();
+        }
+    };
+
+    private View.OnClickListener share_listener = new View.OnClickListener() {
+        public void onClick(View view) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.playstore_url));
+            sendIntent.setType("text/plain");
+
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
+        }
+    };
+
 }

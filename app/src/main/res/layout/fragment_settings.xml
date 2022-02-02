@@ -21,7 +21,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/settings_quit_title3"
+                android:id="@+id/settings_terms_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -35,7 +35,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/divider4" />
 
             <TextView
-                android:id="@+id/settings_quit_title4"
+                android:id="@+id/settings_privacyPolicy_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -49,18 +49,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/divider5" />
 
             <TextView
-                android:id="@+id/settings_quit_title5"
+                android:id="@+id/settings_webAccecibilityPolicy_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
                 android:paddingEnd="60sp"
                 android:text="@string/settings_webAccessibilityPolicy"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider6" />
 
@@ -111,7 +109,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
             <TextView
-                android:id="@+id/settings_quit_title2"
+                android:id="@+id/settings_info_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -212,7 +210,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/settings_quit_title2" />
+                app:layout_constraintTop_toBottomOf="@+id/settings_info_title" />
 
             <View
                 android:id="@+id/divider5"
@@ -222,7 +220,7 @@
                 android:background="?android:attr/listDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/settings_quit_title3" />
+                app:layout_constraintTop_toBottomOf="@+id/settings_terms_title" />
 
             <View
                 android:id="@+id/divider6"
@@ -232,7 +230,49 @@
                 android:background="?android:attr/listDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/settings_quit_title4" />
+                app:layout_constraintTop_toBottomOf="@+id/settings_privacyPolicy_title" />
+
+            <View
+                android:id="@+id/divider7"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settings_webAccecibilityPolicy_title" />
+
+            <Button
+                android:id="@+id/settings_share_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/light_blue"
+                android:textColor="@color/black"
+                android:lines="2"
+                android:text="@string/settings_shareThisapp_button"
+                app:cornerRadius="17dip"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settings_share_title"
+                app:strokeColor="@color/blue"
+                app:strokeWidth="@dimen/strokeWidth" />
+
+            <TextView
+                android:id="@+id/settings_share_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/settings_shareThisapp_description"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider7" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
