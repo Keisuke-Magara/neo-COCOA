@@ -24,42 +24,39 @@
                 android:id="@+id/settings_terms_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:paddingEnd="60sp"
                 android:text="@string/settings_termsOfService_title"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/settings_info_title"
                 app:layout_constraintTop_toBottomOf="@+id/divider4" />
 
             <TextView
                 android:id="@+id/settings_privacyPolicy_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:paddingEnd="60sp"
                 android:text="@string/settings_privacyPolicy_title"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/settings_terms_title"
                 app:layout_constraintTop_toBottomOf="@+id/divider5" />
 
             <TextView
                 android:id="@+id/settings_webAccecibilityPolicy_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:paddingEnd="60sp"
                 android:text="@string/settings_webAccessibilityPolicy"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/settings_privacyPolicy_title"
                 app:layout_constraintTop_toBottomOf="@+id/divider6" />
 
             <Switch
@@ -86,7 +83,7 @@
                 android:id="@+id/settings_version_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/settings_version_title"
                 app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +93,6 @@
                 android:id="@+id/settings_quit_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:paddingEnd="60sp"
                 android:text="@string/settings_quit_title"
@@ -105,21 +101,20 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/settings_quit_button"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/settings_bgnotification_description"
                 app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
             <TextView
                 android:id="@+id/settings_info_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:paddingEnd="60sp"
                 android:text="@string/settings_inquiry_title"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/settings_quit_description"
                 app:layout_constraintTop_toBottomOf="@+id/divider3" />
 
             <TextView
@@ -152,7 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="32dp"
-                android:text="取得中..."
+                android:text="@string/getting"
                 app:layout_constraintBottom_toBottomOf="@+id/settings_version_title"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -160,7 +155,6 @@
                 android:id="@+id/settings_bgnotification_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:paddingEnd="30sp"
                 android:text="@string/settings_bgnotification_title"
@@ -168,7 +162,7 @@
                 android:textSize="@dimen/settings_title_textSize"
                 app:layout_constraintEnd_toStartOf="@+id/settings_bgnotification_switch"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/settings_version_title"
                 app:layout_constraintTop_toBottomOf="@id/divider1" />
 
             <View
@@ -246,31 +240,28 @@
                 android:id="@+id/settings_share_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/light_blue"
-                android:textColor="@color/black"
                 android:lines="2"
                 android:text="@string/settings_shareThisapp_button"
+                android:textColor="@color/black"
                 app:cornerRadius="17dip"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/settings_share_title"
+                app:layout_constraintStart_toStartOf="@+id/settings_share_title"
                 app:layout_constraintTop_toBottomOf="@+id/settings_share_title"
                 app:strokeColor="@color/blue"
                 app:strokeWidth="@dimen/strokeWidth" />
 
             <TextView
                 android:id="@+id/settings_share_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:text="@string/settings_shareThisapp_description"
                 android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/settings_quit_button"
+                app:layout_constraintStart_toStartOf="@+id/settings_webAccecibilityPolicy_title"
                 app:layout_constraintTop_toBottomOf="@+id/divider7" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
