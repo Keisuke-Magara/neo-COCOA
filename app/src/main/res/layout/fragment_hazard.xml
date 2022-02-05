@@ -6,17 +6,169 @@
     android:layout_height="match_parent"
     tools:context=".ui.hazard.HazardFragment">
 
-    <TextView
-        android:id="@+id/text_hazard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+    <ScrollView
+        android:id="@+id/hazard_scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/hazard_danger_level_frame"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="32dp"
+                app:layout_constraintBottom_toTopOf="@id/hazard_graph_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hazard_num_of_contact"
+                app:strokeColor="@color/blue"
+                app:strokeWidth="80dip" />
+
+            <TextView
+                android:id="@+id/hazard_location_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/hazard_location_title"
+                android:textColor="@color/black"
+                android:textSize="@dimen/settings_title_textSize"
+                app:layout_constraintBottom_toBottomOf="@+id/hazard_location_address"
+                app:layout_constraintEnd_toStartOf="@+id/hazard_location_address"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/hazard_location_address"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <TextView
+                android:id="@+id/hazard_danger_level_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/hazard_danger_level_title"
+                android:textColor="@color/black"
+                android:textSize="@dimen/settings_title_textSize"
+                app:layout_constraintStart_toStartOf="@+id/hazard_danger_level_comment"
+                app:layout_constraintTop_toTopOf="@+id/hazard_danger_level_frame" />
+
+            <TextView
+                android:id="@+id/hazard_demo_switch_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/hazard_demo_switch_description"
+                app:layout_constraintEnd_toStartOf="@+id/hazard_demo_switch"
+                app:layout_constraintStart_toStartOf="@+id/hazard_demo_switch_title"
+                app:layout_constraintTop_toBottomOf="@+id/hazard_demo_switch_title" />
+
+            <TextView
+                android:id="@+id/hazard_demo_switch_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/hazard_demo_switch_title"
+                android:textColor="@color/black"
+                android:textSize="@dimen/settings_title_textSize"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hazard_graph_title" />
+
+            <Switch
+                android:id="@+id/hazard_demo_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="37dp"
+                app:layout_constraintBottom_toBottomOf="@+id/hazard_demo_switch_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/hazard_demo_switch_title" />
+
+            <TextView
+                android:id="@+id/hazard_time_of_stay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="100 分間滞在中"
+                android:textColor="@color/black"
+                android:textSize="@dimen/settings_title_textSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hazard_location_address" />
+
+            <TextView
+                android:id="@+id/hazard_danger_level_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/hazard_danger_level_body"
+                android:textColor="@color/black"
+                android:textSize="@dimen/settings_title_textSize"
+                app:layout_constraintEnd_toEndOf="@+id/hazard_danger_level_comment"
+                app:layout_constraintStart_toEndOf="@+id/hazard_danger_level_title"
+                app:layout_constraintTop_toTopOf="@+id/hazard_danger_level_title" />
+
+            <TextView
+                android:id="@+id/hazard_graph_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
+                android:text="@string/hazard_graph_title"
+                android:textColor="@color/black"
+                android:textSize="@dimen/settings_title_textSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.566"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hazard_danger_level_comment" />
+
+            <TextView
+                android:id="@+id/hazard_location_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/getting"
+                android:textColor="@color/black"
+                android:textSize="@dimen/settings_title_textSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/hazard_num_of_contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="この場所でXXX人と接触しました。"
+                android:textColor="@color/black"
+                android:textSize="@dimen/settings_title_textSize"
+                app:layout_constraintBottom_toTopOf="@+id/hazard_danger_level_frame"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hazard_time_of_stay" />
+
+            <TextView
+                android:id="@+id/hazard_danger_level_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/hazard_danger_level_2_comment"
+                app:layout_constraintEnd_toEndOf="@+id/hazard_danger_level_frame"
+                app:layout_constraintHorizontal_bias="0.506"
+                app:layout_constraintStart_toStartOf="@+id/hazard_danger_level_frame"
+                app:layout_constraintTop_toBottomOf="@id/hazard_danger_level_body" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
