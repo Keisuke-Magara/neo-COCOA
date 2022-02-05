@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_infomation"
-        android:name="com.example.neo_cocoa.ui.infomation.InfomationFragment"
-        android:label="@string/title_infomation"
-        tools:layout="@layout/fragment_infomation" />
+        android:name="com.example.neo_cocoa.ui.information.InformationFragment"
+        android:label="@string/title_information"
+        tools:layout="@layout/fragment_information" />
 
     <fragment
         android:id="@+id/navigation_settings"
