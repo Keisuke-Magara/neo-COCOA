@@ -54,10 +54,14 @@
     <string name="information_title_infection_status">現在の感染状況</string>
     <string name="information_title_new_information">新着情報(外部リンク)</string>
     <string name="information_title_whole_country">全国</string>
+    <string name="information_title_current_location">東京都</string>
     <string name="information_title_compared_to_the_previous_day">前日比</string>
     <string name="information_unit_people">人</string>
     <string name="information_button_show_details">詳細情報を見る</string>
     <string name="information_button_view_more">さらに表示</string>
+    <array name="information_recycler_list">
+
+    </array>
 
     <!-- Settings fragment -->
     <string name="title_settings">設定</string>

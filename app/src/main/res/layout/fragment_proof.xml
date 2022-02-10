@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:isScrollContainer="false"
+        android:fadeScrollbars="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -29,232 +30,266 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
 
-            <View
-                android:id="@+id/divider"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/proof_data_num_of_contacts" />
-
-            <TextView
-                android:id="@+id/proof_title_num_of_contacts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/proof_title_num_of_contacts"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_contacts"
-                app:layout_constraintTop_toBottomOf="@+id/divider12" />
-
-            <TextView
-                android:id="@+id/proof_title_num_of_masculine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/proof_title_num_of_masculine"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_masculine"
-                app:layout_constraintTop_toBottomOf="@+id/divider" />
-
-            <TextView
-                android:id="@+id/proof_title_body_temperature"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/proof_title_body_temperature"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toStartOf="@+id/proof_button_body_temperature"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/proof_icon_body_temperature"
-                app:layout_constraintTop_toBottomOf="@+id/divider7" />
-
-            <TextView
-                android:id="@+id/proof_title_num_of_vaccine"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/proof_title_num_of_vaccine"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toStartOf="@+id/proof_button_vaccine"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_vaccine"
-                app:layout_constraintTop_toBottomOf="@+id/divider8" />
-
-            <TextView
-                android:id="@+id/proof_title_update_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/proof_title_update_date"
-                app:layout_constraintEnd_toStartOf="@+id/proof_data_update_date"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/divider7"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="?android:attr/listDivider"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/border"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/proof_data_num_of_masculine" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <View
-                android:id="@+id/divider8"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/proof_data_body_temperature" />
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/proof_data_num_of_contacts" />
 
-            <View
-                android:id="@+id/divider11"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/proof_data_num_of_vaccine" />
+                <TextView
+                    android:id="@+id/proof_title_num_of_contacts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/proof_title_num_of_contacts"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_contacts"
+                    app:layout_constraintTop_toBottomOf="@+id/divider12" />
 
-            <ImageView
-                android:id="@+id/proof_icon_num_of_contacts"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:src="@android:drawable/presence_online"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider12" />
+                <TextView
+                    android:id="@+id/proof_title_num_of_masculine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/proof_title_num_of_masculine"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_masculine"
+                    app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-            <ImageView
-                android:id="@+id/proof_icon_body_temperature"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:src="@android:drawable/presence_online"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider7" />
+                <TextView
+                    android:id="@+id/proof_title_body_temperature"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/proof_title_body_temperature"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/proof_button_body_temperature"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/proof_icon_body_temperature"
+                    app:layout_constraintTop_toBottomOf="@+id/divider7" />
 
-            <ImageView
-                android:id="@+id/proof_icon_num_of_masculine"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:src="@android:drawable/presence_busy"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider" />
+                <TextView
+                    android:id="@+id/proof_title_num_of_vaccine"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/proof_title_num_of_vaccine"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/proof_button_vaccine"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_vaccine"
+                    app:layout_constraintTop_toBottomOf="@+id/divider8" />
 
-            <ImageView
-                android:id="@+id/proof_icon_num_of_vaccine"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:src="@android:drawable/presence_busy"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider8" />
+                <TextView
+                    android:id="@+id/proof_title_update_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/proof_title_update_date"
+                    app:layout_constraintEnd_toStartOf="@+id/proof_data_update_date"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/proof_data_num_of_contacts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/getting"
-                app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_contacts"
-                app:layout_constraintTop_toBottomOf="@+id/proof_title_num_of_contacts" />
+                <View
+                    android:id="@+id/divider7"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/proof_data_num_of_masculine" />
 
-            <TextView
-                android:id="@+id/proof_data_num_of_masculine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/getting"
-                app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_masculine"
-                app:layout_constraintTop_toBottomOf="@+id/proof_title_num_of_masculine" />
+                <View
+                    android:id="@+id/divider8"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/proof_data_body_temperature" />
 
-            <TextView
-                android:id="@+id/proof_data_body_temperature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/getting"
-                app:layout_constraintStart_toEndOf="@+id/proof_icon_body_temperature"
-                app:layout_constraintTop_toBottomOf="@+id/proof_title_body_temperature" />
+                <View
+                    android:id="@+id/divider11"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/proof_data_num_of_vaccine" />
 
-            <TextView
-                android:id="@+id/proof_data_num_of_vaccine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/getting"
-                app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_vaccine"
-                app:layout_constraintTop_toBottomOf="@+id/proof_title_num_of_vaccine" />
+                <ImageView
+                    android:id="@+id/proof_icon_num_of_contacts"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@android:drawable/presence_online"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider12" />
 
-            <Button
-                android:id="@+id/proof_button_body_temperature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/light_blue"
-                android:text="@string/proof_button_body_temperature"
-                android:textColor="@color/black"
-                app:cornerRadius="@dimen/cornarRadius"
-                app:layout_constraintBottom_toTopOf="@+id/divider8"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider7"
-                app:strokeColor="@color/blue"
-                app:strokeWidth="3dip" />
+                <ImageView
+                    android:id="@+id/proof_icon_body_temperature"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@android:drawable/presence_online"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider7" />
 
-            <Button
-                android:id="@+id/proof_button_vaccine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/light_blue"
-                android:text="@string/proof_button_vaccine"
-                android:textColor="@color/black"
-                app:cornerRadius="@dimen/cornarRadius"
-                app:layout_constraintBottom_toTopOf="@+id/divider11"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider8"
-                app:layout_constraintVertical_bias="0.483"
-                app:strokeColor="@color/blue"
-                app:strokeWidth="3dip" />
+                <ImageView
+                    android:id="@+id/proof_icon_num_of_masculine"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@android:drawable/presence_busy"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+                <ImageView
+                    android:id="@+id/proof_icon_num_of_vaccine"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@android:drawable/presence_busy"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider8" />
+
+                <TextView
+                    android:id="@+id/proof_data_num_of_contacts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/getting"
+                    app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_contacts"
+                    app:layout_constraintTop_toBottomOf="@+id/proof_title_num_of_contacts" />
+
+                <TextView
+                    android:id="@+id/proof_data_num_of_masculine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/getting"
+                    app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_masculine"
+                    app:layout_constraintTop_toBottomOf="@+id/proof_title_num_of_masculine" />
+
+                <TextView
+                    android:id="@+id/proof_data_body_temperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/getting"
+                    app:layout_constraintStart_toEndOf="@+id/proof_icon_body_temperature"
+                    app:layout_constraintTop_toBottomOf="@+id/proof_title_body_temperature" />
+
+                <TextView
+                    android:id="@+id/proof_data_num_of_vaccine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/getting"
+                    app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_vaccine"
+                    app:layout_constraintTop_toBottomOf="@+id/proof_title_num_of_vaccine" />
+
+                <Button
+                    android:id="@+id/proof_button_body_temperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@color/light_blue"
+                    android:text="@string/proof_button_body_temperature"
+                    android:textColor="@color/black"
+                    app:cornerRadius="@dimen/cornarRadius"
+                    app:layout_constraintBottom_toTopOf="@+id/divider8"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider7"
+                    app:strokeColor="@color/blue"
+                    app:strokeWidth="3dip" />
+
+                <Button
+                    android:id="@+id/proof_button_vaccine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@color/light_blue"
+                    android:text="@string/proof_button_vaccine"
+                    android:textColor="@color/black"
+                    app:cornerRadius="@dimen/cornarRadius"
+                    app:layout_constraintBottom_toTopOf="@+id/divider11"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider8"
+                    app:layout_constraintVertical_bias="0.483"
+                    app:strokeColor="@color/blue"
+                    app:strokeWidth="3dip" />
+
+                <View
+                    android:id="@+id/divider12"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/proof_title_update_date" />
+
+                <TextView
+                    android:id="@+id/proof_data_update_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/getting"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
                 android:id="@+id/proof_button_share"
                 android:layout_width="0dp"
-                android:layout_height="49dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginTop="4dp"
                 android:backgroundTint="@color/light_blue"
                 android:text="@string/proof_button_share"
                 android:textColor="@color/black"
@@ -262,29 +297,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider11"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
                 app:strokeColor="@color/blue"
                 app:strokeWidth="3dip" />
-
-            <View
-                android:id="@+id/divider12"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/proof_title_update_date" />
-
-            <TextView
-                android:id="@+id/proof_data_update_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/getting"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
