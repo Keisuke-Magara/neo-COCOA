@@ -15,26 +15,22 @@ import android.widget.TextView;
 import android.content.pm.PackageInfo;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.neo_cocoa.R;
-import com.example.neo_cocoa.appSettings;
+import com.example.neo_cocoa.AppSettings;
 import com.example.neo_cocoa.databinding.FragmentSettingsBinding;
 import com.example.neo_cocoa.quit;
-
-import org.w3c.dom.Text;
 
 public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
 
     private FragmentSettingsBinding binding;
-    private appSettings appsettings;
+    private AppSettings appsettings;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        appsettings = new appSettings(this.getActivity());
+        appsettings = new AppSettings(this.getActivity());
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
 
         View view = inflater.inflate(R.layout.fragment_settings, container, false);

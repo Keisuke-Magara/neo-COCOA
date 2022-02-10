@@ -5,7 +5,7 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class appSettings {
+public class AppSettings {
     private boolean backgroundHazardNotification;
     private int getTime;
     private SharedPreferences sharedPref;
@@ -14,10 +14,10 @@ public class appSettings {
         backgroundHazardNotification
     }
 
-    public appSettings(Context context) {
+    public AppSettings(Context context) {
         this.sharedPref = context.getSharedPreferences("settings", MODE_PRIVATE);
         editor = sharedPref.edit();
-        this.refleshData();
+        this.syncData();
     }
 
     public void setBgNotif(boolean state) {
@@ -27,11 +27,13 @@ public class appSettings {
     }
 
     public boolean getBgNotif() {
-        this.refleshData();
+        this.syncData();
         return this.backgroundHazardNotification;
     }
 
-    public void refleshData() {
+    public void syncData() {
         this.backgroundHazardNotification = this.sharedPref.getBoolean(String.valueOf(pref_keys.backgroundHazardNotification), false);
+        this.editor.putBoolean(String.valueOf(pref_keys.backgroundHazardNotification), this.backgroundHazardNotification);
+        editor.apply();
     }
 }
