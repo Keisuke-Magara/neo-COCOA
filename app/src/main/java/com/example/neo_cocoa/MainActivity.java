@@ -42,14 +42,18 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_BACKGROUND_LOCATION
     };
-    private FusedLocationProviderClient fusedLocationProviderClient;
     public AppSettings appSettings;
+    public MyLocationCallback myLocationCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //GlobalFieldへの書き込み
         appSettings = new AppSettings(this);
         GlobalField.appSettings = appSettings;
+        GlobalField.mainActivity = this;
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -65,9 +69,6 @@ public class MainActivity extends AppCompatActivity {
         // 位置情報取得開始
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         startUpdateLocation();
-    }
-    public AppSettings getAppSettings(){
-        return this.appSettings;
     }
     
     private void startUpdateLocation() {
@@ -112,23 +113,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class MyLocationCallback extends LocationCallback {
+    public class MyLocationCallback extends LocationCallback {
+        LocationResult lr;
         private MyLocationCallback() {
             System.out.println("entered MyLocationCallback");
         }
         @Override
         public void onLocationResult(LocationResult locationResult) {
+            lr = locationResult;
             System.out.println("function onLocationResult called");
             if (locationResult == null) {
                 System.out.println("locationResult == null.");
                 return;
             }
             // 現在地取得
-            Location location = locationResult.getLastLocation();
+            Location location = lr.getLastLocation();
             // TODO: ここに取得後の処理を書く
             // Logcatに表示
             System.out.println("====================================================================");
             System.out.println("緯度:"+location.getLatitude() + "\n経度:"+location.getLongitude());
+        }
+        public void printLocation() {
+            Location location = lr.getLastLocation();
+            System.out.println("====================================================================");
+            System.out.println("緯度:"+location.getLatitude() + "\n経度:"+location.getLongitude());
+            String msg = "緯度:"+location.getLatitude() + "\n経度:"+location.getLongitude();
+            Toast.makeText(GlobalField.mainActivity, msg, Toast.LENGTH_LONG).show();
+
         }
     }
     
@@ -151,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
         locationRequest.setFastestInterval(gpsFastestInterval);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         System.out.println("before fusedL");
-        fusedLocationClient.requestLocationUpdates(locationRequest, new MyLocationCallback(), null);
+        this.myLocationCallback = new MyLocationCallback();
+        fusedLocationClient.requestLocationUpdates(locationRequest, this.myLocationCallback, null);
     }
 }

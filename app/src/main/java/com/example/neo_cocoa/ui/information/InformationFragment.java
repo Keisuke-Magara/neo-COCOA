@@ -29,9 +29,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.neo_cocoa.AppInformation;
 import com.example.neo_cocoa.AppProof;
+import com.example.neo_cocoa.GlobalField;
 import com.example.neo_cocoa.R;
 import com.example.neo_cocoa.databinding.FragmentInformationBinding;
 import com.example.neo_cocoa.databinding.FragmentProofBinding;
+import com.example.neo_cocoa.ui.proof.BodyTemperatureDialogFragment;
 import com.example.neo_cocoa.ui.proof.ProofFragment;
 
 import org.json.JSONArray;
@@ -57,6 +59,8 @@ public class InformationFragment extends Fragment {
 
     private TextView wcData;
     private TextView clData;
+    private TextView testLoc;
+    private Button buttonTestLoc;
     private String wcUrl;
     private final String API_URL_PREFIX = "opendata.corona.go.jp";
     private String prefectures = "東京都";
@@ -75,8 +79,20 @@ public class InformationFragment extends Fragment {
 
         //画面の表示データを更新
         refreshInformationFragment();
+
+        buttonTestLoc = (Button)view.findViewById(R.id.testLocationButton);
+        buttonTestLoc.setOnClickListener(button_TestLoc_listener);
         return view;
     }
+
+    Button.OnClickListener button_TestLoc_listener = new Button.OnClickListener() {
+        public void onClick(View view) {
+            System.out.println("pressed");
+            if(GlobalField.mainActivity.myLocationCallback != null) {
+                GlobalField.mainActivity.myLocationCallback.printLocation();
+            }
+        }
+    };
 
     //Fragmentをの情報を更新
     @RequiresApi(api = Build.VERSION_CODES.N)
