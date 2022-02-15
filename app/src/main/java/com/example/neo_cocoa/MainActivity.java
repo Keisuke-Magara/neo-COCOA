@@ -1,8 +1,10 @@
 package com.example.neo_cocoa;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -19,10 +21,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import android.widget.Toast;
 
 import com.example.neo_cocoa.databinding.ActivityMainBinding;
 
@@ -58,26 +62,54 @@ public class MainActivity extends AppCompatActivity {
         // 位置情報取得開始
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         startUpdateLocation();
-        //startUpdateLocation();
     }
     
     private void startUpdateLocation() {
+        System.out.println("function startUpdateLocation called");
         // 権限確認
         if (ActivityCompat.checkSelfPermission(this, permissions[1]) != PackageManager.PERMISSION_GRANTED) {
             // 権限不足
             System.out.println("lack of permission");
+            if(Build.VERSION.SDK_INT >= 23){
+                checkPermission();
+            }
+            else{
             ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSION);
+                new MyLocationCallback();
+            }
             System.out.println("after dialog");
-            //return;
+            return;
         }
-        
-        // 位置情報の取得方法を設定
-        LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(gpsInterval);
-        locationRequest.setFastestInterval(gpsFastestInterval);
-        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        System.out.println("before fusedL");
-        fusedLocationClient.requestLocationUpdates(locationRequest, new MyLocationCallback(), null);
+        getLocation();
+    }
+
+    // 位置情報許可の確認
+    public void checkPermission() {
+        System.out.println("function checkPermission called");
+        // 既に許可している
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED){
+            getLocation();
+        }
+        // 拒否していた場合
+        else{
+            requestLocationPermission();
+        }
+    }
+
+    // 許可を求める
+    private void requestLocationPermission() {
+        System.out.println("function requestLocationPermission called");
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    REQUEST_PERMISSION);
+            getLocation();
+        } else {
+            System.out.println("Cannot run the app without permission");
+        }
     }
 
     private class MyLocationCallback extends LocationCallback {
@@ -98,11 +130,23 @@ public class MainActivity extends AppCompatActivity {
     
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        System.out.println("function onRequestPermissionsResult called");
         System.out.println("entered onRequestPermissionsResult()");
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // 位置情報取得開始
             startUpdateLocation();
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    public void getLocation() {
+        // 位置情報の取得方法を設定
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setInterval(gpsInterval);
+        locationRequest.setFastestInterval(gpsFastestInterval);
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        System.out.println("before fusedL");
+        fusedLocationClient.requestLocationUpdates(locationRequest, new MyLocationCallback(), null);
     }
 }
