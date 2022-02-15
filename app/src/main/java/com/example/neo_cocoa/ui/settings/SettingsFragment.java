@@ -17,6 +17,8 @@ import android.content.pm.PackageInfo;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.neo_cocoa.GlobalField;
+import com.example.neo_cocoa.MainActivity;
 import com.example.neo_cocoa.R;
 import com.example.neo_cocoa.AppSettings;
 import com.example.neo_cocoa.databinding.FragmentSettingsBinding;
@@ -29,10 +31,9 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        appsettings = new AppSettings(this.getActivity());
+//        appsettings = new AppSettings(this.getActivity());
+        appsettings = GlobalField.appSettings;
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
-
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         TextView version_number = view.findViewById(R.id.settings_appversion);
         getAppVersion(version_number);

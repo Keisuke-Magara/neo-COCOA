@@ -11,7 +11,8 @@ public class AppSettings {
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
     private enum pref_keys{
-        backgroundHazardNotification
+        backgroundHazardNotification,
+        firstLaunch
     }
 
     public AppSettings(Context context) {
@@ -29,6 +30,15 @@ public class AppSettings {
     public boolean getBgNotif() {
         this.syncData();
         return this.backgroundHazardNotification;
+    }
+
+    public boolean isFirstLaunch() {
+        Boolean tmp;
+        tmp = this.sharedPref.getBoolean(String.valueOf(pref_keys.firstLaunch), true);
+        if(tmp == true) {
+            editor.putBoolean(String.valueOf(pref_keys.firstLaunch), false);
+        }
+        return tmp;
     }
 
     public void syncData() {

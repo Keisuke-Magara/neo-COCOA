@@ -21,7 +21,12 @@
         android:id="@+id/navigation_settings"
         android:name="com.example.neo_cocoa.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+<!--        <argument-->
+<!--            android:id="@+id/argument_appSettings"-->
+<!--            android:name="appSettings"-->
+<!--            app:argType="com.example.neo_cocoa.AppSettings" />-->
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_hazard"

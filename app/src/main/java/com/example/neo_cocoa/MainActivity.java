@@ -27,6 +27,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import android.widget.Toast;
+import com.example.neo_cocoa.AppSettings;
 
 import com.example.neo_cocoa.databinding.ActivityMainBinding;
 
@@ -42,14 +43,15 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.ACCESS_BACKGROUND_LOCATION
     };
     private FusedLocationProviderClient fusedLocationProviderClient;
+    public AppSettings appSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        appSettings = new AppSettings(this);
+        GlobalField.appSettings = appSettings;
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -59,9 +61,13 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
         // 位置情報取得開始
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         startUpdateLocation();
+    }
+    public AppSettings getAppSettings(){
+        return this.appSettings;
     }
     
     private void startUpdateLocation() {
@@ -70,13 +76,7 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, permissions[1]) != PackageManager.PERMISSION_GRANTED) {
             // 権限不足
             System.out.println("lack of permission");
-            if(Build.VERSION.SDK_INT >= 23){
-                checkPermission();
-            }
-            else{
-            ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSION);
-                new MyLocationCallback();
-            }
+            checkPermission();
             System.out.println("after dialog");
             return;
         }
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     private void requestLocationPermission() {
         System.out.println("function requestLocationPermission called");
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                Manifest.permission.ACCESS_COARSE_LOCATION) || appSettings.isFirstLaunch()) {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                     REQUEST_PERMISSION);
@@ -113,8 +113,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class MyLocationCallback extends LocationCallback {
+        private MyLocationCallback() {
+            System.out.println("entered MyLocationCallback");
+        }
         @Override
         public void onLocationResult(LocationResult locationResult) {
+            System.out.println("function onLocationResult called");
             if (locationResult == null) {
                 System.out.println("locationResult == null.");
                 return;
