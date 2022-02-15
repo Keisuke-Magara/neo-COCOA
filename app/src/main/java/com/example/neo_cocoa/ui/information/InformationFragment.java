@@ -90,6 +90,8 @@ public class InformationFragment extends Fragment {
             System.out.println("pressed");
             if(GlobalField.mainActivity.myLocationCallback != null) {
                 GlobalField.mainActivity.myLocationCallback.printLocation();
+            }else{
+                GlobalField.mainActivity.startUpdateLocation();
             }
         }
     };

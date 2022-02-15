@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         startUpdateLocation();
     }
     
-    private void startUpdateLocation() {
+    public void startUpdateLocation() {
         System.out.println("function startUpdateLocation called");
         // 権限確認
         if (ActivityCompat.checkSelfPermission(this, permissions[1]) != PackageManager.PERMISSION_GRANTED) {
