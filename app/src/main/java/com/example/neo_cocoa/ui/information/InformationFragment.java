@@ -58,6 +58,9 @@ public class InformationFragment extends Fragment {
     private TextView wcData;
     private TextView clData;
     private String wcUrl;
+    private final String API_URL_PREFIX = "opendata.corona.go.jp";
+    private String prefectures = "東京都";
+
     View view;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -91,8 +94,85 @@ public class InformationFragment extends Fragment {
         wcUrl = "https://opendata.corona.go.jp/api/OccurrenceStatusOverseas?date="+ DateList[0] +"&dataName=%E6%97%A5%E6%9C%AC";
         wcData.setText(DateList[0]);
 
+        MyAsync asynk = new MyAsync(wcData, clData);
+        asynk.execute();
+
         //アイコンの表示
         return;
+    }
+
+    class MyAsync extends AsyncTask<String, Void, String> {
+
+        private final WeakReference<TextView> wcDataReference;
+        private final WeakReference<TextView> clDataReference;
+
+        public MyAsync(TextView titletView, TextView dateView) {
+            wcDataReference = new WeakReference<TextView>(wcData);
+            clDataReference = new WeakReference<TextView>(clData);
+        }
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            final StringBuilder result = new StringBuilder();
+            Uri.Builder uriBuilder = new Uri.Builder();
+            uriBuilder.scheme("https");
+            uriBuilder.authority(API_URL_PREFIX);
+            uriBuilder.path("/api/Covid19JapanAll");
+            uriBuilder.appendQueryParameter("q", prefectures);
+            final String uriStr = uriBuilder.build().toString();
+
+            try {
+                URL url = new URL(uriStr);
+                HttpURLConnection con = null;
+                con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.setDoInput(true);
+                con.connect(); //HTTP接続
+
+                final InputStream in = con.getInputStream();
+                final InputStreamReader inReader = new InputStreamReader(in);
+                final BufferedReader bufReader = new BufferedReader(inReader);
+
+                String line = null;
+                while((line = bufReader.readLine()) != null) {
+                    result.append(line);
+                }
+                Log.e("but", result.toString());
+                bufReader.close();
+                inReader.close();
+                in.close();
+            }
+
+            catch(Exception e) { //エラー
+                Log.e("button", e.getMessage());
+            }
+
+            return result.toString(); //onPostExecuteへreturn
+        }
+
+        @Override
+        protected void onPostExecute(String result) { //doInBackgroundが終わると呼び出される
+            try {
+                JSONObject json = new JSONObject(result);
+                String items = json.getString("itemList");
+                JSONArray itemsArray = new JSONArray(items);
+                JSONObject bookInfo = itemsArray.getJSONObject(0).getJSONObject("");
+
+                String title = bookInfo.getString("npatients");
+                String publishedDate = bookInfo.getString("date");
+
+                TextView wcData = wcDataReference.get();
+                TextView clData = clDataReference.get();
+
+                wcData.setText(title);
+                clData.setText(publishedDate);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     @Override
