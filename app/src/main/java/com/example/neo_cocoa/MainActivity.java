@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -25,14 +28,16 @@ import com.example.neo_cocoa.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
+    private int gpsInterval = 120*1000; // ms
+    private int gpsFastestInterval = 5*1000; // ms
     private ActivityMainBinding binding;
     private FusedLocationProviderClient fusedLocationClient;
-    private static final int REQUEST_PERMISSION = 1000;
+    private static final int REQUEST_PERMISSION = 2000;
     private static String[] permissions = {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_BACKGROUND_LOCATION
     };
-    private Task task;
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,105 +55,54 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-//位置情報の許可
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSION);
-
-            return;
-        }else{
-
-        }
-
+        // 位置情報取得開始
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        task =fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            // Logic to handle location object
-                        }
-                    }
-                });
-//        System.out.println("---------------------------------------");
-//        System.out.println(task.toString());
-
+        startUpdateLocation();
+        //startUpdateLocation();
     }
-    @Override
-    public void onRequestPermissionsResult(
-            int requestCode,
-            @NonNull String[] permissions,
-            @NonNull int[] grantResults) {
+    
+    private void startUpdateLocation() {
+        // 権限確認
+        if (ActivityCompat.checkSelfPermission(this, permissions[1]) != PackageManager.PERMISSION_GRANTED) {
+            // 権限不足
+            System.out.println("lack of permission");
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSION);
+            System.out.println("after dialog");
+            //return;
+        }
+        
+        // 位置情報の取得方法を設定
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setInterval(gpsInterval);
+        locationRequest.setFastestInterval(gpsFastestInterval);
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        System.out.println("before fusedL");
+        fusedLocationClient.requestLocationUpdates(locationRequest, new MyLocationCallback(), null);
+    }
 
-        if (requestCode == REQUEST_PERMISSION) {
-            // 使用が許可された
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d("debug", "onRequestPermissionsResult() PERMISSION_GRANTED");
-
-//                this.getLastLocation();
-
-            } else {
-                Log.d("debug", "onRequestPermissionsResult() NOT PERMISSION_GRANTED");
-
-                // 拒否された時の対応
-                Snackbar sbar = Snackbar.make(findViewById(android.R.id.content),
-                        R.string.message2, Snackbar.LENGTH_SHORT);
-                sbar.setDuration(10000);
-                sbar.getView().setBackgroundColor(Color.rgb(255, 64, 0));
-
-                sbar.setAction(R.string.sbar_button2, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Intent でアプリ権限の設定画面に移行
-                        Intent intent = new Intent();
-                        intent.setAction(
-                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        // BuildConfigは反映するのに時間がかかってエラーにることもある。待つ
-                        Uri uri = Uri.fromParts("package",
-                                BuildConfig.APPLICATION_ID, null);
-                        intent.setData(uri);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }
-                });
-                sbar.setActionTextColor(Color.YELLOW);
-                sbar.show();
-
-
+    private class MyLocationCallback extends LocationCallback {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            if (locationResult == null) {
+                System.out.println("locationResult == null.");
+                return;
             }
+            // 現在地取得
+            Location location = locationResult.getLastLocation();
+            // TODO: ここに取得後の処理を書く
+            // Logcatに表示
+            System.out.println("====================================================================");
+            System.out.println("緯度:"+location.getLatitude() + "\n経度:"+location.getLongitude());
         }
     }
-
-//    private void getLastLocation() {
-//        fusedLocationClient.getLastLocation()
-//                .addOnCompleteListener(
-//                        this,
-//                        new OnCompleteListener<Location>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<Location> task) {
-//                                if (task.isSuccessful() && task.getResult() != null) {
-//                                    location = task.getResult();
-//
-//                                    strBuf.append((String.format(Locale.ENGLISH, "%s: %f,  ",
-//                                            "緯度", location.getLatitude())));
-//                                    strBuf.append((String.format(Locale.ENGLISH, "%s: %f\n",
-//                                            "経度", location.getLongitude())));
-//                                    textView.setText(strBuf);
-//                                } else {
-//                                    Log.d("debug","計測不能");
-//                                    textView.setText("計測不能");
-//                                }
-//                            }
-//                        });
+    
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        System.out.println("entered onRequestPermissionsResult()");
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // 位置情報取得開始
+            startUpdateLocation();
+        }
     }
-
-
 }
