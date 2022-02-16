@@ -5,11 +5,12 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+
 public class AppSettings {
     private boolean backgroundHazardNotification;
-    private int getTime;
-    private SharedPreferences sharedPref;
-    private SharedPreferences.Editor editor;
+    private String syncTime;
+    private final SharedPreferences sharedPref;
+    private final SharedPreferences.Editor editor;
     private enum pref_keys{
         backgroundHazardNotification,
         firstLaunch
@@ -33,9 +34,9 @@ public class AppSettings {
     }
 
     public boolean isFirstLaunch() {
-        Boolean tmp;
+        boolean tmp;
         tmp = this.sharedPref.getBoolean(String.valueOf(pref_keys.firstLaunch), true);
-        if(tmp == true) {
+        if(tmp) {
             editor.putBoolean(String.valueOf(pref_keys.firstLaunch), false);
         }
         return tmp;
@@ -45,5 +46,10 @@ public class AppSettings {
         this.backgroundHazardNotification = this.sharedPref.getBoolean(String.valueOf(pref_keys.backgroundHazardNotification), false);
         this.editor.putBoolean(String.valueOf(pref_keys.backgroundHazardNotification), this.backgroundHazardNotification);
         editor.apply();
+        syncTime = GlobalField.getNowDate();
+    }
+
+    public String getSyncTime() {
+        return syncTime;
     }
 }

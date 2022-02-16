@@ -1,4 +1,4 @@
-package com.example.neo_cocoa;
+package com.example.neo_cocoa.hazard_models;
 
 public class HazardModel {
     private static final int graphRange = 6; // 時間前までの接触人数の推移

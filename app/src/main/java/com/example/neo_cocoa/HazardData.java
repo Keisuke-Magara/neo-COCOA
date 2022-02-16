@@ -6,8 +6,8 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 
 public class HazardData {
-    private SharedPreferences sharedPref;
-    private SharedPreferences.Editor editor;
+    private final SharedPreferences sharedPref;
+    private final SharedPreferences.Editor editor;
     private long refreshTime;
     private boolean hazardEnable = false;
     private enum pref_keys {

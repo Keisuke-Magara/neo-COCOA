@@ -3,6 +3,7 @@ package com.example.neo_cocoa.ui.settings;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,15 +13,13 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.content.pm.PackageInfo;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.neo_cocoa.GlobalField;
-import com.example.neo_cocoa.MainActivity;
-import com.example.neo_cocoa.R;
 import com.example.neo_cocoa.AppSettings;
+import com.example.neo_cocoa.GlobalField;
+import com.example.neo_cocoa.R;
 import com.example.neo_cocoa.databinding.FragmentSettingsBinding;
 import com.example.neo_cocoa.quit;
 
@@ -85,7 +84,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     return true;
     }
 
-    private View.OnClickListener quit_listener = new View.OnClickListener() {
+    private final View.OnClickListener quit_listener = new View.OnClickListener() {
         public void onClick(View view) {
             AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
             ad.setTitle(getString(R.string.settings_quit_ad_title));
@@ -101,7 +100,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         }
     };
 
-    private View.OnClickListener share_listener = new View.OnClickListener() {
+    private final View.OnClickListener share_listener = new View.OnClickListener() {
         public void onClick(View view) {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
