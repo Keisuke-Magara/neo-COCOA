@@ -24,3 +24,9 @@ public class MyLocation extends LocationCallback {
         System.out.println("緯度:"+location.getLatitude() + "\n経度:"+location.getLongitude());
     }
 }
+/***
+ * TODO:
+ * onLocationResultでprivate変数に代入させる
+ * getメソッドでその値をreturnする
+ *
+ */
