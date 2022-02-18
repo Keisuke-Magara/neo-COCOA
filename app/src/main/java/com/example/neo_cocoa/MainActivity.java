@@ -24,6 +24,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.CancellationToken;
+import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnTokenCanceledListener;
 import com.google.android.gms.tasks.Task;
@@ -74,14 +75,24 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         };
+        CancellationTokenSource cts = new CancellationTokenSource();
+        CancellationToken token1 = cts.getToken().onCanceledRequested(new OnTokenCanceledListener() {
+            @Override
+            public void onCanceled() {
+                System.out.println("Canceled.");
+            }
+        });
         OnCompleteListener<Location> listener = new OnCompleteListener<Location>() {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
+                Log.println(Log.ASSERT, "onComplete", String.valueOf(task.isSuccessful()));
                 Toast.makeText(getApplicationContext(), "緯度:"+task.getResult().getLatitude()+
-                        "\n経度:"+task.getResult().getLongitude(), 1).show();
+                        "\n経度:"+task.getResult().getLongitude(), Toast.LENGTH_LONG).show();
+                Log.println(Log.ASSERT, "Result", "緯度:"+task.getResult().getLatitude()+
+                        "  経度:"+task.getResult().getLongitude());
             }
         };
-        AppLocationProvider.getCurrentLocation(this, token, listener);
+        AppLocationProvider.getCurrentLocation(this, token1, listener);
     }
     
     @Override

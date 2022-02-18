@@ -59,6 +59,7 @@ public class AppLocationProvider {
                                           OnCompleteListener<Location> callback) {
         // 権限確認
         checkPermission();
+        System.out.println("AppLocationProvider.getCurrentLocation() was called.");
         fusedLocationClient.getCurrentLocation(gpsPriority, cancellationToken)
                 .addOnCompleteListener(activity, callback);
     }
