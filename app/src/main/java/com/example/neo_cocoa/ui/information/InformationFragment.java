@@ -28,7 +28,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.neo_cocoa.AppInformation;
-import com.example.neo_cocoa.AppLocationProvider;
 import com.example.neo_cocoa.AppProof;
 import com.example.neo_cocoa.GlobalField;
 import com.example.neo_cocoa.R;
@@ -89,13 +88,11 @@ public class InformationFragment extends Fragment {
     Button.OnClickListener button_TestLoc_listener = new Button.OnClickListener() {
         public void onClick(View view) {
             System.out.println("pressed");
-            /*if(GlobalField.mainActivity.myLocationCallback != null) {
+            if(GlobalField.mainActivity.myLocationCallback != null) {
                 GlobalField.mainActivity.myLocationCallback.printLocation();
             }else{
                 GlobalField.mainActivity.startUpdateLocation();
-            }*/
-            //AppLocationProvider.getLastLocation();
-            //System.out.println("緯度:"+ AppLocationProvider.getLatitude() + "\n経度:"+AppLocationProvider.getLongitude());
+            }
         }
     };
 
