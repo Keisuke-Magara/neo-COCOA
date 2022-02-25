@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnTokenCanceledListener;
+import com.google.android.gms.tasks.RuntimeExecutionException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -62,19 +63,6 @@ public class MainActivity extends AppCompatActivity {
         appLocationProvider = new AppLocationProvider(this, fusedLocationClient);
 
         // 緯度経度をtoast通知する(サンプル)
-        CancellationToken token = new CancellationToken() {
-            @NonNull
-            @Override
-            public CancellationToken onCanceledRequested(@NonNull OnTokenCanceledListener onTokenCanceledListener) {
-                System.out.println("Canceled");
-                return this;
-            }
-
-            @Override
-            public boolean isCancellationRequested() {
-                return false;
-            }
-        };
         CancellationTokenSource cts = new CancellationTokenSource();
         CancellationToken token1 = cts.getToken().onCanceledRequested(new OnTokenCanceledListener() {
             @Override
@@ -85,11 +73,16 @@ public class MainActivity extends AppCompatActivity {
         OnCompleteListener<Location> listener = new OnCompleteListener<Location>() {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
-                Log.println(Log.ASSERT, "onComplete", String.valueOf(task.isSuccessful()));
-                Toast.makeText(getApplicationContext(), "緯度:"+task.getResult().getLatitude()+
-                        "\n経度:"+task.getResult().getLongitude(), Toast.LENGTH_LONG).show();
-                Log.println(Log.ASSERT, "Result", "緯度:"+task.getResult().getLatitude()+
-                        "  経度:"+task.getResult().getLongitude());
+//                try {
+//                    Log.println(Log.ASSERT, "onComplete", String.valueOf(task.isSuccessful()));
+//
+//                    Toast.makeText(getApplicationContext(), "緯度:" + task.getResult().getLatitude() +
+//                            "\n経度:" + task.getResult().getLongitude(), Toast.LENGTH_LONG).show();
+//                    Log.println(Log.ASSERT, "Result", "緯度:" + task.getResult().getLatitude() +
+//                            "  経度:" + task.getResult().getLongitude());
+//                }catch (RuntimeExecutionException tasks) {
+//                    System.out.println("error runtimeExecutionException");
+//                }
             }
         };
         AppLocationProvider.getCurrentLocation(this, token1, listener);

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -41,7 +42,6 @@ public class AppLocationProvider {
     private static final int REQUEST_UPDATE = 2;
     private static final String[] permissions = {
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION
     };
     private static final String TAG = "AppLocationProvider";
 
@@ -177,5 +177,9 @@ public class AppLocationProvider {
             // 位置情報取得開始
             //getCurrentLocation();
         }
+    }
+
+    public static void goToSettings() {
+        Toast.makeText(mainActivity, "位置情報が許可されていません", Toast.LENGTH_LONG).show();
     }
 }

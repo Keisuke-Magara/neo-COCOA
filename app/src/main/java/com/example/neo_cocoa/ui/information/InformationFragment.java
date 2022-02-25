@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.icu.number.Scale;
 import android.icu.text.SimpleDateFormat;
+import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -17,6 +18,7 @@ import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +30,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.neo_cocoa.AppInformation;
+import com.example.neo_cocoa.AppLocationProvider;
 import com.example.neo_cocoa.AppProof;
 import com.example.neo_cocoa.GlobalField;
 import com.example.neo_cocoa.R;
@@ -35,6 +38,12 @@ import com.example.neo_cocoa.databinding.FragmentInformationBinding;
 import com.example.neo_cocoa.databinding.FragmentProofBinding;
 import com.example.neo_cocoa.ui.proof.BodyTemperatureDialogFragment;
 import com.example.neo_cocoa.ui.proof.ProofFragment;
+import com.google.android.gms.tasks.CancellationToken;
+import com.google.android.gms.tasks.CancellationTokenSource;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnTokenCanceledListener;
+import com.google.android.gms.tasks.RuntimeExecutionException;
+import com.google.android.gms.tasks.Task;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,11 +97,31 @@ public class InformationFragment extends Fragment {
     Button.OnClickListener button_TestLoc_listener = new Button.OnClickListener() {
         public void onClick(View view) {
             System.out.println("pressed");
-            /*if(GlobalField.mainActivity.myLocationCallback != null) {
-                GlobalField.mainActivity.myLocationCallback.printLocation();
-            }else{
-                GlobalField.mainActivity.startUpdateLocation();
-            }*/
+            CancellationTokenSource cts = new CancellationTokenSource();
+            CancellationToken token1 = cts.getToken().onCanceledRequested(new OnTokenCanceledListener() {
+                @Override
+                public void onCanceled() {
+                    System.out.println("Canceled.");
+                }
+            });
+
+            AppLocationProvider.getCurrentLocation(getActivity(), token1, new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    try {
+                        //getResultがnullのときの例外処理
+                        if(task.getResult() != null) {
+                            Log.println(Log.ASSERT, "onComplete", String.valueOf(task.isSuccessful()));
+                            Toast.makeText(getActivity(), "緯度:" + task.getResult().getLatitude() +
+                                    "\n経度:" + task.getResult().getLongitude(), Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity(), "位置情報が取得できませんでした", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (RuntimeExecutionException tasks) {
+                        AppLocationProvider.goToSettings();
+                    }
+                }
+            });
         }
     };
 
