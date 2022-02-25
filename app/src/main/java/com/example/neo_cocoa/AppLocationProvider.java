@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -42,6 +43,7 @@ public class AppLocationProvider {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_BACKGROUND_LOCATION
     };
+    private static final String TAG = "AppLocationProvider";
 
     /**
      * AppLocationProviderのインスタンスは1個 -> create()メソッド?
@@ -60,10 +62,11 @@ public class AppLocationProvider {
     public static void getCurrentLocation(Activity activity, CancellationToken cancellationToken,
                                           OnCompleteListener<Location> callback) {
         // 権限確認
-        checkPermission();
-        System.out.println("AppLocationProvider.getCurrentLocation() was called.");
-        fusedLocationClient.getCurrentLocation(gpsPriority, cancellationToken)
-                .addOnCompleteListener(activity, callback);
+        if (checkPermission()) {
+            Log.d(TAG, "AppLocationProvider.getCurrentLocation() was called.");
+            fusedLocationClient.getCurrentLocation(gpsPriority, cancellationToken)
+                    .addOnCompleteListener(activity, callback);
+        }
     }
 
     // TODO: コールバックメソッドの実装
@@ -90,7 +93,7 @@ public class AppLocationProvider {
      * @return 購読開始: true, 権限不足: false
      */
     public boolean startUpdateLocation(LocationCallback lc) {
-        System.out.println("function startUpdateLocation called");
+        Log.d(TAG, "function startUpdateLocation called");
         // 権限確認
         if (checkPermission()) {
             setUpdateConfig(lc);
@@ -105,7 +108,7 @@ public class AppLocationProvider {
      * @return Granted: true, Dined: false
      */
     private static boolean checkPermission() {
-        System.out.println("function checkPermission called");
+        Log.d(TAG, "function checkPermission called");
         // 既に許可している
         if (ContextCompat.checkSelfPermission(mainActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -123,13 +126,13 @@ public class AppLocationProvider {
      * @return Success: true, Dined: false
      */
     private static boolean requestLocationPermission() {
-        System.out.println("function requestLocationPermission called");
+        Log.d(TAG, "function requestLocationPermission called");
         if (ActivityCompat.shouldShowRequestPermissionRationale(mainActivity,
                 permissions[0]) || GlobalField.appSettings.isFirstLaunch()) {
             ActivityCompat.requestPermissions(mainActivity, permissions, REQUEST_ONESHOT);
             return true;
         } else {
-            System.out.println("Cannot run the app without permission");
+            Log.d(TAG, "Cannot run the app without permission");
             return false;
         }
     }
@@ -139,17 +142,17 @@ public class AppLocationProvider {
         @Override
         public void onLocationResult(LocationResult lr) {
             locationResult = lr;
-            System.out.println("function onLocationResult called");
+            Log.d(TAG, "function onLocationResult called");
             if (locationResult == null) {
-                System.out.println("locationResult == null.");
+                Log.d(TAG, "locationResult == null.");
                 return;
             }
             ready = true;
-            System.out.println("===============================================\n ready.\n=================================================================");
+            Log.d(TAG, "===============================================\n ready.\n=================================================================");
         }
         *//*public void printLocation() {
             Location location = lr.getLastLocation();
-            System.out.println("====================================================================");
+            Log.d(TAG, "====================================================================");
             longitude
             String msg = "緯度:"+location.getLatitude() + "\n経度:"+location.getLongitude();
             Toast.makeText(mainActivity, msg, Toast.LENGTH_LONG).show();
@@ -168,8 +171,8 @@ public class AppLocationProvider {
     }
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        System.out.println("function onRequestPermissionsResult called");
-        System.out.println("entered onRequestPermissionsResult()");
+        Log.d(TAG, "function onRequestPermissionsResult called");
+        Log.d(TAG, "entered onRequestPermissionsResult()");
         if (requestCode == REQUEST_ONESHOT && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // 位置情報取得開始
             //getCurrentLocation();

@@ -88,11 +88,11 @@ public class InformationFragment extends Fragment {
     Button.OnClickListener button_TestLoc_listener = new Button.OnClickListener() {
         public void onClick(View view) {
             System.out.println("pressed");
-            if(GlobalField.mainActivity.myLocationCallback != null) {
+            /*if(GlobalField.mainActivity.myLocationCallback != null) {
                 GlobalField.mainActivity.myLocationCallback.printLocation();
             }else{
                 GlobalField.mainActivity.startUpdateLocation();
-            }
+            }*/
         }
     };
 
