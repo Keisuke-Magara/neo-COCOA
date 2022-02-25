@@ -92,7 +92,7 @@ public class AppLocationProvider {
      * @param lc: 位置情報が更新されたときに行いたい処理を書いたクラスのインスタンス
      * @return 購読開始: true, 権限不足: false
      */
-    public boolean startUpdateLocation(LocationCallback lc) {
+    public static boolean startUpdateLocation(LocationCallback lc) {
         Log.d(TAG, "function startUpdateLocation called");
         // 権限確認
         if (checkPermission()) {
@@ -132,7 +132,7 @@ public class AppLocationProvider {
             ActivityCompat.requestPermissions(mainActivity, permissions, REQUEST_ONESHOT);
             return true;
         } else {
-            Log.d(TAG, "Cannot run the app without permission");
+            Log.e(TAG, "Cannot run Hazard without permission");
             return false;
         }
     }

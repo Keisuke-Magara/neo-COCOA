@@ -48,7 +48,7 @@
 
     <!-- Hazard fragment -->
     <string name="title_hazard">ハザード</string>
-    <string name="hazard_location_title">場所 : </string>
+    <string name="hazard_location_title">場所: </string>
     <string name="hazard_location_address">XXX 付近</string>
     <string name="hazard_time_of_stay">XXX 分間滞在中</string>
     <string name="hazard_time_of_stay_default">滞在時間を計測中...</string>
