@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -32,12 +33,13 @@ public class AppLocationProvider {
     private static boolean ready = false;
     private static double latitude;
     private static double longitude;
-    private static final int gpsInterval = 120*1000; // ms
-    private static final int gpsFastestInterval = 5*1000; // ms
-    private static final int gpsPriority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
-    private static final int REQUEST_PERMISSION = 2000;
+    private static final int gpsInterval = 1*1000; // ms
+    //private static final int gpsFastestInterval = 5*1000; // ms
+    private static final int gpsPriority = LocationRequest.PRIORITY_HIGH_ACCURACY;
+    private static final int REQUEST_ONESHOT = 1;
+    private static final int REQUEST_UPDATE = 2;
     private static final String[] permissions = {
-            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_BACKGROUND_LOCATION
     };
 
@@ -75,13 +77,6 @@ public class AppLocationProvider {
         }
     }
 
-    public static double getLatitude() {
-        return latitude;
-    }
-
-    public static double getLongitude() {
-        return longitude;
-    }
 
     /** アプリ起動時にMainActivityで1度だけ実行される */
     public AppLocationProvider (MainActivity MainActivityPointer, FusedLocationProviderClient FLPCPointer) {
@@ -113,7 +108,7 @@ public class AppLocationProvider {
         System.out.println("function checkPermission called");
         // 既に許可している
         if (ContextCompat.checkSelfPermission(mainActivity,
-                Manifest.permission.ACCESS_COARSE_LOCATION)
+                Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED){
             return true;
         }
@@ -130,10 +125,8 @@ public class AppLocationProvider {
     private static boolean requestLocationPermission() {
         System.out.println("function requestLocationPermission called");
         if (ActivityCompat.shouldShowRequestPermissionRationale(mainActivity,
-                Manifest.permission.ACCESS_COARSE_LOCATION) || GlobalField.appSettings.isFirstLaunch()) {
-            ActivityCompat.requestPermissions(mainActivity,
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    REQUEST_PERMISSION);
+                permissions[0]) || GlobalField.appSettings.isFirstLaunch()) {
+            ActivityCompat.requestPermissions(mainActivity, permissions, REQUEST_ONESHOT);
             return true;
         } else {
             System.out.println("Cannot run the app without permission");
@@ -169,15 +162,15 @@ public class AppLocationProvider {
         // 位置情報の取得方法を設定
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setInterval(gpsInterval);
-        locationRequest.setFastestInterval(gpsFastestInterval);
+        //locationRequest.setFastestInterval(gpsFastestInterval);
         locationRequest.setPriority(gpsPriority);
-        fusedLocationClient.requestLocationUpdates(locationRequest, lc, null);
+        fusedLocationClient.requestLocationUpdates(locationRequest, lc, Looper.getMainLooper());
     }
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         System.out.println("function onRequestPermissionsResult called");
         System.out.println("entered onRequestPermissionsResult()");
-        if (requestCode == REQUEST_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == REQUEST_ONESHOT && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // 位置情報取得開始
             //getCurrentLocation();
         }
