@@ -1,5 +1,6 @@
 package com.example.neo_cocoa.ui.information;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.icu.number.Scale;
@@ -79,6 +80,7 @@ public class InformationFragment extends Fragment {
     private ImageView wcImage;
     private ImageView clImage;
     private Button buttonTestLoc;
+    private Button buttonShowDetails;
     private String wcUrl;
     private final String API_URL_PREFIX = "opendata.corona.go.jp";
     private String currentLocation = "東京都";
@@ -98,12 +100,23 @@ public class InformationFragment extends Fragment {
         //画面の表示データを更新
         refreshInformationFragment();
 
+        buttonShowDetails = (Button)view.findViewById(R.id.information_button_show_details);
+        buttonShowDetails.setOnClickListener(buttonShowDetailsListener);
         buttonTestLoc = (Button)view.findViewById(R.id.testLocationButton);
-        buttonTestLoc.setOnClickListener(button_TestLoc_listener);
+        buttonTestLoc.setOnClickListener(buttonTestLocListener);
         return view;
     }
 
-    Button.OnClickListener button_TestLoc_listener = new Button.OnClickListener() {
+    Button.OnClickListener buttonShowDetailsListener = new Button.OnClickListener() {
+        public void onClick(View view) {
+            System.out.println("ShowDetailsPressed");
+            Uri uri = Uri.parse("https://covid19.mhlw.go.jp/?_fsi=Ew5xhpvh");
+            Intent i = new Intent(Intent.ACTION_VIEW,uri);
+            startActivity(i);
+        }
+    };
+
+    Button.OnClickListener buttonTestLocListener = new Button.OnClickListener() {
         public void onClick(View view) {
             System.out.println("pressed");
             CancellationTokenSource cts = new CancellationTokenSource();
@@ -120,21 +133,25 @@ public class InformationFragment extends Fragment {
                     try {
                         //getResultがnullのときの例外処理
                         if(task.getResult() != null) {
-                            if(!Geocoder.isPresent()) return;
-                            Geocoder coder = new Geocoder(getContext(), Locale.JAPAN);
-                            List<Address> addresses= coder.getFromLocation(task.getResult().getLatitude(), task.getResult().getLongitude(), 1);
+                            if(Geocoder.isPresent()) {
+                                Geocoder coder = new Geocoder(getContext(), Locale.JAPAN);
+                                List<Address> addresses= coder.getFromLocation(task.getResult().getLatitude(), task.getResult().getLongitude(), 1);
 
-                            Log.println(Log.ASSERT, "onComplete", String.valueOf(task.isSuccessful()));
-                            Toast.makeText(getActivity(), "緯度:" + task.getResult().getLatitude() +
-                                    "\n経度:" + task.getResult().getLongitude() +
-                                    "\n都道府県:" + addresses.get(0).getAdminArea()
-                                    , Toast.LENGTH_LONG).show();
-
+                                Log.println(Log.ASSERT, "onComplete", String.valueOf(task.isSuccessful()));
+                                Toast.makeText(getActivity(), "緯度:" + task.getResult().getLatitude() +
+                                                "\n経度:" + task.getResult().getLongitude() +
+                                                "\n都道府県:" + addresses.get(0).getAdminArea()
+                                        , Toast.LENGTH_LONG).show();
+                            }else {
+                                Toast.makeText(getActivity(), "geocoderが利用できませんでした", Toast.LENGTH_LONG).show();
+                            }
                         } else {
                             Toast.makeText(getActivity(), "位置情報が取得できませんでした", Toast.LENGTH_LONG).show();
                         }
                     } catch (RuntimeExecutionException | IOException tasks) {
                         AppLocationProvider.goToSettings();
+                        System.out.println("-------------------------"+tasks);
+                        tasks.printStackTrace();
                     }
                 }
             });
@@ -173,9 +190,11 @@ public class InformationFragment extends Fragment {
                         clTitle.setText(currentLocation);
                     } else {
                         Toast.makeText(getActivity(), "位置情報が取得できませんでした", Toast.LENGTH_LONG).show();
+                        System.out.println("-----------------else");
                     }
                 } catch (RuntimeExecutionException | IOException tasks) {
                     AppLocationProvider.goToSettings();
+                    System.out.println("-------------" + tasks);
                 }
                 //現在地の新規陽性者数を取得・表示
                 ClAsync clAsync = new ClAsync();
