@@ -1,5 +1,12 @@
 package com.example.neo_cocoa.hazard_models;
 
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+
+import java.io.IOException;
+import java.util.List;
+
 public class HazardModel {
     private static final int graphRange = 6; // 時間前までの接触人数の推移
     private static final int t1 =  1; // 人以上でレベル1
@@ -7,22 +14,21 @@ public class HazardModel {
     private static final int t3 = 20; // 人以上でレベル3
     private static final int t4 = 30; // 人以上でレベル4
     private static final int t5 = 40; // 人以上でレベル5
+    private final mock_ENS ens;
+    private int sumOfKey = 0; // 一つのENS Keyで取得された接触者数の累計
 
-
-    private int locationData;
-    private String address;
     private int last_contact;
     private int danger_level;
 
-    public HazardModel () {
-        // TODO: 位置情報権限の判定
+    public HazardModel (boolean bgState) {
+        ens = new mock_ENS();
+        if (bgState) {
+            ens.start();
+        }
     }
 
-    public void loopTask () {
-        // TODO: Loop task
-    }
-
-    private int get_danger_level (int num_of_contact) {
+    public int get_danger_level () {
+        int num_of_contact = ens.get_num_at_key();
         if (num_of_contact < t1) {
             return 0;
         } else if (num_of_contact < t2) {
@@ -35,6 +41,35 @@ public class HazardModel {
             return 4;
         } else {
             return 5;
+        }
+    }
+
+    public String getCurrentAddress(Location location, Geocoder coder, String addressText) {
+        try {
+            List<Address> addresses = coder.getFromLocation(
+                    location.getLatitude(), location.getLongitude(), 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address address = addresses.get(0);
+                String metro = address.getAdminArea();
+                String gun = address.getSubAdminArea();
+                String city = address.getLocality();
+                String chome = address.getThoroughfare();
+                String str = "";
+                if (metro != null)
+                    str += metro;
+                if (gun != null)
+                    str += gun;
+                if (city != null)
+                    str += city;
+                if (chome != null)
+                    str += chome;
+                addressText = addressText.replace("XXX", str);
+                return addressText;
+            } else {
+                return "ERROR";
+            }
+        } catch (IOException e) {
+            return "ERROR";
         }
     }
 

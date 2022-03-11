@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -96,11 +97,28 @@ public class AppLocationProvider {
         Log.d(TAG, "function startUpdateLocation called");
         // 権限確認
         if (checkPermission()) {
-            setUpdateConfig(lc);
+            setUpdateConfigThenStart(lc);
             return true;
         }else{
             return false;
         }
+    }
+
+    /**
+     * 位置情報のアップデートを停止する。
+     */
+    public static void stopUpdateLocation() {
+        fusedLocationClient.removeLocationUpdates(new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+            }
+            @Override
+            public void onLocationAvailability(@NonNull LocationAvailability locationAvailability) {
+                super.onLocationAvailability(locationAvailability);
+                Log.d(TAG, "removed Location Updates.\nLocation is not available.");
+            }
+        });
     }
 
     /**
@@ -137,31 +155,8 @@ public class AppLocationProvider {
         }
     }
 
-    /*private class MyLocationCallback extends LocationCallback {
-
-        @Override
-        public void onLocationResult(LocationResult lr) {
-            locationResult = lr;
-            Log.d(TAG, "function onLocationResult called");
-            if (locationResult == null) {
-                Log.d(TAG, "locationResult == null.");
-                return;
-            }
-            ready = true;
-            Log.d(TAG, "===============================================\n ready.\n=================================================================");
-        }
-        *//*public void printLocation() {
-            Location location = lr.getLastLocation();
-            Log.d(TAG, "====================================================================");
-            longitude
-            String msg = "緯度:"+location.getLatitude() + "\n経度:"+location.getLongitude();
-            Toast.makeText(mainActivity, msg, Toast.LENGTH_LONG).show();
-
-        }*//*
-    }*/
-
     @SuppressLint("MissingPermission")
-    private static void setUpdateConfig(LocationCallback lc) {
+    private static void setUpdateConfigThenStart(LocationCallback lc) {
         // 位置情報の取得方法を設定
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setInterval(gpsInterval);

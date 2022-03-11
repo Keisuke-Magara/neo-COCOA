@@ -28,7 +28,8 @@ public class HazardData {
 
     public boolean getHazardEnable () {
         this.syncData();
-        return this.hazardEnable;
+        //return this.hazardEnable;
+        return true;
     }
 
     public void syncData() {

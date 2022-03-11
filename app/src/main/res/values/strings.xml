@@ -45,7 +45,6 @@
     <string name="proof_dialog_message_num_of_vaccine">ワクチン接種回数を入力してください</string>
     <string name="proof_dialog_message_vaccine_date">最後に接種した日付を入力してください</string>
 
-
     <!-- Hazard fragment -->
     <string name="title_hazard">ハザード</string>
     <string name="hazard_location_title">場所: </string>
