@@ -3,11 +3,15 @@ package com.example.neo_cocoa.hazard_models;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.List;
+import com.ibm.icu.text.Transliterator;
+
 
 public class HazardModel {
+    private static final String TAG = "HazardModel";
     private static final int graphRange = 6; // 時間前までの接触人数の推移
     private static final int t1 =  1; // 人以上でレベル1
     private static final int t2 = 10; // 人以上でレベル2
@@ -51,25 +55,19 @@ public class HazardModel {
                     location.getLatitude(), location.getLongitude(), 1);
             if (addresses != null && !addresses.isEmpty()) {
                 Address address = addresses.get(0);
-                String metro = address.getAdminArea();
-                String gun = address.getSubAdminArea();
-                String city = address.getLocality();
-                String chome = address.getThoroughfare();
                 String str = "";
-                if (metro != null)
-                    str += metro;
-                if (gun != null)
-                    str += gun;
-                if (city != null)
-                    str += city;
-                if (chome != null)
-                    str += chome;
+                str = address.getAddressLine(0);
+                str = str.split(" ")[1];
+                str = str.replace("丁目", "-");
+                Transliterator tl = Transliterator.getInstance("Fullwidth-Halfwidth");
+                str = tl.transliterate(str);
                 addressText = addressText.replace("XXX", str);
                 return addressText;
             } else {
                 return "ERROR";
             }
         } catch (IOException e) {
+            Log.d(TAG, e.toString());
             return "ERROR";
         }
     }

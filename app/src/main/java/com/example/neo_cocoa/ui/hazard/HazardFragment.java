@@ -4,6 +4,8 @@ package com.example.neo_cocoa.ui.hazard;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class HazardFragment extends Fragment {
+    private static final String TAG = "HazardFragment";
     private FragmentHazardBinding binding;
     private HazardModel hazardModel;
 
@@ -47,15 +50,15 @@ public class HazardFragment extends Fragment {
                         if (Objects.equals(address, "ERROR")) {
                             locationView.setText(R.string.getting_error);
                         } else {
-                            locationView.setText(addressText);
+                            locationView.setText(hazardModel.getCurrentAddress(location, coder, addressText));
                         }
                     } else {
                         addressText = addressText.replace("XXX", locationResult.getLastLocation().getLatitude() + ", " + locationResult.getLastLocation().getLongitude());
                         locationView.setText(addressText);
                     }
                 } catch (IllegalStateException ie) {
+                    Log.d(TAG, ie.toString());
                     // do nothing.
-
                 }
                 //locationView.setText(hazardModel.get_danger_level());
             }

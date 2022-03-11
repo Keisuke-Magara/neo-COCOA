@@ -3,13 +3,39 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neo-COCOA/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3494791666666667" />
+        <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neo-COCOA/app/src/main/res/drawable/cocoa_buttons.xml" value="0.3494791666666667" />
+        <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neo-COCOA/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.3494791666666667" />
+        <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neo-COCOA/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.3494791666666667" />
+        <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neo-COCOA/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.3494791666666667" />
+        <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/fragment_hazard.xml" value="0.17395833333333333" />
+        <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/fragment_home.xml" value="0.13722826086956522" />
+        <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/fragment_infomation.xml" value="0.32916666666666666" />
+        <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/fragment_notifications.xml" value="0.32916666666666666" />
+        <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/fragment_proof.xml" value="0.32916666666666666" />
+        <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/fragment_radar.xml" value="0.32916666666666666" />
+        <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/fragment_settings.xml" value="0.264" />
+        <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neo-COCOA/app/src/main/res/menu/bottom_nav_menu.xml" value="0.32916666666666666" />
         <entry key="..\:/Users/KM_mi/AndroidStudioProjects/neoCOCOA/app/src/main/res/layout/activity_main.xml" value="0.16145307769929365" />
-        <entry key="..\:/Users/km_mi/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/fragment_hazard.xml" value="0.17857142857142858" />
+        <entry key="..\:/Users/KM_mi/StudioProjects/neo-COCOA/app/src/main/res/drawable/ic_infotips.xml" value="0.3475" />
+        <entry key="..\:/Users/KM_mi/StudioProjects/neo-COCOA/app/src/main/res/layout/fragment_hazard.xml" value="0.3625" />
+        <entry key="..\:/Users/takek/AndroidStudioProjects/COCOA/app/src/main/res/layout/activity_main.xml" value="0.12360688956433637" />
+        <entry key="..\:/Users/takek/AndroidStudioProjects/COCOA/app/src/main/res/layout/fragment_hazard.xml" value="0.12360688956433637" />
+        <entry key="..\:/Users/takek/AndroidStudioProjects/COCOA/app/src/main/res/layout/fragment_information.xml" value="0.6" />
+        <entry key="..\:/Users/takek/AndroidStudioProjects/COCOA/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
+        <entry key="..\:/Users/takek/AndroidStudioProjects/COCOA/app/src/main/res/xml/root_preferences.xml" value="0.264" />
+        <entry key="..\:/Users/takek/AndroidStudioProjects/neo-COCOA/app/src/main/res/drawable/button_normal.xml" value="0.19166666666666668" />
+        <entry key="..\:/Users/takek/AndroidStudioProjects/neo-COCOA/app/src/main/res/drawable/ic_check.xml" value="0.18" />
         <entry key="..\:/Users/takek/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/Users/takek/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/fragment_information.xml" value="0.6666666666666666" />
         <entry key="..\:/Users/takek/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/fragment_notifications.xml" value="0.13360507246376813" />
+        <entry key="..\:/Users/takek/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/fragment_proof.xml" value="0.22" />
+        <entry key="..\:/Users/takek/AndroidStudioProjects/neo-COCOA/app/src/main/res/layout/fragment_settings.xml" value="0.39323220536756126" />
       </map>
     </option>
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
