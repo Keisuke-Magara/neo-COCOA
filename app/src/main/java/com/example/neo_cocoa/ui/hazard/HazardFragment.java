@@ -55,9 +55,9 @@ public class HazardFragment extends Fragment {
                     }
                 } catch (IllegalStateException ie) {
                     // do nothing.
+
                 }
-                String
-                locationView.setText(hazardModel.get_danger_level());
+                //locationView.setText(hazardModel.get_danger_level());
             }
         });
         return view;

@@ -46,6 +46,7 @@ public class HazardModel {
 
     public String getCurrentAddress(Location location, Geocoder coder, String addressText) {
         try {
+            System.out.println(location.getLatitude());
             List<Address> addresses = coder.getFromLocation(
                     location.getLatitude(), location.getLongitude(), 1);
             if (addresses != null && !addresses.isEmpty()) {
