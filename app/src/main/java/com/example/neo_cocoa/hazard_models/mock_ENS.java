@@ -13,14 +13,13 @@ import java.util.Random;
  */
 public class mock_ENS extends Thread {
     private static boolean isRunning = false;
-    private int key2Value;
-    private long genTimeOfKey2;
-    private int contacted_person = 0;
-    private Random r = null;
-    private Time t;
+    private static int key2Value;
+    private static long genTimeOfKey2;
+    private static int contacted_person = 0;
+    private static Random r = null;
     private static final String TAG = "mock_ENS";
 
-    mock_ENS() {
+    public mock_ENS() {
         super();
         if (!isRunning) {
             isRunning = true;

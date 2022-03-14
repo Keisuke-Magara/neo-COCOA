@@ -18,6 +18,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.neo_cocoa.databinding.ActivityMainBinding;
+import com.example.neo_cocoa.hazard_models.mock_ENS;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -86,6 +87,10 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         AppLocationProvider.getCurrentLocation(this, token1, listener);
+
+        // mock Exposure Notification Service API 起動
+        mock_ENS ens = new mock_ENS();
+        if ()
     }
     
     @Override

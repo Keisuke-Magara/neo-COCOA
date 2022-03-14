@@ -36,7 +36,7 @@ public class AppLocationProvider {
     private static boolean ready = false;
     private static double latitude;
     private static double longitude;
-    private static final int gpsInterval = 1*1000; // ms
+    private static final int gpsInterval = 5*1000; // ms
     //private static final int gpsFastestInterval = 5*1000; // ms
     private static final int gpsPriority = LocationRequest.PRIORITY_HIGH_ACCURACY;
     private static final int REQUEST_ONESHOT = 1;
