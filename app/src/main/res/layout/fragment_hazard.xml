@@ -31,7 +31,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/imageView4"
+                    android:id="@+id/hazard_location_tips_icon"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:backgroundTint="@color/light_blue"
@@ -172,13 +172,13 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:text="@string/hazard_danger_level_2_comment"
+                    android:text="@string/hazard_danger_level_0_comment"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/hazard_danger_level_title_group" />
 
                 <ImageView
-                    android:id="@+id/imageView5"
+                    android:id="@+id/hazard_danger_level_tips_icon"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:backgroundTint="@color/light_blue"
@@ -186,15 +186,15 @@
                     android:foregroundGravity="right"
                     android:scaleType="fitEnd"
                     android:src="@drawable/ic_infotips"
-                    app:layout_constraintBottom_toBottomOf="@+id/hazard_location_tips2"
-                    app:layout_constraintEnd_toStartOf="@+id/hazard_location_tips2"
+                    app:layout_constraintBottom_toBottomOf="@+id/hazard_danger_level_tips"
+                    app:layout_constraintEnd_toStartOf="@+id/hazard_danger_level_tips"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/hazard_danger_level_comment"
-                    app:layout_constraintTop_toTopOf="@+id/hazard_location_tips2"
+                    app:layout_constraintTop_toTopOf="@+id/hazard_danger_level_tips"
                     app:srcCompat="@drawable/ic_infotips" />
 
                 <TextView
-                    android:id="@+id/hazard_location_tips2"
+                    android:id="@+id/hazard_danger_level_tips"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -238,13 +238,13 @@
                     android:id="@+id/hazard_graph_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minHeight="200dp"
-                    android:minWidth="200dp"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="32dp"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/hazard_graph_view_cd"
+                    android:minWidth="200dp"
+                    android:minHeight="200dp"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

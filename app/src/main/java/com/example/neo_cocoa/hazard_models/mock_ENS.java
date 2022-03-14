@@ -12,19 +12,26 @@ import java.util.Random;
  * expiration period.
  */
 public class mock_ENS extends Thread {
+    private static boolean isRunning = false;
     private int key2Value;
     private long genTimeOfKey2;
-    private int num_of_person = 0;
-    private final Random r;
+    private int contacted_person = 0;
+    private Random r = null;
     private Time t;
     private static final String TAG = "mock_ENS";
 
     mock_ENS() {
         super();
-        long stime = System.currentTimeMillis();
-        this.r = new Random(stime);
-        key2Value = r.nextInt();
-        genTimeOfKey2 = stime;
+        if (!isRunning) {
+            isRunning = true;
+            long sysTime = System.currentTimeMillis();
+            r = new Random(sysTime);
+            key2Value = r.nextInt();
+            genTimeOfKey2 = sysTime;
+        }else{
+            Log.println(Log.ASSERT, TAG, "multiple instances are exists!");
+            System.exit(1);
+        }
     }
 
     /**
@@ -34,11 +41,12 @@ public class mock_ENS extends Thread {
         Log.d(TAG, "Loop task started.");
         while(true) {
             refreshKey2();
+            exposure();
         }
     }
 
     public int get_num_at_key() {
-        return num_of_person;
+        return contacted_person;
     }
 
     public int getKey2Value() {
@@ -50,8 +58,15 @@ public class mock_ENS extends Thread {
         if (nowTime - genTimeOfKey2 >= 20*60*1000) { // 20分以上前にキー生成
             key2Value = r.nextInt();
             genTimeOfKey2 = nowTime;
+            contacted_person = 0;
         } else {
             /* do nothing. */
+        }
+    }
+
+    private void exposure() {
+        if (r.nextInt() % 3571 == 0) {
+            contacted_person++;
         }
     }
 }
