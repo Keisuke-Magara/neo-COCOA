@@ -1,6 +1,7 @@
 package com.example.neo_cocoa;
 
 import com.example.neo_cocoa.hazard_models.HazardModel;
+import com.example.neo_cocoa.hazard_models.mock_ENS;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Date;
 public class GlobalField {
     // address directing to instance
     public static AppSettings appSettings;
+    public static mock_ENS mock_ens;
 
     // Global values
 

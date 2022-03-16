@@ -74,23 +74,14 @@ public class MainActivity extends AppCompatActivity {
         OnCompleteListener<Location> listener = new OnCompleteListener<Location>() {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
-//                try {
-//                    Log.println(Log.ASSERT, "onComplete", String.valueOf(task.isSuccessful()));
-//
-//                    Toast.makeText(getApplicationContext(), "緯度:" + task.getResult().getLatitude() +
-//                            "\n経度:" + task.getResult().getLongitude(), Toast.LENGTH_LONG).show();
-//                    Log.println(Log.ASSERT, "Result", "緯度:" + task.getResult().getLatitude() +
-//                            "  経度:" + task.getResult().getLongitude());
-//                }catch (RuntimeExecutionException tasks) {
-//                    System.out.println("error runtimeExecutionException");
-//                }
             }
         };
         AppLocationProvider.getCurrentLocation(this, token1, listener);
 
-        // mock Exposure Notification Service API 起動
+        // Exposure Notification Service API (mock) 起動
         mock_ENS ens = new mock_ENS();
-        if ()
+        GlobalField.mock_ens = ens;
+
     }
     
     @Override

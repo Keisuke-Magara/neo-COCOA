@@ -22,21 +22,26 @@ import com.example.neo_cocoa.hazard_models.HazardModel;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
 
+import org.w3c.dom.Text;
+
 import java.util.Locale;
 import java.util.Objects;
 
 public class HazardFragment extends Fragment {
     private static final String TAG = "HazardFragment";
     private FragmentHazardBinding binding;
-    private HazardModel hazardModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        hazardModel = new HazardModel(true);
+        HazardModel.init(getContext());
         binding = FragmentHazardBinding.inflate(inflater, container, false);
 
         View view = inflater.inflate(R.layout.fragment_hazard, container, false);
         TextView locationView = view.findViewById(R.id.hazard_location_address);
+        TextView TimeOfStay = view.findViewById(R.id.hazard_time_of_stay);
+        TextView numOfContact = view.findViewById(R.id.hazard_num_of_contact);
+        TextView dangerLevel = view.findViewById(R.id.hazard_danger_level_body);
+        TextView comment = view.findViewById(R.id.hazard_danger_level_comment);
         AppLocationProvider.startUpdateLocation(new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
@@ -46,21 +51,24 @@ public class HazardFragment extends Fragment {
                     String addressText = getResources().getString(R.string.hazard_location_address);
                     if (Geocoder.isPresent()) {
                         Geocoder coder = new Geocoder(getContext(), Locale.JAPANESE);
-                        String address = hazardModel.getCurrentAddress(location, coder, addressText);
+                        String address = HazardModel.getCurrentAddress(location, coder, addressText);
                         if (Objects.equals(address, "ERROR")) {
                             locationView.setText(R.string.getting_error);
                         } else {
-                            locationView.setText(hazardModel.getCurrentAddress(location, coder, addressText));
+                            locationView.setText(HazardModel.getCurrentAddress(location, coder, addressText));
                         }
                     } else {
                         addressText = addressText.replace("XXX", locationResult.getLastLocation().getLatitude() + ", " + locationResult.getLastLocation().getLongitude());
                         locationView.setText(addressText);
                     }
+                    String num_of_contact_text = getResources().getString(R.string.hazard_num_of_contact);
+                    num_of_contact_text = num_of_contact_text.replace("XXX", String.valueOf(HazardModel.getNumOfContact()));
+                    numOfContact.setText(num_of_contact_text);
                 } catch (IllegalStateException ie) {
                     Log.d(TAG, ie.toString());
                     // do nothing.
                 }
-                //locationView.setText(hazardModel.get_danger_level());
+
             }
         });
         return view;
