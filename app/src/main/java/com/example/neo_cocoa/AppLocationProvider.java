@@ -46,13 +46,6 @@ public class AppLocationProvider {
     };
     private static final String TAG = "AppLocationProvider";
 
-    /**
-     * AppLocationProviderのインスタンスは1個 -> create()メソッド?
-     * データは全てstaticにする -> 呼び出し時のインスタンス化不要
-     * TODO: UpdateLocation のコールバックメソッドを設定できるようにする -> startUpdateLocation()
-     * TODO: Update購読を削除する関数を作る
-     * TODO: 単発で位置情報を取る関数を作る -> getCurrentLocation()
-     */
 
     /**
      * 最新の位置情報をFLCが取得し、取得が終わったらコールバックメソッドが実行される。

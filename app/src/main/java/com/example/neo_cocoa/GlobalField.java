@@ -25,4 +25,20 @@ public class GlobalField {
         final Date date = new Date(System.currentTimeMillis());
         return df.format(date);
     }
+
+    public static String arrayToString (int[] a) {
+        String ret = "";
+        for (int i=0; i<a.length; i++) {
+            ret += String.valueOf(a[i]) + " ";
+        }
+        return ret;
+    }
+    public static int[] stringToArray (String str, int arraySize) {
+        int[] ret = new int[arraySize];
+        String[] strArray = str.split(" ");
+        for (int i=0; i<ret.length; i++) {
+            ret[i] = Integer.parseInt(strArray[i]);
+        }
+        return ret;
+    }
 }

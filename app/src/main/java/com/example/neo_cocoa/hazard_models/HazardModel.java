@@ -19,13 +19,11 @@ public class HazardModel {
     private static HazardModel instance = null;
     private static HazardData hazardData;
     private static Context context;
-    private static final int graphRange = 6; // 時間前までの接触人数の推移
     private static final int t1 =  1; // 人以上でレベル1
     private static final int t2 = 10; // 人以上でレベル2
     private static final int t3 = 20; // 人以上でレベル3
     private static final int t4 = 30; // 人以上でレベル4
     private static final int t5 = 40; // 人以上でレベル5
-    private int sumOfKey = 0; // 一つのENS Keyで取得された接触者数の累計
 
     private static int last_contact = 0;
     private static long last_key = 0;
