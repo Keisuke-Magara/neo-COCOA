@@ -1,10 +1,12 @@
 package com.example.neo_cocoa.ui.hazard;
 
 
+import android.graphics.Color;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,10 +40,10 @@ public class HazardFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_hazard, container, false);
         TextView locationView = view.findViewById(R.id.hazard_location_address);
-        TextView TimeOfStay = view.findViewById(R.id.hazard_time_of_stay);
-        TextView numOfContact = view.findViewById(R.id.hazard_num_of_contact);
-        TextView dangerLevel = view.findViewById(R.id.hazard_danger_level_body);
-        TextView comment = view.findViewById(R.id.hazard_danger_level_comment);
+        TextView TimeOfStayView = view.findViewById(R.id.hazard_time_of_stay);
+        TextView numOfContactView = view.findViewById(R.id.hazard_num_of_contact);
+        TextView dangerLevelView = view.findViewById(R.id.hazard_danger_level_body);
+        TextView commentView = view.findViewById(R.id.hazard_danger_level_comment);
         AppLocationProvider.startUpdateLocation(new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
@@ -62,11 +64,37 @@ public class HazardFragment extends Fragment {
                         locationView.setText(addressText);
                     }
                     String num_of_contact_text = getResources().getString(R.string.hazard_num_of_contact);
-                    num_of_contact_text = num_of_contact_text.replace("XXX", String.valueOf(HazardModel.getNumOfContact()));
-                    numOfContact.setText(num_of_contact_text);
+                    int num_of_contact = HazardModel.getNumOfContact();
+                    String dangerLevel_text = getResources().getString(R.string.hazard_danger_level_body);
+                    int dangerLevel = HazardModel.getDangerLevel(num_of_contact);
+                    dangerLevel_text = dangerLevel_text.replace("XXX", String.valueOf(dangerLevel));
+                    num_of_contact_text = num_of_contact_text.replace("XXX", String.valueOf(num_of_contact));
+                    numOfContactView.setText(num_of_contact_text);
+                    dangerLevelView.setText(dangerLevel_text);
+                    switch (dangerLevel) {
+                        case 0: dangerLevelView.setTextColor(Color.BLACK);
+                                commentView.setText(R.string.hazard_danger_level_0_comment);
+                                break;
+                        case 1: dangerLevelView.setTextColor(getResources().getColor(R.color.dark_green, getActivity().getTheme()));
+                                commentView.setText(R.string.hazard_danger_level_1_comment);
+                                break;
+                        case 2: dangerLevelView.setTextColor(Color.BLUE);
+                                commentView.setText(R.string.hazard_danger_level_2_comment);
+                                break;
+                        case 3: dangerLevelView.setTextColor(getResources().getColor(R.color.orange, getActivity().getTheme()));
+                                commentView.setText(R.string.hazard_danger_level_3_comment);
+                                break;
+                        case 4: dangerLevelView.setTextColor(Color.MAGENTA);
+                                commentView.setText(R.string.hazard_danger_level_4_comment);
+                                break;
+                        case 5: dangerLevelView.setTextColor(Color.RED);
+                                commentView.setText(R.string.hazard_danger_level_5_comment);
+                                break;
+                        default:commentView.setText(R.string.hazard_danger_level_0_comment);
+                    }
                 } catch (IllegalStateException ie) {
-                    Log.d(TAG, ie.toString());
-                    // do nothing.
+                    //Log.d(TAG, ie.toString());
+                    AppLocationProvider.stopUpdateLocation();
                 }
 
             }

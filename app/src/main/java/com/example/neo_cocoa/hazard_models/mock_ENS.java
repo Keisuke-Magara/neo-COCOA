@@ -78,7 +78,7 @@ public class mock_ENS extends Thread {
     }
 
     private void simulate_exposure() {
-        if (r.nextInt() % 2 == 0) {
+        if (r.nextInt() % 7 == 0) {
             Log.d(TAG, "exposure!");
             contacted_person++;
         }

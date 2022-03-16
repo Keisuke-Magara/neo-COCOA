@@ -90,7 +90,7 @@ public class HazardModel {
             num_of_contact += num_at_key;
             last_contact = num_at_key;
             last_key = key;
-            Log.d(TAG, "num_of_contact = "+ num_at_last_key+" - "+last_contact+" + "+num_at_key+" = "+num_of_contact);
+            //Log.d(TAG, "num_of_contact = "+ num_at_last_key+" - "+last_contact+" + "+num_at_key+" = "+num_of_contact);
         }
         return num_of_contact;
     }
