@@ -15,6 +15,7 @@
     <string name="loading">読み込み中...</string>
     <string name="loading_error">読み込みエラー</string>
     <string name="NA">不明</string>
+    <string name="ShutdownApp">アプリを終了する</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
@@ -67,6 +68,8 @@
     <string name="hazard_graph_view_cd">接触人数の推移を示すグラフ</string>
     <string name="hazard_demo_switch_title">デモンストレーションモード</string>
     <string name="hazard_demo_switch_description">ランダムな人数の接触をシミュレートして、動作を体験できます。</string>
+    <string name="hazard_demo_alert_dialog_title">デモンストレーションモードの変更</string>
+    <string name="hazard_demo_alert_dialog_description">設定を変更するにはアプリの再起動が必要です。\nボタンを押してアプリを終了し、もう一度起動しなおしてください。</string>
 
     <!-- HOME fragment -->
     <string name="title_home">ホーム</string>

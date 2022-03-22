@@ -1,7 +1,10 @@
 package com.example.neo_cocoa.ui.hazard;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.drawable.Icon;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
@@ -43,6 +46,7 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
         TextView commentView = view.findViewById(R.id.hazard_danger_level_comment);
         Switch demoModeState = view.findViewById(R.id.hazard_demo_switch);
         demoModeState.setChecked(GlobalField.mock_ens.isAlive());
+        demoModeState.setOnCheckedChangeListener(this);
         AppLocationProvider.startUpdateLocation(new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
@@ -118,6 +122,20 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
      */
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+        System.out.println(isChecked);
+        GlobalField.hazardData.setDemoModeState(isChecked);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.hazard_demo_alert_dialog_title);
+        builder.setMessage(R.string.hazard_demo_alert_dialog_description)
+                .setCancelable(false)
+                .setIcon(R.drawable.ic_restart)
+                .setPositiveButton(R.string.ShutdownApp, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.exit(0);
+                    }
+                });
+        builder.create();
+        builder.show();
     }
 }
