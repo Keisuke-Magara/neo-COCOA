@@ -1,10 +1,12 @@
 package com.example.neo_cocoa.ui.information;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.icu.number.Scale;
 import android.icu.text.SimpleDateFormat;
+import android.icu.text.SymbolTable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -31,6 +33,8 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.neo_cocoa.AppInformation;
@@ -60,31 +64,43 @@ import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TimeZone;
+import java.util.concurrent.CancellationException;
 
 public class InformationFragment extends Fragment {
     private FragmentInformationBinding binding;
     private AppInformation appInformation;
     private InformationFragment informationFragment;
 
-    private String[] DateList = new String[4];//今日,1日前,2日前,3日前の日付を格納する配列
-
     private TextView wcData;
     private TextView clData;
     private TextView clTitle;
     private TextView testLoc;
+    private TextView ppTitle;
     private ImageView wcImage;
     private ImageView clImage;
+    private Drawable upIcon;
+    private Drawable downIcon;
     private Button buttonTestLoc;
     private Button buttonShowDetails;
-    private String wcUrl;
+    private RecyclerView lvNews;
+    private String ppTitleDefault;
+    private CancellationTokenSource cts;
+    private LinearLayoutManager layout;
+    private WcAsync wcAsync;
+    private ClAsync clAsync;
+    private NewsAsync newsAsync;
     private final String API_URL_PREFIX = "opendata.corona.go.jp";
     private String currentLocation = "東京都";
-
     View view;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -102,61 +118,60 @@ public class InformationFragment extends Fragment {
 
         buttonShowDetails = (Button)view.findViewById(R.id.information_button_show_details);
         buttonShowDetails.setOnClickListener(buttonShowDetailsListener);
-        buttonTestLoc = (Button)view.findViewById(R.id.testLocationButton);
-        buttonTestLoc.setOnClickListener(buttonTestLocListener);
+//        buttonTestLoc = (Button)view.findViewById(R.id.testLocationButton);
+//        buttonTestLoc.setOnClickListener(buttonTestLocListener);
         return view;
     }
 
     Button.OnClickListener buttonShowDetailsListener = new Button.OnClickListener() {
         public void onClick(View view) {
-            System.out.println("ShowDetailsPressed");
+            System.out.println("Show details pressed");
             Uri uri = Uri.parse("https://covid19.mhlw.go.jp/?_fsi=Ew5xhpvh");
             Intent i = new Intent(Intent.ACTION_VIEW,uri);
             startActivity(i);
         }
     };
 
-    Button.OnClickListener buttonTestLocListener = new Button.OnClickListener() {
-        public void onClick(View view) {
-            System.out.println("pressed");
-            CancellationTokenSource cts = new CancellationTokenSource();
-            CancellationToken token1 = cts.getToken().onCanceledRequested(new OnTokenCanceledListener() {
-                @Override
-                public void onCanceled() {
-                    System.out.println("Canceled.");
-                }
-            });
-
-            AppLocationProvider.getCurrentLocation(getActivity(), token1, new OnCompleteListener<Location>() {
-                @Override
-                public void onComplete(@NonNull Task<Location> task) {
-                    try {
-                        //getResultがnullのときの例外処理
-                        if(task.getResult() != null) {
-                            if(Geocoder.isPresent()) {
-                                Geocoder coder = new Geocoder(getContext(), Locale.JAPAN);
-                                List<Address> addresses= coder.getFromLocation(task.getResult().getLatitude(), task.getResult().getLongitude(), 1);
-
-                                Log.println(Log.ASSERT, "onComplete", String.valueOf(task.isSuccessful()));
-                                Toast.makeText(getActivity(), "緯度:" + task.getResult().getLatitude() +
-                                                "\n経度:" + task.getResult().getLongitude() +
-                                                "\n都道府県:" + addresses.get(0).getAdminArea()
-                                        , Toast.LENGTH_LONG).show();
-                            }else {
-                                Toast.makeText(getActivity(), "geocoderが利用できませんでした", Toast.LENGTH_LONG).show();
-                            }
-                        } else {
-                            Toast.makeText(getActivity(), "位置情報が取得できませんでした", Toast.LENGTH_LONG).show();
-                        }
-                    } catch (RuntimeExecutionException | IOException tasks) {
-                        AppLocationProvider.goToSettings();
-                        System.out.println("-------------------------"+tasks);
-                        tasks.printStackTrace();
-                    }
-                }
-            });
-        }
-    };
+//    Button.OnClickListener buttonTestLocListener = new Button.OnClickListener() {
+//        public void onClick(View view) {
+//            System.out.println("get location pressed");
+//            CancellationTokenSource cts = new CancellationTokenSource();
+//            CancellationToken token1 = cts.getToken().onCanceledRequested(new OnTokenCanceledListener() {
+//                @Override
+//                public void onCanceled() {
+//                    System.out.println("get location canceled");
+//                }
+//            });
+//
+//            AppLocationProvider.getCurrentLocation(getActivity(), token1, new OnCompleteListener<Location>() {
+//                @Override
+//                public void onComplete(@NonNull Task<Location> task) {
+//                    try {
+//                        //getResultがnullのときの例外処理
+//                        if(task.getResult() != null) {
+//                            if(Geocoder.isPresent()) {
+//                                Geocoder coder = new Geocoder(getContext(), Locale.JAPAN);
+//                                List<Address> addresses= coder.getFromLocation(task.getResult().getLatitude(), task.getResult().getLongitude(), 1);
+//
+//                                Log.println(Log.ASSERT, "onComplete", String.valueOf(task.isSuccessful()));
+//                                Toast.makeText(getActivity(), "緯度:" + task.getResult().getLatitude() +
+//                                                "\n経度:" + task.getResult().getLongitude() +
+//                                                "\n都道府県:" + addresses.get(0).getAdminArea()
+//                                        , Toast.LENGTH_LONG).show();
+//                            }else {
+//                                Toast.makeText(getActivity(), "geocoderが利用できませんでした", Toast.LENGTH_LONG).show();
+//                            }
+//                        } else {
+//                            Toast.makeText(getActivity(), "位置情報が取得できませんでした", Toast.LENGTH_LONG).show();
+//                        }
+//                    } catch (RuntimeExecutionException | IOException tasks) {
+//                        AppLocationProvider.goToSettings();
+//                        tasks.printStackTrace();
+//                    }
+//                }
+//            });
+//        }
+//    };
 
     //Fragmentの情報を更新
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -167,12 +182,18 @@ public class InformationFragment extends Fragment {
         wcImage = (ImageView)view.findViewById(R.id.information_image_whole_country);
         clImage = (ImageView)view.findViewById(R.id.information_image_current_location);
         clTitle =(TextView)view.findViewById(R.id.information_title_current_location);
+        ppTitle =(TextView)view.findViewById(R.id.information_title_num_of_new_positive_person);
+        Resources res = getResources();
+        upIcon = ResourcesCompat.getDrawable(res, R.drawable.ic_information_up, null);
+        downIcon = ResourcesCompat.getDrawable(res, R.drawable.ic_information_down, null);
+        ppTitleDefault = getString(R.string.information_title_num_of_new_positive_person);
+
         //現在地情報の更新
-        CancellationTokenSource cts = new CancellationTokenSource();
+        cts = new CancellationTokenSource();
         CancellationToken token1 = cts.getToken().onCanceledRequested(new OnTokenCanceledListener() {
             @Override
             public void onCanceled() {
-                System.out.println("Canceled.");
+                System.out.println("get location canceled");
             }
         });
 
@@ -184,32 +205,122 @@ public class InformationFragment extends Fragment {
                     if(task.getResult() != null) {
                         //現在地の都道府県を取得
                         if(!Geocoder.isPresent()) return;
+                        System.out.println("------------------"+Geocoder.isPresent());
                         Geocoder coder = new Geocoder(getContext(), Locale.JAPAN);
                         List<Address> addresses= coder.getFromLocation(task.getResult().getLatitude(), task.getResult().getLongitude(), 1);
                         currentLocation = addresses.get(0).getAdminArea();
                         clTitle.setText(currentLocation);
                     } else {
                         Toast.makeText(getActivity(), "位置情報が取得できませんでした", Toast.LENGTH_LONG).show();
-                        System.out.println("-----------------else");
                     }
                 } catch (RuntimeExecutionException | IOException tasks) {
                     AppLocationProvider.goToSettings();
-                    System.out.println("-------------" + tasks);
+                } catch (CancellationException e) {
+                    System.out.println("---------------task has already been canceled");
                 }
                 //現在地の新規陽性者数を取得・表示
-                ClAsync clAsync = new ClAsync();
+                clAsync = new ClAsync();
                 clAsync.execute();
 
             }
         });
-
-        WcAsync wcAsync = new WcAsync();
-//        ClAsync clAsync = new ClAsync();
+        //全国の新規陽性者数を取得・表示
+        wcAsync = new WcAsync();
         wcAsync.execute();
-//        clAsync.execute();
+        //ニュースを取得・表示;
+        newsAsync = new NewsAsync();
+        newsAsync.execute();
+
+        //リサイクラービューのデータ表示処理
+        lvNews = (RecyclerView)view.findViewById(R.id.information_news_list);
+        layout = new LinearLayoutManager(getActivity());
+        lvNews.setLayoutManager(layout);
+//        List<Map<String, Object>> newsList = createNewsList();
+//        RecyclerListAdapter adapter = new RecyclerListAdapter(newsList);
+//        lvNews.setAdapter(adapter);
+//        DividerItemDecoration decorator = new DividerItemDecoration(getActivity(), layout.getOrientation());
+//        lvNews.addItemDecoration(decorator);
 
         //アイコンの表示
         return;
+    }
+
+    //newsのリストを作成するメソッド(仮)
+    private List<Map<String, Object>> createNewsList() {
+        List<Map<String, Object>> newsList = new ArrayList<>();
+        Map<String, Object> news = new HashMap<>();
+        news.put("title", "コロナに関するニュース１");
+        news.put("date", "2022/03/14");
+        news.put("url", "https://www.yomiuri.co.jp/national/20220314-OYT1T50037/");
+        newsList.add(news);
+
+        news = new HashMap<>();
+        news.put("title", "コロナに関するニュース2");
+        news.put("date", "2022/03/14");
+        news.put("url", "https://www.yomiuri.co.jp/national/20220314-OYT1T50037/");
+        System.out.println("--------------------createNewsList"+newsList);
+        newsList.add(news);
+        return newsList;
+    }
+
+    //newsのビューホルダークラス
+    private class RecyclerListViewHolder extends RecyclerView.ViewHolder {
+        public TextView tvNewsTitle;
+        public TextView tvNewsDate;
+        public TextView tvNewsUrl;
+        public RecyclerListViewHolder(View itemView) {
+            super(itemView);
+            tvNewsTitle = itemView.findViewById(R.id.information_row_title);
+            tvNewsDate = itemView.findViewById(R.id.information_row_date);
+            tvNewsUrl = itemView.findViewById(R.id.information_row_url);
+            System.out.println("------------------RecyclerListViewHolder");
+        }
+    }
+    //newsのアダプタクラス
+    private class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListViewHolder> {
+        private List<Map<String, Object>> _listData;
+        public RecyclerListAdapter(List<Map<String, Object>> listData) {
+            System.out.println("-----------------------RecyclerListAdapter");
+            _listData = listData;
+            System.out.println("**************************"+listData);
+        }
+        @Override
+        public RecyclerListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            System.out.println("----------------------onCreateViewHolder");
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            View view = inflater.inflate(R.layout.information_row, parent, false);
+            view.setOnClickListener(new ItemClickListener());
+            RecyclerListViewHolder holder = new RecyclerListViewHolder(view);
+            return holder;
+        }
+        @Override
+        public void onBindViewHolder(RecyclerListViewHolder holder, int position) {
+            System.out.println("------------onBindViewHolder");
+            Map<String, Object> item = _listData.get(position);
+            String newsTitle = (String) item.get("title");
+            String newsDate = (String) item.get("date");
+            String newsUrl = (String) item.get("url");
+            holder.tvNewsTitle.setText(newsTitle);
+            holder.tvNewsDate.setText(newsDate);
+            holder.tvNewsUrl.setText(newsUrl);
+        }
+        @Override
+        public int getItemCount() {
+            return _listData.size();
+        }
+    }
+
+    //newsのリスナクラス
+    private  class  ItemClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            TextView tvNewsUrl = view.findViewById(R.id.information_row_url);
+            String url = tvNewsUrl.getText().toString();
+            Uri uri = Uri.parse(url);
+            Intent i = new Intent(Intent.ACTION_VIEW,uri);
+            startActivity(i);
+
+        }
     }
 
     //全国の新規陽性者数を取得するクラス
@@ -276,9 +387,6 @@ public class InformationFragment extends Fragment {
                 int wcDiff = wc - Integer.parseInt(wc2) + Integer.parseInt(wc3);
 
                 //ImageViewとTextViewを更新
-                Resources res = getResources();
-                Drawable upIcon = ResourcesCompat.getDrawable(res, R.drawable.ic_information_up, null);
-                Drawable downIcon = ResourcesCompat.getDrawable(res, R.drawable.ic_information_down, null);
                 String wcText;
                 if(wcDiff >= 0) {
                     wcImage.setImageDrawable(upIcon);
@@ -357,11 +465,14 @@ public class InformationFragment extends Fragment {
                 //最新の現在地の感染者数の増加数と前日比を計算
                 int cl = Integer.parseInt(cl1) - Integer.parseInt(cl2);
                 int clDiff = cl - Integer.parseInt(cl2) + Integer.parseInt(cl3);
+                //情報更新日を取得
+                String updateDate = itemsArray.getJSONObject(0).getString("date");
+                updateDate = updateDate.substring(4,10);
+                updateDate = updateDate.replace("-0", "-");
+                updateDate = updateDate.substring(1);
+                updateDate = updateDate.replace("-", "/");
 
                 //ImageViewとTextViewを更新
-                Resources res = getResources();
-                Drawable upIcon = ResourcesCompat.getDrawable(res, R.drawable.ic_information_up, null);
-                Drawable downIcon = ResourcesCompat.getDrawable(res, R.drawable.ic_information_down, null);
                 String clText;
                 if(clDiff >= 0) {
                     clImage.setImageDrawable(upIcon);
@@ -371,6 +482,102 @@ public class InformationFragment extends Fragment {
                     clText = cl + "(" + clDiff + ")";
                 }
                 clData.setText(clText);
+                ppTitle.setText(ppTitleDefault + "(" + updateDate + ")");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    //ニュースを取得するクラス
+    class NewsAsync extends AsyncTask<String, Void, String> {
+
+        //apiからjsonを取得
+        @Override
+        protected String doInBackground(String... params) {
+            final StringBuilder result = new StringBuilder();
+            Uri.Builder uriBuilder = new Uri.Builder();
+            uriBuilder.scheme("https");
+            uriBuilder.authority("api.rss2json.com");
+            uriBuilder.path("/v1/api.json");
+            uriBuilder.appendQueryParameter("rss_url", "https://bit.ly/3CPl6t7");
+            final String uriStr = uriBuilder.build().toString();
+
+            try {
+                URL url = new URL(uriStr);
+                HttpURLConnection con = null;
+                con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.setDoInput(true);
+                con.connect(); //HTTP接続
+
+                final InputStream in = con.getInputStream();
+                final InputStreamReader inReader = new InputStreamReader(in);
+                final BufferedReader bufReader = new BufferedReader(inReader);
+
+                String line = null;
+                while((line = bufReader.readLine()) != null) {
+                    result.append(line);
+                }
+                Log.e("but", result.toString());
+                bufReader.close();
+                inReader.close();
+                in.close();
+            }
+
+            catch(Exception e) { //エラー
+                Log.e("button", e.getMessage());
+            }
+
+            return result.toString(); //onPostExecuteへreturn
+        }
+
+        //jsonから必要なデータを取得・表示
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        protected void onPostExecute(String result) { //doInBackgroundが終わると呼び出される
+            try {
+                //JSONファイルから全国の累計感染者数を取得
+                JSONObject json = new JSONObject(result);
+                String itemList = json.getString("items");
+                JSONArray itemsArray = new JSONArray(itemList);
+                //今日の日時を取得
+                Calendar now = Calendar.getInstance();
+                System.out.println("time----------"+now.getTime());
+                //news情報のlistを作成
+                List<Map<String, Object>> newsList = new ArrayList<>();
+                for(int n=0; n<10; n++) {
+                    Map<String, Object> news = new HashMap<>();
+                    news.put("title", itemsArray.getJSONObject(n).getString("title"));
+                    Calendar pubDate = Calendar.getInstance();
+                    String strPubDate = itemsArray.getJSONObject(n).getString("pubDate");
+                    System.out.println(
+                            "pubDate"+
+                            Integer.valueOf(strPubDate.substring(0,4))+"/"+
+                            Integer.valueOf(strPubDate.substring(5,7))+"/"+
+                            Integer.valueOf(strPubDate.substring(8,10))+"/"+
+                            Integer.valueOf(strPubDate.substring(11,13))+"/"+
+                            Integer.valueOf(strPubDate.substring(14,16))
+                    );
+                    pubDate.set(
+                            Integer.valueOf(strPubDate.substring(0,4)),
+                            Integer.valueOf(strPubDate.substring(5,7))-1,
+                            Integer.valueOf(strPubDate.substring(8,10)),
+                            Integer.valueOf(strPubDate.substring(11,13)),
+                            Integer.valueOf(strPubDate.substring(14,16)),
+                            Integer.valueOf(strPubDate.substring(17,19))
+                    );
+                    System.out.println(pubDate.getTime());
+                    news.put("date", itemsArray.getJSONObject(n).getString("pubDate"));
+                    news.put("url", itemsArray.getJSONObject(n).getString("link"));
+                    newsList.add(news);
+                }
+                RecyclerListAdapter adapter = new RecyclerListAdapter(newsList);
+                lvNews.setAdapter(adapter);
+                DividerItemDecoration decorator = new DividerItemDecoration(getActivity(), layout.getOrientation());
+                lvNews.addItemDecoration(decorator);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -382,6 +589,15 @@ public class InformationFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        wcAsync.cancel(true);
+        cts.cancel();
+        try {
+            clAsync.cancel(true);
+        }catch (NullPointerException e) {
+            System.out.println("-----------------clAsync does not exist");
+        }
+        newsAsync.cancel(true);
+        System.out.println("stop Async");
         binding = null;
     }
 }

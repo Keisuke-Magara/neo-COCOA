@@ -85,6 +85,7 @@
     <array name="information_recycler_list">
 
     </array>
+    <string name="information_title_update_date">情報取得日:</string>
 
     <!-- Settings fragment -->
     <string name="title_settings">設定</string>
