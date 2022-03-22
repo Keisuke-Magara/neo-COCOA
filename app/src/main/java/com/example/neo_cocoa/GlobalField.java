@@ -1,6 +1,5 @@
 package com.example.neo_cocoa;
 
-import com.example.neo_cocoa.hazard_models.HazardModel;
 import com.example.neo_cocoa.hazard_models.mock_ENS;
 
 import java.text.SimpleDateFormat;
@@ -11,9 +10,10 @@ import java.util.Date;
  * Do not make instance of this class.
  * Every elements must be static.
  */
-public class GlobalField {
+public final class GlobalField {
     // address directing to instance
     public static AppSettings appSettings;
+    public static HazardData hazardData;
     public static mock_ENS mock_ens;
 
     // Global values
@@ -27,11 +27,11 @@ public class GlobalField {
     }
 
     public static String arrayToString (int[] a) {
-        String ret = "";
+        StringBuilder ret = new StringBuilder();
         for (int i=0; i<a.length; i++) {
-            ret += String.valueOf(a[i]) + " ";
+            ret.append(a[i]).append(" ");
         }
-        return ret;
+        return ret.toString();
     }
     public static int[] stringToArray (String str, int arraySize) {
         int[] ret = new int[arraySize];
@@ -41,4 +41,9 @@ public class GlobalField {
         }
         return ret;
     }
+
+
+
+
+    private GlobalField() {} // Don't use constructor.
 }

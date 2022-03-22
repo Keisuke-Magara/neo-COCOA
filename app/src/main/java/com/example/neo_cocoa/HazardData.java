@@ -9,10 +9,10 @@ public class HazardData {
     private final SharedPreferences sharedPref;
     private final SharedPreferences.Editor editor;
     private long refreshTime;
-    private boolean hazardEnable = false;
+    private boolean demoModeEnable = false;
     private int[] numOfContact = {0, 0, 0, 0, 0, 0, 0, 0};
     private enum pref_keys {
-        hazardEnable,
+        demoModeEnable,
         numOfContact
     }
 
@@ -22,16 +22,15 @@ public class HazardData {
         this.syncData();
     }
 
-    public void setHazardEnable (boolean state) {
-        this.hazardEnable = state;
-        editor.putBoolean(String.valueOf(pref_keys.hazardEnable), state);
+    public void setDemoModeState (boolean state) {
+        this.demoModeEnable = state;
+        editor.putBoolean(String.valueOf(pref_keys.demoModeEnable), state);
         editor.apply();
     }
 
-    public boolean getHazardEnable () {
+    public boolean getDemoModeState () {
         this.syncData();
-        //return this.hazardEnable;
-        return true;
+        return this.demoModeEnable;
     }
 
     public void addHistory(int num_of_contact) {
@@ -45,10 +44,14 @@ public class HazardData {
         return numOfContact;
     }
 
+    /*public static int getMaxDangerLevel() {
+
+    }*/
+
     public void syncData() {
-        this.hazardEnable = this.sharedPref.getBoolean(String.valueOf(pref_keys.hazardEnable), false);
-        this.numOfContact = GlobalField.stringToArray(this.sharedPref.getString(String.valueOf(pref_keys.hazardEnable), "0 0 0 0 0 0 0 0"), this.numOfContact.length);
-        editor.putBoolean(String.valueOf(pref_keys.hazardEnable), this.hazardEnable);
+        this.demoModeEnable = this.sharedPref.getBoolean(String.valueOf(pref_keys.demoModeEnable), true);
+        this.numOfContact = GlobalField.stringToArray(this.sharedPref.getString(String.valueOf(pref_keys.numOfContact), "0 0 0 0 0 0 0 0"), this.numOfContact.length);
+        editor.putBoolean(String.valueOf(pref_keys.demoModeEnable), this.demoModeEnable);
         editor.putString(String.valueOf(pref_keys.numOfContact), GlobalField.arrayToString(this.numOfContact));
         editor.apply();
     }

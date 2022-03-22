@@ -5,12 +5,11 @@ import android.graphics.Color;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.provider.CalendarContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,12 +23,10 @@ import com.example.neo_cocoa.hazard_models.HazardModel;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
 
-import org.w3c.dom.Text;
-
 import java.util.Locale;
 import java.util.Objects;
 
-public class HazardFragment extends Fragment {
+public class HazardFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
     private static final String TAG = "HazardFragment";
     private FragmentHazardBinding binding;
 
@@ -44,6 +41,8 @@ public class HazardFragment extends Fragment {
         TextView numOfContactView = view.findViewById(R.id.hazard_num_of_contact);
         TextView dangerLevelView = view.findViewById(R.id.hazard_danger_level_body);
         TextView commentView = view.findViewById(R.id.hazard_danger_level_comment);
+        Switch demoModeState = view.findViewById(R.id.hazard_demo_switch);
+        demoModeState.setChecked(GlobalField.mock_ens.isAlive());
         AppLocationProvider.startUpdateLocation(new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
@@ -63,8 +62,11 @@ public class HazardFragment extends Fragment {
                         addressText = addressText.replace("XXX", locationResult.getLastLocation().getLatitude() + ", " + locationResult.getLastLocation().getLongitude());
                         locationView.setText(addressText);
                     }
+                    String time_of_stay_text = getResources().getString(R.string.hazard_time_of_stay);
+                    time_of_stay_text = time_of_stay_text.replace("XXX", Long.toString((System.currentTimeMillis() - HazardModel.getStartTimeOfStay())/60000));
+                    TimeOfStayView.setText(time_of_stay_text);
                     String num_of_contact_text = getResources().getString(R.string.hazard_num_of_contact);
-                    int num_of_contact = HazardModel.getNumOfContact();
+                    int num_of_contact = HazardModel.getCurrentContact(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
                     String dangerLevel_text = getResources().getString(R.string.hazard_danger_level_body);
                     int dangerLevel = HazardModel.getDangerLevel(num_of_contact);
                     dangerLevel_text = dangerLevel_text.replace("XXX", String.valueOf(dangerLevel));
@@ -75,13 +77,13 @@ public class HazardFragment extends Fragment {
                         case 0: dangerLevelView.setTextColor(Color.BLACK);
                                 commentView.setText(R.string.hazard_danger_level_0_comment);
                                 break;
-                        case 1: dangerLevelView.setTextColor(getResources().getColor(R.color.dark_green, getActivity().getTheme()));
+                        case 1: dangerLevelView.setTextColor(getResources().getColor(R.color.dark_green, requireActivity().getTheme()));
                                 commentView.setText(R.string.hazard_danger_level_1_comment);
                                 break;
                         case 2: dangerLevelView.setTextColor(Color.BLUE);
                                 commentView.setText(R.string.hazard_danger_level_2_comment);
                                 break;
-                        case 3: dangerLevelView.setTextColor(getResources().getColor(R.color.orange, getActivity().getTheme()));
+                        case 3: dangerLevelView.setTextColor(getResources().getColor(R.color.orange, requireActivity().getTheme()));
                                 commentView.setText(R.string.hazard_danger_level_3_comment);
                                 break;
                         case 4: dangerLevelView.setTextColor(Color.MAGENTA);
@@ -96,7 +98,6 @@ public class HazardFragment extends Fragment {
                     //Log.d(TAG, ie.toString());
                     AppLocationProvider.stopUpdateLocation();
                 }
-
             }
         });
         return view;
@@ -107,5 +108,16 @@ public class HazardFragment extends Fragment {
         super.onDestroyView();
         binding = null;
         AppLocationProvider.stopUpdateLocation();
+    }
+
+    /**
+     * Called when the checked state of a compound button has changed.
+     *
+     * @param buttonView The compound button view whose state has changed.
+     * @param isChecked  The new checked state of buttonView.
+     */
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
     }
 }

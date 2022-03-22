@@ -170,4 +170,12 @@ public class AppLocationProvider {
     public static void goToSettings() {
         Toast.makeText(mainActivity, "位置情報が許可されていません", Toast.LENGTH_LONG).show();
     }
+
+    public static float getDistance(double startX, double startY, double endX, double endY) {
+        // 結果を格納するための配列を生成
+        float[] results = new float[3];
+        // 距離計算
+        Location.distanceBetween(startX, startY, endX, endY, results);
+        return results[0];
+    }
 }

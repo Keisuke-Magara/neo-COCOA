@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private AppSettings appSettings;
+    private HazardData hazardData;
     private FusedLocationProviderClient fusedLocationClient;
     private AppLocationProvider appLocationProvider;
 
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         //GlobalFieldへの書き込み
         appSettings = new AppSettings(this);
         GlobalField.appSettings = appSettings;
+        hazardData = new HazardData(this);
+        GlobalField.hazardData = hazardData;
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
