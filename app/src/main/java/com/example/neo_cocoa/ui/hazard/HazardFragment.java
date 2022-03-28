@@ -4,10 +4,12 @@ package com.example.neo_cocoa.ui.hazard;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.drawable.Icon;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,16 +25,26 @@ import com.example.neo_cocoa.GlobalField;
 import com.example.neo_cocoa.R;
 import com.example.neo_cocoa.databinding.FragmentHazardBinding;
 import com.example.neo_cocoa.hazard_models.HazardModel;
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class HazardFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
     private static final String TAG = "HazardFragment";
     private FragmentHazardBinding binding;
+    private Timer timer;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,11 +57,30 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
         TextView numOfContactView = view.findViewById(R.id.hazard_num_of_contact);
         TextView dangerLevelView = view.findViewById(R.id.hazard_danger_level_body);
         TextView commentView = view.findViewById(R.id.hazard_danger_level_comment);
-        LineChart lineChart = view.findViewById(R.id.hazard_graph_view);
-        lineChart.setMinimumWidth(800);
-        lineChart.setBackgroundColor(Color.LTGRAY);
-        lineChart.setNoDataText(getResources().getString(R.string.hazard_graph_no_data_text));
-        lineChart.setNoDataTextColor(Color.BLACK);
+        LineChart contactHistory = view.findViewById(R.id.hazard_graph_view);
+        contactHistory.setMinimumWidth(800);
+        contactHistory.setBackgroundColor(Color.LTGRAY);
+        contactHistory.setNoDataText(getResources().getString(R.string.hazard_graph_no_data_text));
+        contactHistory.setNoDataTextColor(Color.BLACK);
+        contactHistory.animateY(2000, Easing.EaseInBack);
+        timer = new Timer();
+        Handler handler = new Handler();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("schedule->run");
+                contactHistory.setData(createGraphData(contactHistory, GlobalField.hazardData.getNumOfContactHistory()));
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("Runnnable->run");
+                        contactHistory.setData(createGraphData(contactHistory, GlobalField.hazardData.getNumOfContactHistory()));
+                        contactHistory.notifyDataSetChanged();
+
+                    }
+                });
+            }
+        }, 3000, 3600000);
         Switch demoModeState = view.findViewById(R.id.hazard_demo_switch);
         demoModeState.setChecked(GlobalField.mock_ens.isAlive());
         demoModeState.setOnCheckedChangeListener(this);
@@ -113,11 +144,48 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
         return view;
     }
 
+    static class refreshGraph extends Thread{
+    }
+
+    private LineData createGraphData(final LineChart chart, int[] data) {
+        ArrayList<Entry> entries = new ArrayList<>();
+        for (int i=0; i<data.length; i++) {
+            entries.add(new Entry(-8+i, data[i]));
+        }
+        LineDataSet dataSet;
+        /*if (chart.getData() != null && chart.getData().getDataSetCount() > 0) {
+            dataSet = (LineDataSet) chart.getData().getDataSetByIndex(0);
+            dataSet.setValues(entries);
+            chart.getData().notifyDataChanged();
+            chart.notifyDataSetChanged();
+            return null;
+        } else {*/
+            dataSet = new LineDataSet(entries, "history of number of contact people");
+            dataSet.setDrawIcons(true);
+            dataSet.setColor(Color.BLUE);
+            dataSet.setLineWidth(1f);
+            dataSet.setCircleRadius(3f);
+            dataSet.setDrawCircleHole(true);
+            dataSet.setValueTextSize(1f);
+            dataSet.setDrawFilled(true);
+            dataSet.setFormLineWidth(1f);
+
+            dataSet.setFormLineDashEffect(new DashPathEffect(new float[] {10f, 5f}, 0f));
+            dataSet.setFormSize(15.f);
+            dataSet.setFillColor(Color.RED);
+            ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+            dataSets.add(dataSet);
+            LineData lineData = new LineData(dataSets);
+            return lineData;
+        //}
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
         AppLocationProvider.stopUpdateLocation();
+        timer.cancel();
     }
 
     /**

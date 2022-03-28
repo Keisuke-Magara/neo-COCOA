@@ -18,13 +18,14 @@ public class HazardData {
         numOfContact,
         lastAdd_nOCH,
         lastAdd_dLH,
-        dangerLevelHistory,
+        dangerLevelHistory
     }
 
     public HazardData(@NonNull Context context) {
         this.sharedPref = context.getSharedPreferences("hazard", Context.MODE_PRIVATE);
         editor = sharedPref.edit();
         this.fetchData();
+        setNumOfContactHistory(new int[]{0, 4, 7, 10, 57, 20, 21, 0});
     }
 
     public void setDemoModeState (boolean state) {
@@ -85,6 +86,12 @@ public class HazardData {
 
     public int[] getNumOfContactHistory() {
         fetchData();
+        System.out.print("numOfContactHistory: { ");
+        for (int i=0; i<numOfContactHistory.length; i++) {
+            System.out.print(numOfContactHistory[i]);
+            System.out.print(", ");
+        }
+        System.out.println("}");
         return numOfContactHistory;
     }
 
