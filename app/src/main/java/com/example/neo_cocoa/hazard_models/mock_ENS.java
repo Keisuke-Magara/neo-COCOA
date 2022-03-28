@@ -1,39 +1,86 @@
 package com.example.neo_cocoa.hazard_models;
 
-import java.sql.Time;
+import android.util.Log;
+
 import java.util.Random;
 
 /**
  * This is mock API of "Exposure Notification Service API".
  * This class provide random ENS Key values.
- * By using "get_num_at_key()" function, we get number of people users contacted in each key's
+ * By using "get_num_at_key()" function, we can get number of people users contacted in each key's
  * expiration period.
  */
-public class mock_ENS {
-    private int key2Value;
-    private long genTimeOfKey2;
-    private int num_of_person = 0;
-    private Random r;
-    private Time t;
+public class mock_ENS extends Thread {
+    /** config **/
+    private static final int refreshInterval = 10*1000; // change key2 value each <refreshInterval> ms.
+    /************/
+    private static boolean isRunning = false;
+    private static long key2Value;
+    private static long genTimeOfKey2;
+    private static int contacted_person = 0;
+    private static int last_contacted_person = 0;
+    private static Random r = null;
+    private static final String TAG = "mock_ENS";
 
-    mock_ENS() {
-        long stime = System.currentTimeMillis();
-        this.r = new Random(stime);
-        key2Value = r.nextInt();
-        genTimeOfKey2 = stime;
+    public mock_ENS() {
+        super();
+        if (!isRunning) {
+            isRunning = true;
+            long sysTime = System.currentTimeMillis();
+            r = new Random(sysTime);
+            key2Value = r.nextInt();
+            genTimeOfKey2 = sysTime;
+        }else{
+            Log.println(Log.ASSERT, TAG, "multiple instances are exists!");
+            System.exit(1);
+        }
+    }
+
+
+    /**
+     * Loop task
+     */
+    public void run() {
+        Log.d(TAG, "Loop task started.");
+        while(true) {
+            refreshKey2();
+            simulate_exposure();
+            try {
+                Thread.sleep(1*1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public int get_num_at_key() {
-        return num_of_person;
+        return contacted_person;
     }
 
-    public void refreshKey2() {
+    public long getKey2Value() {
+        return key2Value;
+    }
+
+    public int get_num_at_prev_key() {
+        return last_contacted_person;
+    }
+
+    private void refreshKey2() {
         long nowTime = System.currentTimeMillis();
-        if (nowTime - genTimeOfKey2 >= 20*60*1000) { // 20分以上前にキー生成
+        if (nowTime - genTimeOfKey2 >= refreshInterval) {
             key2Value = r.nextInt();
             genTimeOfKey2 = nowTime;
+            last_contacted_person = contacted_person;
+            contacted_person = 0;
         } else {
             /* do nothing. */
+        }
+    }
+
+    private void simulate_exposure() {
+        if (r.nextInt() % 7 == 0) {
+            Log.d(TAG, "exposure!");
+            contacted_person++;
         }
     }
 }

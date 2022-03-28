@@ -15,6 +15,7 @@
     <string name="loading">読み込み中...</string>
     <string name="loading_error">読み込みエラー</string>
     <string name="NA">不明</string>
+    <string name="ShutdownApp">アプリを終了する</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
@@ -45,11 +46,11 @@
     <string name="proof_dialog_message_num_of_vaccine">ワクチン接種回数を入力してください</string>
     <string name="proof_dialog_message_vaccine_date">最後に接種した日付を入力してください</string>
 
-
     <!-- Hazard fragment -->
     <string name="title_hazard">ハザード</string>
-    <string name="hazard_location_title">場所 : </string>
+    <string name="hazard_location_title">場所: </string>
     <string name="hazard_location_address">XXX 付近</string>
+    <string name="hazard_location_tips"><u>表示されている位置情報について</u></string>
     <string name="hazard_time_of_stay">XXX 分間滞在中</string>
     <string name="hazard_time_of_stay_default">滞在時間を計測中...</string>
     <string name="hazard_non_contact">この場所での人との接触はまだありません。</string>
@@ -62,11 +63,13 @@
     <string name="hazard_danger_level_3_comment">速やかに用事を済ませましょう。</string>
     <string name="hazard_danger_level_4_comment">密状態にある可能性があります。</string>
     <string name="hazard_danger_level_5_comment">感染のリスクが極めて高いです！</string>
-    <string name="hazard_what_is_danger_level">危険度とは？</string>
+    <string name="hazard_what_is_danger_level"><u>危険度とは？</u></string>
     <string name="hazard_graph_title">XXX時間前までの接触人数の推移</string>
     <string name="hazard_graph_view_cd">接触人数の推移を示すグラフ</string>
     <string name="hazard_demo_switch_title">デモンストレーションモード</string>
     <string name="hazard_demo_switch_description">ランダムな人数の接触をシミュレートして、動作を体験できます。</string>
+    <string name="hazard_demo_alert_dialog_title">デモンストレーションモードの変更</string>
+    <string name="hazard_demo_alert_dialog_description">設定を変更するにはアプリの再起動が必要です。\nボタンを押してアプリを終了し、もう一度起動しなおしてください。</string>
 
     <!-- HOME fragment -->
     <string name="title_home">ホーム</string>

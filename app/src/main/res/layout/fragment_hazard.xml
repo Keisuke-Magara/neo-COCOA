@@ -26,33 +26,53 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/hazard_location_tips_icon"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:backgroundTint="@color/light_blue"
+                    android:contentDescription="tips icon"
+                    android:foregroundGravity="right"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/ic_infotips"
+                    app:layout_constraintBottom_toBottomOf="@+id/hazard_location_tips"
+                    app:layout_constraintEnd_toStartOf="@+id/hazard_location_tips"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@+id/hazard_location_address"
+                    app:layout_constraintTop_toTopOf="@+id/hazard_location_tips"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/ic_infotips" />
 
                 <TextView
                     android:id="@+id/hazard_location_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginEnd="8dp"
                     android:text="@string/hazard_location_title"
                     android:textColor="@color/black"
                     android:textSize="@dimen/settings_title_textSize"
-                    app:layout_constraintEnd_toStartOf="@+id/hazard_location_address"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/hazard_location_address" />
 
                 <TextView
                     android:id="@+id/hazard_location_address"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="32dp"
                     android:text="@string/getting"
+                    android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="@dimen/settings_title_textSize"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintHorizontal_bias="0.4"
+                    app:layout_constraintStart_toEndOf="@+id/hazard_location_title"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
 
@@ -67,7 +87,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/hazard_location_address" />
+                    app:layout_constraintTop_toBottomOf="@+id/hazard_location_tips" />
 
                 <TextView
                     android:id="@+id/hazard_num_of_contact"
@@ -82,6 +102,19 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/hazard_time_of_stay" />
+
+                <TextView
+                    android:id="@+id/hazard_location_tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/hazard_location_tips"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/blue"
+                    android:textSize="11sp"
+                    app:layout_constraintEnd_toEndOf="@+id/hazard_location_address"
+                    app:layout_constraintTop_toBottomOf="@+id/hazard_location_address" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -139,12 +172,42 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="@string/hazard_danger_level_2_comment"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="@string/hazard_danger_level_0_comment"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/hazard_danger_level_title_group" />
+
+                <ImageView
+                    android:id="@+id/hazard_danger_level_tips_icon"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:backgroundTint="@color/light_blue"
+                    android:contentDescription="tips icon"
+                    android:foregroundGravity="right"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/ic_infotips"
+                    app:layout_constraintBottom_toBottomOf="@+id/hazard_danger_level_tips"
+                    app:layout_constraintEnd_toStartOf="@+id/hazard_danger_level_tips"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@+id/hazard_danger_level_comment"
+                    app:layout_constraintTop_toTopOf="@+id/hazard_danger_level_tips"
+                    app:srcCompat="@drawable/ic_infotips" />
+
+                <TextView
+                    android:id="@+id/hazard_danger_level_tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/hazard_what_is_danger_level"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/blue"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/hazard_danger_level_comment"
+                    app:layout_constraintHorizontal_bias="0.55"
+                    app:layout_constraintStart_toStartOf="@+id/hazard_danger_level_comment"
+                    app:layout_constraintTop_toBottomOf="@+id/hazard_danger_level_comment" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -171,7 +234,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
+                <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/hazard_graph_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -180,12 +243,15 @@
                     android:layout_marginEnd="32dp"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/hazard_graph_view_cd"
+                    android:minWidth="200dp"
+                    android:minHeight="200dp"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/hazard_graph_title"
                     app:srcCompat="@drawable/no_data" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View

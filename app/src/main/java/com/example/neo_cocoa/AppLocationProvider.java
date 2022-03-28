@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -35,7 +36,7 @@ public class AppLocationProvider {
     private static boolean ready = false;
     private static double latitude;
     private static double longitude;
-    private static final int gpsInterval = 1*1000; // ms
+    private static final int gpsInterval = 5*1000; // ms
     //private static final int gpsFastestInterval = 5*1000; // ms
     private static final int gpsPriority = LocationRequest.PRIORITY_HIGH_ACCURACY;
     private static final int REQUEST_ONESHOT = 1;
@@ -45,13 +46,6 @@ public class AppLocationProvider {
     };
     private static final String TAG = "AppLocationProvider";
 
-    /**
-     * AppLocationProviderのインスタンスは1個 -> create()メソッド?
-     * データは全てstaticにする -> 呼び出し時のインスタンス化不要
-     * TODO: UpdateLocation のコールバックメソッドを設定できるようにする -> startUpdateLocation()
-     * TODO: Update購読を削除する関数を作る
-     * TODO: 単発で位置情報を取る関数を作る -> getCurrentLocation()
-     */
 
     /**
      * 最新の位置情報をFLCが取得し、取得が終わったらコールバックメソッドが実行される。
@@ -92,15 +86,32 @@ public class AppLocationProvider {
      * @param lc: 位置情報が更新されたときに行いたい処理を書いたクラスのインスタンス
      * @return 購読開始: true, 権限不足: false
      */
-    public boolean startUpdateLocation(LocationCallback lc) {
+    public static boolean startUpdateLocation(LocationCallback lc) {
         Log.d(TAG, "function startUpdateLocation called");
         // 権限確認
         if (checkPermission()) {
-            setUpdateConfig(lc);
+            setUpdateConfigThenStart(lc);
             return true;
         }else{
             return false;
         }
+    }
+
+    /**
+     * 位置情報のアップデートを停止する。
+     */
+    public static void stopUpdateLocation() {
+        fusedLocationClient.removeLocationUpdates(new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+            }
+            @Override
+            public void onLocationAvailability(@NonNull LocationAvailability locationAvailability) {
+                super.onLocationAvailability(locationAvailability);
+                Log.d(TAG, "removed Location Updates.\nLocation is not available.");
+            }
+        });
     }
 
     /**
@@ -132,36 +143,13 @@ public class AppLocationProvider {
             ActivityCompat.requestPermissions(mainActivity, permissions, REQUEST_ONESHOT);
             return true;
         } else {
-            Log.d(TAG, "Cannot run the app without permission");
+            Log.e(TAG, "Cannot run Hazard without permission");
             return false;
         }
     }
 
-    /*private class MyLocationCallback extends LocationCallback {
-
-        @Override
-        public void onLocationResult(LocationResult lr) {
-            locationResult = lr;
-            Log.d(TAG, "function onLocationResult called");
-            if (locationResult == null) {
-                Log.d(TAG, "locationResult == null.");
-                return;
-            }
-            ready = true;
-            Log.d(TAG, "===============================================\n ready.\n=================================================================");
-        }
-        *//*public void printLocation() {
-            Location location = lr.getLastLocation();
-            Log.d(TAG, "====================================================================");
-            longitude
-            String msg = "緯度:"+location.getLatitude() + "\n経度:"+location.getLongitude();
-            Toast.makeText(mainActivity, msg, Toast.LENGTH_LONG).show();
-
-        }*//*
-    }*/
-
     @SuppressLint("MissingPermission")
-    private static void setUpdateConfig(LocationCallback lc) {
+    private static void setUpdateConfigThenStart(LocationCallback lc) {
         // 位置情報の取得方法を設定
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setInterval(gpsInterval);
@@ -181,5 +169,13 @@ public class AppLocationProvider {
 
     public static void goToSettings() {
         Toast.makeText(mainActivity, "位置情報が許可されていません", Toast.LENGTH_LONG).show();
+    }
+
+    public static float getDistance(double startX, double startY, double endX, double endY) {
+        // 結果を格納するための配列を生成
+        float[] results = new float[3];
+        // 距離計算
+        Location.distanceBetween(startX, startY, endX, endY, results);
+        return results[0];
     }
 }

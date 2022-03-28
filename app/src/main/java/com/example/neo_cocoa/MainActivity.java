@@ -18,6 +18,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.neo_cocoa.databinding.ActivityMainBinding;
+import com.example.neo_cocoa.hazard_models.mock_ENS;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private AppSettings appSettings;
+    private HazardData hazardData;
     private FusedLocationProviderClient fusedLocationClient;
     private AppLocationProvider appLocationProvider;
 
@@ -45,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         //GlobalFieldへの書き込み
         appSettings = new AppSettings(this);
         GlobalField.appSettings = appSettings;
+        hazardData = new HazardData(this);
+        GlobalField.hazardData = hazardData;
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -73,19 +78,14 @@ public class MainActivity extends AppCompatActivity {
         OnCompleteListener<Location> listener = new OnCompleteListener<Location>() {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
-//                try {
-//                    Log.println(Log.ASSERT, "onComplete", String.valueOf(task.isSuccessful()));
-//
-//                    Toast.makeText(getApplicationContext(), "緯度:" + task.getResult().getLatitude() +
-//                            "\n経度:" + task.getResult().getLongitude(), Toast.LENGTH_LONG).show();
-//                    Log.println(Log.ASSERT, "Result", "緯度:" + task.getResult().getLatitude() +
-//                            "  経度:" + task.getResult().getLongitude());
-//                }catch (RuntimeExecutionException tasks) {
-//                    System.out.println("error runtimeExecutionException");
-//                }
             }
         };
         AppLocationProvider.getCurrentLocation(this, token1, listener);
+
+        // Exposure Notification Service API (mock) 起動
+        mock_ENS ens = new mock_ENS();
+        GlobalField.mock_ens = ens;
+
     }
     
     @Override
