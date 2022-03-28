@@ -99,23 +99,8 @@ public class AppLocationProvider {
     /**
      * 位置情報のアップデートを停止する。
      */
-    public static void stopUpdateLocation() {
-        fusedLocationClient.removeLocationUpdates(new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-            }
-            @Override
-            public void onLocationAvailability(@NonNull LocationAvailability locationAvailability) {
-                super.onLocationAvailability(locationAvailability);
-                Log.d(TAG, "removed Location Updates.\nLocation is not available.");
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Log.d(TAG, "stopUpdateLocation successful : " + String.valueOf(task.isSuccessful()));
-            }
-        });
+    public static void stopUpdateLocation(LocationCallback lc) {
+        fusedLocationClient.removeLocationUpdates(lc);
     }
 
     /**

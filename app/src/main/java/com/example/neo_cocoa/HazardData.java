@@ -25,7 +25,7 @@ public class HazardData {
         this.sharedPref = context.getSharedPreferences("hazard", Context.MODE_PRIVATE);
         editor = sharedPref.edit();
         this.fetchData();
-        setNumOfContactHistory(new int[]{0, 4, 7, 10, 57, 20, 21, 0});
+        setNumOfContactHistory(new int[]{0, 0, 0, 0, 0, 0, 0, 0});
     }
 
     public void setDemoModeState (boolean state) {
