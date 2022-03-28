@@ -23,6 +23,7 @@ import com.example.neo_cocoa.GlobalField;
 import com.example.neo_cocoa.R;
 import com.example.neo_cocoa.databinding.FragmentHazardBinding;
 import com.example.neo_cocoa.hazard_models.HazardModel;
+import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
 
@@ -44,6 +45,11 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
         TextView numOfContactView = view.findViewById(R.id.hazard_num_of_contact);
         TextView dangerLevelView = view.findViewById(R.id.hazard_danger_level_body);
         TextView commentView = view.findViewById(R.id.hazard_danger_level_comment);
+        LineChart lineChart = view.findViewById(R.id.hazard_graph_view);
+        lineChart.setMinimumWidth(800);
+        lineChart.setBackgroundColor(Color.LTGRAY);
+        lineChart.setNoDataText(getResources().getString(R.string.hazard_graph_no_data_text));
+        lineChart.setNoDataTextColor(Color.BLACK);
         Switch demoModeState = view.findViewById(R.id.hazard_demo_switch);
         demoModeState.setChecked(GlobalField.mock_ens.isAlive());
         demoModeState.setOnCheckedChangeListener(this);

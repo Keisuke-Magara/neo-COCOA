@@ -31,13 +31,12 @@ import java.util.Map;
 public class AppLocationProvider {
     private static MainActivity mainActivity;
     public static FusedLocationProviderClient fusedLocationClient;
-    private LocationCallback myLocationCallback;
     private static LocationResult locationResult=null;
     private static boolean ready = false;
     private static double latitude;
     private static double longitude;
     private static final int gpsInterval = 5*1000; // ms
-    //private static final int gpsFastestInterval = 5*1000; // ms
+    private static final int gpsFastestInterval = 5*1000; // ms
     private static final int gpsPriority = LocationRequest.PRIORITY_HIGH_ACCURACY;
     private static final int REQUEST_ONESHOT = 1;
     private static final int REQUEST_UPDATE = 2;
@@ -110,6 +109,11 @@ public class AppLocationProvider {
             public void onLocationAvailability(@NonNull LocationAvailability locationAvailability) {
                 super.onLocationAvailability(locationAvailability);
                 Log.d(TAG, "removed Location Updates.\nLocation is not available.");
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.d(TAG, "stopUpdateLocation successful : " + String.valueOf(task.isSuccessful()));
             }
         });
     }

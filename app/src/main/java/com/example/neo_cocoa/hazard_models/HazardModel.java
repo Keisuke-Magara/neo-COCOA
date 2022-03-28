@@ -36,6 +36,7 @@ public class HazardModel {
     public static void init(Context context) {
         if(instance==null) {
             instance = new HazardModel(true, context);
+            reset();
         } else {
             Log.w(TAG, "new instance was not created because instance has already existed.");
         }
@@ -90,7 +91,6 @@ public class HazardModel {
             instance.num_of_contact += num_at_key;
             instance.last_contact = num_at_key;
             instance.last_key = key;
-            //Log.d(TAG, "num_of_contact = "+ num_at_last_key+" - "+last_contact+" + "+num_at_key+" = "+num_of_contact);
         }
         return instance.num_of_contact;
     }

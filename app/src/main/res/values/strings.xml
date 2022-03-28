@@ -64,8 +64,9 @@
     <string name="hazard_danger_level_4_comment">密状態にある可能性があります。</string>
     <string name="hazard_danger_level_5_comment">感染のリスクが極めて高いです！</string>
     <string name="hazard_what_is_danger_level"><u>危険度とは？</u></string>
-    <string name="hazard_graph_title">XXX時間前までの接触人数の推移</string>
+    <string name="hazard_graph_title">8時間前までの接触人数の推移</string>
     <string name="hazard_graph_view_cd">接触人数の推移を示すグラフ</string>
+    <string name="hazard_graph_no_data_text">現在表示できるデータはありません。</string>
     <string name="hazard_demo_switch_title">デモンストレーションモード</string>
     <string name="hazard_demo_switch_description">ランダムな人数の接触をシミュレートして、動作を体験できます。</string>
     <string name="hazard_demo_alert_dialog_title">デモンストレーションモードの変更</string>
