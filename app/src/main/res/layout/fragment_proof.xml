@@ -126,7 +126,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/proof_data_num_of_masculine" />
+                    app:layout_constraintTop_toBottomOf="@+id/proof_data_num_of_positive_person" />
 
                 <View
                     android:id="@+id/divider8"
@@ -201,7 +201,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/proof_title_num_of_contacts" />
 
                 <TextView
-                    android:id="@+id/proof_data_num_of_masculine"
+                    android:id="@+id/proof_data_num_of_positive_person"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"

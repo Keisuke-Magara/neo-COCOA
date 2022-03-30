@@ -8,7 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -39,19 +38,23 @@ public class ProofFragment extends Fragment {
     private FragmentProofBinding binding;
     private AppProof appProof;
     private ProofFragment proofFragment;
-    private Button buttonBt;
-    private Button buttonVac;
+    private View view;
+
+    private Button buttonBodyTemp;
+    private Button buttonVaccine;
     private Button buttonShare;
 
-    private TextView tvContact;
-    private TextView btData;
-    private TextView vacData;
+    private TextView dataContact;
+    private TextView dataPositive;
+    private TextView dataBodyTemp;
+    private TextView dataVaccine;
 
     private ImageView ivContact;
     private ImageView ivPositivePerson;
     private ImageView ivBodyTemperature;
     private ImageView ivVaccine;
-    private View view;
+
+    private Integer NUM_OF_POSITIVE = 0;//陽性者との接触人数
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -65,11 +68,11 @@ public class ProofFragment extends Fragment {
         //画面の表示データを更新
         refreshProofFragment();
         //体温入力ボタンのリスナを設定
-        buttonBt = (Button)view.findViewById(R.id.proof_button_body_temperature);
-        buttonBt.setOnClickListener(button_bt_listener);
+        buttonBodyTemp = (Button)view.findViewById(R.id.proof_button_body_temperature);
+        buttonBodyTemp.setOnClickListener(button_bt_listener);
         //ワクチン接種回数入力ボタンのリスナを設定
-        buttonVac = (Button)view.findViewById(R.id.proof_button_vaccine);
-        buttonVac.setOnClickListener(button_vac_listener);
+        buttonVaccine = (Button)view.findViewById(R.id.proof_button_vaccine);
+        buttonVaccine.setOnClickListener(button_vac_listener);
         //健康記録共有ボタンのリスナを設定
         buttonShare = (Button)view.findViewById(R.id.proof_button_share);
         buttonShare.setOnClickListener(button_share_listener);
@@ -143,6 +146,8 @@ public class ProofFragment extends Fragment {
             }
         }
     };
+
+
     public void setBodyTemperature(Float bodyTemperature) {
         appProof.setBodyTemperature(bodyTemperature);
     }
@@ -159,11 +164,21 @@ public class ProofFragment extends Fragment {
     //Fragmentをの情報を更新
     public void refreshProofFragment() {
         //データの表示
-        btData = (TextView)view.findViewById(R.id.proof_data_body_temperature);
-        btData.setText(String.valueOf(appProof.getBodyTemperature()) + "度");
+        dataContact = (TextView) view.findViewById(R.id.proof_data_num_of_contacts);
+        dataContact.setText(String.valueOf(GlobalField.hazardData.getMaxDangerLevel()));
 
-        vacData = (TextView)view.findViewById(R.id.proof_data_num_of_vaccine);
-        vacData.setText(appProof.getNumOfVaccine() + "回(" +
+        dataPositive = (TextView) view.findViewById(R.id.proof_data_num_of_positive_person);
+        if(NUM_OF_POSITIVE == 0) {
+            dataPositive.setText(R.string.proof_message_no_contact_with_positive);
+        }else if(NUM_OF_POSITIVE > 0) {
+            dataPositive.setText(NUM_OF_POSITIVE + R.string.proof_message_contact_with_positive);
+        }
+
+        dataBodyTemp = (TextView)view.findViewById(R.id.proof_data_body_temperature);
+        dataBodyTemp.setText(String.valueOf(appProof.getBodyTemperature()) + getString(R.string.proof_unit_temperature));
+
+        dataVaccine = (TextView)view.findViewById(R.id.proof_data_num_of_vaccine);
+        dataVaccine.setText(appProof.getNumOfVaccine() + getString(R.string.proof_unit_num) + "(" +
                 appProof.getVaccineDate()/10000 + "/" +
                 (appProof.getVaccineDate()/100)%100 + "/" +
                 appProof.getVaccineDate()%100 + ")");
@@ -173,20 +188,27 @@ public class ProofFragment extends Fragment {
         Drawable okIcon = ResourcesCompat.getDrawable(res, R.drawable.ic_proof_ok, null);
         Drawable ngIcon = ResourcesCompat.getDrawable(res, R.drawable.ic_proof_ng, null);
         ivContact = (ImageView) view.findViewById(R.id.proof_icon_num_of_contacts);
-        ivPositivePerson = (ImageView) view.findViewById(R.id.proof_icon_num_of_positive_person);
-        ivBodyTemperature = (ImageView) view.findViewById(R.id.proof_icon_body_temperature);
-        ivVaccine = (ImageView) view.findViewById(R.id.proof_icon_num_of_vaccine);
+        if(0 <= GlobalField.hazardData.getMaxDangerLevel() && GlobalField.hazardData.getMaxDangerLevel() < 4) {
+            ivContact.setImageDrawable(okIcon);
+        }else {
+            ivContact.setImageDrawable(ngIcon);
+        }
 
-        ivContact.setImageDrawable(ngIcon);
-        ivPositivePerson.setImageDrawable(ngIcon);
-        tvContact = (TextView) view.findViewById(R.id.proof_data_num_of_contacts);
-        tvContact.setText(String.valueOf(GlobalField.hazardData.getMaxDangerLevel()));
+        ivPositivePerson = (ImageView) view.findViewById(R.id.proof_icon_num_of_positive_person);
+        if(NUM_OF_POSITIVE == 0) {
+            ivPositivePerson.setImageDrawable(okIcon);
+        }else {
+            ivPositivePerson.setImageDrawable(ngIcon);
+        }
+
+        ivBodyTemperature = (ImageView) view.findViewById(R.id.proof_icon_body_temperature);
         if(appProof.getBodyTemperature() < 37.0F) {
             ivBodyTemperature.setImageDrawable(okIcon);
         }else {
             ivBodyTemperature.setImageDrawable(ngIcon);
         }
 
+        ivVaccine = (ImageView) view.findViewById(R.id.proof_icon_num_of_vaccine);
         if(appProof.getNumOfVaccine() >= 2) {
             ivVaccine.setImageDrawable(okIcon);
         }else {
