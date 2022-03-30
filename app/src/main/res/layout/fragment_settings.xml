@@ -51,11 +51,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:paddingEnd="60sp"
                 android:text="@string/settings_webAccessibilityPolicy"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/settings_privacyPolicy_title"
                 app:layout_constraintTop_toBottomOf="@+id/divider6" />
 
@@ -226,43 +228,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/settings_privacyPolicy_title" />
 
-            <View
-                android:id="@+id/divider7"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/settings_webAccecibilityPolicy_title" />
 
-            <Button
-                android:id="@+id/settings_share_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:backgroundTint="@color/light_blue"
-                android:lines="2"
-                android:text="@string/settings_shareThisapp_button"
-                android:textColor="@color/black"
-                app:cornerRadius="17dip"
-                app:layout_constraintEnd_toEndOf="@+id/settings_share_title"
-                app:layout_constraintStart_toStartOf="@+id/settings_share_title"
-                app:layout_constraintTop_toBottomOf="@+id/settings_share_title"
-                app:strokeColor="@color/blue"
-                app:strokeWidth="@dimen/strokeWidth" />
 
-            <TextView
-                android:id="@+id/settings_share_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/settings_shareThisapp_description"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="@+id/settings_quit_button"
-                app:layout_constraintStart_toStartOf="@+id/settings_webAccecibilityPolicy_title"
-                app:layout_constraintTop_toBottomOf="@+id/divider7" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

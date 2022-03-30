@@ -38,12 +38,10 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         getAppVersion(version_number);
         Switch s = view.findViewById(R.id.settings_bgnotification_switch);
         Button quit = view.findViewById(R.id.settings_quit_button);
-        Button share = view.findViewById(R.id.settings_share_button);
 
         s.setOnCheckedChangeListener(this);
         s.setChecked(appsettings.getBgNotif());
         quit.setOnClickListener(quit_listener);
-        share.setOnClickListener(share_listener);
         return view;
     }
 
@@ -97,18 +95,6 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             });
             ad.setNegativeButton(getString(R.string.ng), null);
             ad.show();
-        }
-    };
-
-    private final View.OnClickListener share_listener = new View.OnClickListener() {
-        public void onClick(View view) {
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.playstore_url));
-            sendIntent.setType("text/plain");
-
-            Intent shareIntent = Intent.createChooser(sendIntent, null);
-            startActivity(shareIntent);
         }
     };
 
