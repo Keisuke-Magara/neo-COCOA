@@ -43,6 +43,7 @@ public class ProofFragment extends Fragment {
     private Button buttonVac;
     private Button buttonShare;
 
+    private TextView tvContact;
     private TextView btData;
     private TextView vacData;
 
@@ -178,6 +179,8 @@ public class ProofFragment extends Fragment {
 
         ivContact.setImageDrawable(ngIcon);
         ivPositivePerson.setImageDrawable(ngIcon);
+        tvContact = (TextView) view.findViewById(R.id.proof_data_num_of_contacts);
+        tvContact.setText(String.valueOf(GlobalField.hazardData.getMaxDangerLevel()));
         if(appProof.getBodyTemperature() < 37.0F) {
             ivBodyTemperature.setImageDrawable(okIcon);
         }else {
