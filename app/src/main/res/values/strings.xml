@@ -33,8 +33,8 @@
 
   　<!-- Proof fragment -->
     <string name="title_proof">証明書</string>
-    <string name="proof_title_num_of_contacts">2週間の接触者数</string>
-    <string name="proof_title_num_of_masculine">陽性者との接触</string>
+    <string name="proof_title_num_of_contacts">2週間の最大危険度</string>
+    <string name="proof_title_num_of_positive_person">陽性者との接触</string>
     <string name="proof_title_body_temperature">今日の体温</string>
     <string name="proof_title_num_of_vaccine">ワクチン接種回数</string>
     <string name="proof_button_body_temperature">体温を登録</string>
@@ -70,6 +70,17 @@
 
     <!-- HOME fragment -->
     <string name="title_home">ホーム</string>
+    <string name="home_title_active">動作中</string>
+    <string name="home_title_stop">停止中</string>
+    <string name="home_title_positive_person">陽性者との接触数</string>
+    <string name="home_title_register_positive">陽性と診断されたら</string>
+    <string name="home_detail_register_positive">周りの人たちを守るために匿名での陽性登録へのご協力をお願いいたします。</string>
+    <string name="home_button_register_positive">陽性情報の登録</string>
+    <string name="home_toast_register_positive">陽性情報を登録しました。\nご協力ありがとうございます。</string>
+    <string name="home_title_share">本アプリを広めましょう</string>
+    <string name="home_detail_share">本アプリは多くの型にお使いいただくほど効果を発揮します。</string>
+    <string name="home_button_share">アプリを共有する</string>
+
 
     <!-- Information fragment -->
     <string name="title_information">お知らせ</string>
