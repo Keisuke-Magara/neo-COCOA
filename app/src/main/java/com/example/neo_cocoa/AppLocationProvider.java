@@ -42,6 +42,7 @@ public class AppLocationProvider {
     private static final int REQUEST_UPDATE = 2;
     private static final String[] permissions = {
             Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION
     };
     private static final String TAG = "AppLocationProvider";
 
@@ -117,7 +118,20 @@ public class AppLocationProvider {
         }
         // 拒否していた場合
         else{
-            return requestLocationPermission();
+            return requestLocationPermission(permissions[0]);
+        }
+    }
+
+    public static boolean checkBackGroundPermission() {
+        Log.d(TAG, "function checkBackGroundPermission called");
+        // すでに許可している
+        if (ContextCompat.checkSelfPermission(mainActivity,
+                permissions[1]) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        // 拒否していた場合
+        else {
+            return requestLocationPermission(permissions[1]);
         }
     }
 
@@ -125,10 +139,10 @@ public class AppLocationProvider {
      * 許可を求めるダイアログ表示
      * @return Success: true, Dined: false
      */
-    private static boolean requestLocationPermission() {
+    private static boolean requestLocationPermission(String permission) {
         Log.d(TAG, "function requestLocationPermission called");
         if (ActivityCompat.shouldShowRequestPermissionRationale(mainActivity,
-                permissions[0]) || GlobalField.appSettings.isFirstLaunch()) {
+                permission) || GlobalField.appSettings.isFirstLaunch()) {
             ActivityCompat.requestPermissions(mainActivity, permissions, REQUEST_ONESHOT);
             return true;
         } else {

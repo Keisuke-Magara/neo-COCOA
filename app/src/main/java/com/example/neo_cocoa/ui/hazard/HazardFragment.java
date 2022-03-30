@@ -53,6 +53,7 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
     private FragmentHazardBinding binding;
     private Timer timer;
     private LocationCallback lc;
+    private com.github.mikephil.charting.components.IMarker marker;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
         TextView dangerLevelView = view.findViewById(R.id.hazard_danger_level_body);
         TextView commentView = view.findViewById(R.id.hazard_danger_level_comment);
         LineChart contactHistory = view.findViewById(R.id.hazard_graph_view);
+        marker = new GraphMarkerView(getContext(), R.layout.graph_tooltip);
         configureGraphArea(contactHistory);
         {
             int[] data = GlobalField.hazardData.getNumOfContactHistory();
@@ -162,6 +164,7 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
         chart.setDragEnabled(false);
         chart.setScaleEnabled(false);
         chart.setPinchZoom(false);
+        chart.setMarker(marker);
         chart.setExtraRightOffset(chart.getExtraRightOffset()+45);
         chart.setExtraBottomOffset(chart.getExtraBottomOffset()+10);
         chart.setBackgroundColor(Color.LTGRAY);
