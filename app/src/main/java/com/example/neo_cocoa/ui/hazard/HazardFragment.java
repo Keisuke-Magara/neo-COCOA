@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
-import android.graphics.drawable.Icon;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
@@ -41,13 +40,15 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class HazardFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
+    /* config */
+    private final static int refreshInterval = 3600*1000; // [ms] graph is refreshed in this time.
+
     private static final String TAG = "HazardFragment";
     private FragmentHazardBinding binding;
     private Timer timer;
@@ -66,6 +67,13 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
         TextView commentView = view.findViewById(R.id.hazard_danger_level_comment);
         LineChart contactHistory = view.findViewById(R.id.hazard_graph_view);
         configureGraphArea(contactHistory);
+        {
+            int[] data = GlobalField.hazardData.getNumOfContactHistory();
+            contactHistory.setData(createGraphData(data));
+            setY_Range(contactHistory, data);
+            contactHistory.invalidate();
+            contactHistory.animateY(1000, Easing.EaseInBack);
+        }
         timer = new Timer();
         final Handler mainHandler = new Handler(Looper.getMainLooper());
         timer.schedule(new TimerTask() {
@@ -77,13 +85,12 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
                     public void run() {
                         int[] data = GlobalField.hazardData.getNumOfContactHistory();
                         contactHistory.setData(createGraphData(data));
-                        setX_Range(contactHistory, data);
+                        setY_Range(contactHistory, data);
                         contactHistory.invalidate();
-                        contactHistory.animateY(1000, Easing.EaseInBack);
                     }
                 });
             }
-        }, 500, 3600000);
+        }, refreshInterval, refreshInterval);
         Switch demoModeState = view.findViewById(R.id.hazard_demo_switch);
         demoModeState.setChecked(GlobalField.mock_ens.isAlive());
         demoModeState.setOnCheckedChangeListener(this);
@@ -154,7 +161,8 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
         chart.setDragEnabled(false);
         chart.setScaleEnabled(false);
         chart.setPinchZoom(false);
-        chart.setMinimumWidth(800);
+        chart.setExtraRightOffset(chart.getExtraRightOffset()+45);
+        chart.setExtraBottomOffset(chart.getExtraBottomOffset()+10);
         chart.setBackgroundColor(Color.LTGRAY);
         chart.setNoDataText(getResources().getString(R.string.hazard_graph_no_data_text));
         chart.setNoDataTextColor(Color.BLACK);
@@ -173,13 +181,13 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
         des.setXOffset(-40);
         des.setYOffset(-12);
         chart.setDescription(des);
-        /*leftAxis.setValueFormatter(new ValueFormatter() {
+        leftAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
                 super.getFormattedValue(value);
                 return String.valueOf((int) value) + "人";
             }
-        });*/
+        });
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
@@ -192,7 +200,6 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
                 }
             }
         });
-        chart.setExtraRightOffset(chart.getExtraRightOffset()+45);
     }
     private LineData createGraphData(int[] data) {
         ArrayList<Entry> entries = new ArrayList<>();
@@ -217,17 +224,28 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
         return lineData;
     }
 
-    private void setX_Range (LineChart chart, int[] data) {
+    private void setY_Range(LineChart chart, int[] data) {
         int max = -1;
         int interval = 10;
+        boolean force = false;
         for (int i=0; i<data.length; i++) {
             if (data[i] > max) {
                 max = data[i];
             }
         }
+        if (max < 1) {
+            max = 1;
+        }
         if (max < 10) {
-            interval = max;
+            interval = max+1;
+            force = true;
         } else {
+            // do nothing.
+        }
+        YAxis axis = chart.getAxisLeft();
+        axis.setAxisMinimum(0);
+        axis.setAxisMaximum(max);
+        axis.setLabelCount(interval, force);
     }
 
     @Override

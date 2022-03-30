@@ -25,7 +25,6 @@ public class HazardData {
         this.sharedPref = context.getSharedPreferences("hazard", Context.MODE_PRIVATE);
         editor = sharedPref.edit();
         this.fetchData();
-        setNumOfContactHistory(new int[]{0, 0, 0, 0, 0, 0, 0, 0});
     }
 
     public void setDemoModeState (boolean state) {
@@ -39,25 +38,25 @@ public class HazardData {
         return this.demoModeEnable;
     }
 
-    public void addNumOfContactHistory(int num_of_contact) {
+    public boolean addNumOfContactHistory(int num_of_contact) {
         fetchData();
-        int passiveTime = numOfContactHistory.length;
+        boolean flag = false;
+        long passiveTime = numOfContactHistory.length;
         if (lastAdd_nOCH !=-1) {
             long currentTime = System.currentTimeMillis();
-            double diffTime = (currentTime - lastAdd_nOCH) / 3600000.0; // 何秒前か
-            String tmp = String.valueOf(diffTime);
-            tmp = tmp.split(".")[0];
-            passiveTime = Integer.parseInt(tmp); // 小数点切り捨て
+            passiveTime = (currentTime - lastAdd_nOCH) / 3600000; // 何秒前か
         }
         if (passiveTime == 0) {
-            // do nothing.
+            numOfContactHistory[0] += num_of_contact;
         } else {
-            numOfContactHistory = slideArrayValues(numOfContactHistory, passiveTime, 0);
+            numOfContactHistory = slideArrayValues(numOfContactHistory, (int) passiveTime, 0);
             numOfContactHistory[0] = num_of_contact;
             lastAdd_nOCH = System.currentTimeMillis();
             setLastAdd_nOCH(this.lastAdd_nOCH);
+            flag = true;
         }
         setNumOfContactHistory(this.numOfContactHistory);
+        return flag;
     }
 
     private void setNumOfContactHistory(int[] array) {
