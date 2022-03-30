@@ -105,7 +105,8 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
                         Geocoder coder = new Geocoder(getContext(), Locale.JAPANESE);
                         String address = HazardModel.getCurrentAddress(location, coder, addressText);
                         if (Objects.equals(address, "ERROR")) {
-                            locationView.setText(R.string.getting_error);
+                            addressText = addressText.replace("XXX", locationResult.getLastLocation().getLatitude() + ", " + locationResult.getLastLocation().getLongitude());
+                            locationView.setText(addressText);
                         } else {
                             locationView.setText(HazardModel.getCurrentAddress(location, coder, addressText));
                         }
