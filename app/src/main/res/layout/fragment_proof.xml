@@ -66,15 +66,15 @@
                     app:layout_constraintTop_toBottomOf="@+id/divider12" />
 
                 <TextView
-                    android:id="@+id/proof_title_num_of_masculine"
+                    android:id="@+id/proof_title_num_of_positive_person"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="@string/proof_title_num_of_masculine"
+                    android:text="@string/proof_title_num_of_positive_person"
                     android:textColor="@color/black"
                     android:textSize="18sp"
-                    app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_masculine"
+                    app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_positive_person"
                     app:layout_constraintTop_toBottomOf="@+id/divider" />
 
                 <TextView
@@ -171,7 +171,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/divider7" />
 
                 <ImageView
-                    android:id="@+id/proof_icon_num_of_masculine"
+                    android:id="@+id/proof_icon_num_of_positive_person"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="8dp"
@@ -207,8 +207,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:text="@string/getting"
-                    app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_masculine"
-                    app:layout_constraintTop_toBottomOf="@+id/proof_title_num_of_masculine" />
+                    app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_positive_person"
+                    app:layout_constraintTop_toBottomOf="@+id/proof_title_num_of_positive_person" />
 
                 <TextView
                     android:id="@+id/proof_data_body_temperature"

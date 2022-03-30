@@ -92,6 +92,7 @@ public class InformationFragment extends Fragment {
     private Drawable downIcon;
     private Button buttonTestLoc;
     private Button buttonShowDetails;
+    private Button buttonViewMore;
     private RecyclerView lvNews;
     private String ppTitleDefault;
     private CancellationTokenSource cts;
@@ -118,6 +119,8 @@ public class InformationFragment extends Fragment {
 
         buttonShowDetails = (Button)view.findViewById(R.id.information_button_show_details);
         buttonShowDetails.setOnClickListener(buttonShowDetailsListener);
+        buttonViewMore = (Button)view.findViewById(R.id.information_button_view_more);
+        buttonViewMore.setOnClickListener(buttonViewMoreListener);
 //        buttonTestLoc = (Button)view.findViewById(R.id.testLocationButton);
 //        buttonTestLoc.setOnClickListener(buttonTestLocListener);
         return view;
@@ -131,7 +134,15 @@ public class InformationFragment extends Fragment {
             startActivity(i);
         }
     };
-
+    Button.OnClickListener buttonViewMoreListener = new Button.OnClickListener() {
+        public void onClick(View view) {
+            System.out.println("Show details pressed");
+            Uri uri = Uri.parse("https://covid19.mhlw.go.jp/?_fsi=Ew5xhpvh");
+            Intent i = new Intent(Intent.ACTION_VIEW,uri);
+            startActivity(i);
+        }
+    };
+//    //現在地取得のテストボタン
 //    Button.OnClickListener buttonTestLocListener = new Button.OnClickListener() {
 //        public void onClick(View view) {
 //            System.out.println("get location pressed");
@@ -594,7 +605,7 @@ public class InformationFragment extends Fragment {
         try {
             clAsync.cancel(true);
         }catch (NullPointerException e) {
-            System.out.println("-----------------clAsync does not exist");
+            System.out.println("clAsync does not exist");
         }
         newsAsync.cancel(true);
         System.out.println("stop Async");
