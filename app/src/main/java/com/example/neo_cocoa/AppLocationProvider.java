@@ -31,13 +31,12 @@ import java.util.Map;
 public class AppLocationProvider {
     private static MainActivity mainActivity;
     public static FusedLocationProviderClient fusedLocationClient;
-    private LocationCallback myLocationCallback;
     private static LocationResult locationResult=null;
     private static boolean ready = false;
     private static double latitude;
     private static double longitude;
     private static final int gpsInterval = 5*1000; // ms
-    //private static final int gpsFastestInterval = 5*1000; // ms
+    private static final int gpsFastestInterval = 5*1000; // ms
     private static final int gpsPriority = LocationRequest.PRIORITY_HIGH_ACCURACY;
     private static final int REQUEST_ONESHOT = 1;
     private static final int REQUEST_UPDATE = 2;
@@ -100,18 +99,8 @@ public class AppLocationProvider {
     /**
      * 位置情報のアップデートを停止する。
      */
-    public static void stopUpdateLocation() {
-        fusedLocationClient.removeLocationUpdates(new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-            }
-            @Override
-            public void onLocationAvailability(@NonNull LocationAvailability locationAvailability) {
-                super.onLocationAvailability(locationAvailability);
-                Log.d(TAG, "removed Location Updates.\nLocation is not available.");
-            }
-        });
+    public static void stopUpdateLocation(LocationCallback lc) {
+        fusedLocationClient.removeLocationUpdates(lc);
     }
 
     /**

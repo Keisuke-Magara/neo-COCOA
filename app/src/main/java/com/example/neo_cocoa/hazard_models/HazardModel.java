@@ -28,6 +28,7 @@ public class HazardModel {
 
     private int last_contact = 0;
     private long last_key = 0;
+    private int sum_1h = 0;
     private int num_of_contact = 0;
     private double lastLatitude = 0;
     private double lastLongitude = 0;
@@ -36,6 +37,7 @@ public class HazardModel {
     public static void init(Context context) {
         if(instance==null) {
             instance = new HazardModel(true, context);
+            reset();
         } else {
             Log.w(TAG, "new instance was not created because instance has already existed.");
         }
@@ -82,15 +84,20 @@ public class HazardModel {
         Log.d(TAG, "Num: "+ num_at_key);
 
         if (key == instance.last_key) {
-            instance.num_of_contact += num_at_key - instance.last_contact;
+            int plus = num_at_key - instance.last_contact;
+            instance.num_of_contact += plus;
+            instance.sum_1h += plus;
+            hazardData.addNumOfContactHistory(plus);
             instance.last_contact = num_at_key;
         } else {
             Log.d(TAG, "======= key was changed. ========");
-            instance.num_of_contact += num_at_last_key - instance.last_contact;
-            instance.num_of_contact += num_at_key;
+            int plus1 =  num_at_last_key - instance.last_contact;
+            int plus2 = num_at_key;
+            instance.num_of_contact += plus1 + plus2;
+            instance.sum_1h += plus1 + plus2;
+            hazardData.addNumOfContactHistory(plus1 + plus2);
             instance.last_contact = num_at_key;
             instance.last_key = key;
-            //Log.d(TAG, "num_of_contact = "+ num_at_last_key+" - "+last_contact+" + "+num_at_key+" = "+num_of_contact);
         }
         return instance.num_of_contact;
     }
@@ -104,6 +111,10 @@ public class HazardModel {
             }
         }
         return getNumOfContact();
+    }
+
+    public static int getSum_1h () {
+        return instance.sum_1h;
     }
 
     public static void reset() {
