@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
         activeIcon = view.findViewById(R.id.home_icon_active);
         activeIconEffect = view.findViewById(R.id.home_icon_active_effect);
         activeTitle = view.findViewById(R.id.home_title_active);
-        if(GlobalField.mock_ens!=null &&GlobalField.mock_ens.isAlive()) {
+        if(GlobalField.mock_ens!=null && GlobalField.mock_ens.isAlive()) {
             //動作中であれば動作中アイコンを表示
             activeIcon.setColorFilter(Color.GREEN);
             activeIconEffect.setColorFilter(Color.GREEN);
