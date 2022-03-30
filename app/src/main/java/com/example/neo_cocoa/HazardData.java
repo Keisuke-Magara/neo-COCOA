@@ -44,7 +44,7 @@ public class HazardData {
         long passiveTime = numOfContactHistory.length;
         if (lastAdd_nOCH !=-1) {
             long currentTime = System.currentTimeMillis();
-            passiveTime = (currentTime - lastAdd_nOCH) / 3600000; // 何秒前か
+            passiveTime = (currentTime - lastAdd_nOCH) / (10*1000); // 何秒前か
         }
         if (passiveTime == 0) {
             numOfContactHistory[0] += num_of_contact;

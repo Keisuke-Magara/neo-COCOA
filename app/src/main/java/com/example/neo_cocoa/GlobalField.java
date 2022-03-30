@@ -14,7 +14,7 @@ public final class GlobalField {
     // address directing to instance
     public static AppSettings appSettings;
     public static HazardData hazardData;
-    public static mock_ENS mock_ens;
+    public static mock_ENS mock_ens = null;
 
     // Global values
 

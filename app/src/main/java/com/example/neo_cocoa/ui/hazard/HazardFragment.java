@@ -47,7 +47,7 @@ import java.util.TimerTask;
 
 public class HazardFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
     /* config */
-    private final static int refreshInterval = 15*1000; // [ms] graph is refreshed in this time.
+    private final static int refreshInterval = 1*1000; // [ms] graph is refreshed in this time.
 
     private static final String TAG = "HazardFragment";
     private FragmentHazardBinding binding;

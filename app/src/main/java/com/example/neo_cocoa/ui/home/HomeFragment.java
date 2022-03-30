@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.neo_cocoa.GlobalField;
 import com.example.neo_cocoa.R;
 import com.example.neo_cocoa.databinding.FragmentHomeBinding;
 
@@ -40,7 +41,6 @@ public class HomeFragment extends Fragment {
     private Button registerPositiveButton;
     private Button shareButton;
     private ActiveIconAsync activeIconAsync;
-    private Boolean IS_ACTIVE = true;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
         activeIcon = view.findViewById(R.id.home_icon_active);
         activeIconEffect = view.findViewById(R.id.home_icon_active_effect);
         activeTitle = view.findViewById(R.id.home_title_active);
-        if(IS_ACTIVE) {
+        if(GlobalField.mock_ens!=null &&GlobalField.mock_ens.isAlive()) {
             //動作中であれば動作中アイコンを表示
             activeIcon.setColorFilter(Color.GREEN);
             activeIconEffect.setColorFilter(Color.GREEN);
