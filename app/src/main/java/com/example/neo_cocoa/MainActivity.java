@@ -34,6 +34,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
     private AppSettings appSettings;
     private HazardData hazardData;
@@ -50,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
         hazardData = new HazardData(this);
         GlobalField.hazardData = hazardData;
 
+        // 位置情報関係初期化
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        appLocationProvider = new AppLocationProvider(this, fusedLocationClient);
+
+        // Exposure Notification Service API (mock) 起動
+        mock_ENS ens = new mock_ENS();
+        GlobalField.mock_ens = ens;
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -63,16 +72,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        // 位置情報関係初期化
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        appLocationProvider = new AppLocationProvider(this, fusedLocationClient);
-
         // 緯度経度をtoast通知する(サンプル)
         CancellationTokenSource cts = new CancellationTokenSource();
         CancellationToken token1 = cts.getToken().onCanceledRequested(new OnTokenCanceledListener() {
             @Override
             public void onCanceled() {
-                System.out.println("Canceled.");
+                Log.i(TAG, "Canceled.");
             }
         });
         OnCompleteListener<Location> listener = new OnCompleteListener<Location>() {
@@ -82,9 +87,7 @@ public class MainActivity extends AppCompatActivity {
         };
         AppLocationProvider.getCurrentLocation(this, token1, listener);
 
-        // Exposure Notification Service API (mock) 起動
-        mock_ENS ens = new mock_ENS();
-        GlobalField.mock_ens = ens;
+
 
     }
     
@@ -92,7 +95,12 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         Log.d("debug", "MainActivity.onRequestPermissionsResult was called.");
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        appLocationProvider.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //appLocationProvider.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
 }
