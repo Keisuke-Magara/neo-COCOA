@@ -4,12 +4,15 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +36,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 public class ProofFragment extends Fragment {
     private FragmentProofBinding binding;
@@ -97,55 +101,94 @@ public class ProofFragment extends Fragment {
     //体温記録共有ボタンのリスナ
     View.OnClickListener button_share_listener = new View.OnClickListener() {
         public void onClick(View view) {
-            //PDFファイル生成
-            PdfDocument pdfDocument = new PdfDocument();
-            PdfDocument.PageInfo.Builder builder = new PdfDocument.PageInfo.Builder(595, 842, 0);
-            PdfDocument.PageInfo pageInfo = builder.create();
-            PdfDocument.Page page = pdfDocument.startPage(pageInfo);
-            Canvas canvas = page.getCanvas();
-            Paint paint;
-            paint = new Paint();
-            canvas.drawText("neoCOCOA",10f,10f, paint);
-            pdfDocument.finishPage(page);
-            FileOutputStream out = null;
             try {
-                out = getContext().openFileOutput("proof.pdf", getContext().MODE_PRIVATE);
+                generatePDF();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            try {
-                pdfDocument.writeTo(out);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            //PDFファイル共有
-            // ストレージの権限の確認
-            if (ActivityCompat.checkSelfPermission(getActivity(),
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
-                    PackageManager.PERMISSION_GRANTED) {
-
-                // ストレージの権限の許可を求めるダイアログを表示する
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1000);
-            }
-
-            Uri uri = FileProvider.getUriForFile(getActivity(),
-                    getActivity().getApplicationContext().getPackageName() + ".provider",
-                    new File("proof.pdf"));
-
-            Intent it = new Intent(Intent.ACTION_SEND);
-            it.putExtra(Intent.EXTRA_EMAIL, "");
-            it.putExtra(Intent.EXTRA_SUBJECT, "");
-            it.putExtra(Intent.EXTRA_STREAM, uri);
-            it.setType("application/pdf");
-
-            try {
-                startActivity(Intent.createChooser(it, "選択"));
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
+            sharePDF();
         }
     };
+
+    //PDFを生成する
+    private void generatePDF() throws FileNotFoundException {
+        //PDFファイル生成
+        PdfDocument pdfDocument = new PdfDocument();
+        PdfDocument.PageInfo.Builder builder = new PdfDocument.PageInfo.Builder(595, 842, 0);
+        PdfDocument.PageInfo pageInfo = builder.create();
+        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+        Canvas canvas = page.getCanvas();
+        Paint paint;
+        paint = new Paint();
+//        canvas.drawText("neoCOCOA",10f,10f, paint);
+        CreateBitmap(view);
+        Rect src = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        Rect dst = new Rect(0, 0, 595, bitmap.getHeight()*595/bitmap.getWidth());
+        canvas.drawBitmap(bitmap, src, dst, paint);
+
+        pdfDocument.finishPage(page);
+        FileOutputStream out = null;
+        out = getContext().openFileOutput("proof.pdf", getContext().MODE_PRIVATE);
+        try {
+            pdfDocument.writeTo(out);
+            System.out.println("PDF generate");
+            System.out.println(getContext().getFilesDir().toURI());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("PDF generate failed");
+        }
+        pdfDocument.close();
+    }
+    //PDFを共有する
+    private void sharePDF() {
+        // ストレージの権限の確認
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED) {
+
+            // ストレージの権限の許可を求めるダイアログを表示する
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1000);
+        }
+        //PDFファイル共有
+        final String pathName = getContext().getFilesDir() +"/proof.pdf";
+        System.out.println(pathName);
+        Uri uri = FileProvider.getUriForFile(getContext(),
+                getContext().getApplicationContext().getPackageName() + ".provider",
+                new File(getContext().getFilesDir() + "/proof.pdf"));
+
+        //表示
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(uri,"application/pdf");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        try {
+            startActivity(intent);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //viewからbitmapを生成
+    private Bitmap bitmap =null;
+    private final Bitmap.Config bitmapConfig = Bitmap.Config.ARGB_8888;
+    public void CreateBitmap(View v) {
+        bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), bitmapConfig);
+        Canvas c = new Canvas();
+        c.setBitmap(bitmap);
+        //ボタンの非表示
+        Button buttonShare = v.findViewById(R.id.proof_button_share);
+        buttonShare.setVisibility(View.INVISIBLE);
+        Button buttonBodyTemp = v.findViewById(R.id.proof_button_body_temperature);
+        buttonBodyTemp.setVisibility(View.INVISIBLE);
+        Button buttonVaccine = v.findViewById(R.id.proof_button_vaccine);
+        buttonVaccine.setVisibility(View.INVISIBLE);
+        //描画
+        v.draw(c);
+        //ボタンの再表示
+        buttonShare.setVisibility(View.VISIBLE);
+        buttonBodyTemp.setVisibility(View.VISIBLE);
+        buttonVaccine.setVisibility(View.VISIBLE);
+    }
 
 
     public void setBodyTemperature(Float bodyTemperature) {
