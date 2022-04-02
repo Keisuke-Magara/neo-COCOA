@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         mock_ENS ens = new mock_ENS();
         GlobalField.mock_ens = ens;
 
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -71,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
 
         // 緯度経度をtoast通知する(サンプル)
         CancellationTokenSource cts = new CancellationTokenSource();
@@ -86,21 +86,13 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         AppLocationProvider.getCurrentLocation(this, token1, listener);
-
-
-
     }
-    
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         Log.d("debug", "MainActivity.onRequestPermissionsResult was called.");
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        //appLocationProvider.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        appLocationProvider.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-    }
 }

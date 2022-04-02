@@ -41,6 +41,7 @@ import com.example.neo_cocoa.AppInformation;
 import com.example.neo_cocoa.AppLocationProvider;
 import com.example.neo_cocoa.AppProof;
 import com.example.neo_cocoa.GlobalField;
+import com.example.neo_cocoa.MainActivity;
 import com.example.neo_cocoa.R;
 import com.example.neo_cocoa.databinding.FragmentInformationBinding;
 import com.example.neo_cocoa.databinding.FragmentProofBinding;
@@ -225,7 +226,8 @@ public class InformationFragment extends Fragment {
                         Toast.makeText(getActivity(), "位置情報が取得できませんでした", Toast.LENGTH_LONG).show();
                     }
                 } catch (RuntimeExecutionException | IOException tasks) {
-                    AppLocationProvider.goToSettings();
+//                    AppLocationProvider.goToSettings();
+                    Toast.makeText(getActivity(), "位置情報が取得できませんでした", Toast.LENGTH_LONG).show();
                 } catch (CancellationException e) {
                     System.out.println("---------------task has already been canceled");
                 }
