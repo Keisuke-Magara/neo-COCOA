@@ -14,6 +14,7 @@ public class mock_ENS extends Thread {
     /** config **/
     private static final int refreshInterval = 10*1000; // change key2 value each <refreshInterval> ms.
     /************/
+    private static mock_ENS instance = null;
     private static boolean isRunning = false;
     private static long key2Value;
     private static long genTimeOfKey2;
@@ -22,7 +23,16 @@ public class mock_ENS extends Thread {
     private static Random r = null;
     private static final String TAG = "mock_ENS";
 
-    public mock_ENS() {
+    public static mock_ENS create() {
+        if (instance == null) {
+            instance = new mock_ENS();
+        } else {
+            Log.w(TAG, "New instance was not created because instance has already existed.");
+        }
+        return instance;
+    }
+
+    private mock_ENS() {
         super();
         if (!isRunning) {
             isRunning = true;

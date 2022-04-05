@@ -188,16 +188,16 @@ public class AppLocationProvider {
 
     public static void goToSettings() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
-        builder.setTitle(R.string.appLocationProvider_goToSettings_dialog_title);
+        /*builder.setTitle(R.string.appLocationProvider_goToSettings_dialog_title);
         builder.setMessage(R.string.appLocationProvider_goToSettings_dialog_message);
         builder.setPositiveButton(R.string.appLocationProvider_positiveButton_title, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(DialogInterface dialogInterface, int i) {*/
                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:"+mainActivity.getPackageName()));
                 mainActivity.startActivity(intent);
-            }
+            /*}
         });
-        builder.show();
+        builder.show();*/
         Toast.makeText(mainActivity, "位置情報が許可されていません", Toast.LENGTH_LONG).show();
     }
 

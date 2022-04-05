@@ -41,11 +41,11 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         getAppVersion(version_number);
         s = view.findViewById(R.id.settings_bgnotification_switch);
         Button quit = view.findViewById(R.id.settings_quit_button);
-        if (!AppLocationProvider.checkPermission()) {
+        if (!AppLocationProvider.checkBGPermission()) {
             appsettings.setBgNotif(false);
         }
-        s.setOnCheckedChangeListener(this);
         s.setChecked(appsettings.getBgNotif());
+        s.setOnCheckedChangeListener(this);
         quit.setOnClickListener(quit_listener);
         return view;
     }
@@ -61,10 +61,22 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         if (isChecked) {
             if(!AppLocationProvider.checkBGPermission()) {
                 AppLocationProvider.requestBGPermission();
-                s.setChecked(false);
             }
         }
         appsettings.setBgNotif(isChecked);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.hazard_demo_alert_dialog_title);
+        builder.setMessage(R.string.hazard_demo_alert_dialog_description)
+                .setCancelable(false)
+                .setIcon(R.drawable.ic_restart)
+                .setPositiveButton(R.string.ShutdownApp, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.exit(0);
+                    }
+                });
+        builder.create();
+        builder.show();
     }
 
     // get app version.

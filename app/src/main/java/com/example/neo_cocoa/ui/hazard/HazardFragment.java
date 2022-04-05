@@ -56,7 +56,7 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HazardModel.init(getContext());
+        HazardModel.init();
         binding = FragmentHazardBinding.inflate(inflater, container, false);
 
         View view = inflater.inflate(R.layout.fragment_hazard, container, false);

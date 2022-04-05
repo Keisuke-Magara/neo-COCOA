@@ -34,16 +34,16 @@ public class HazardModel {
     private double lastLongitude = 0;
     private long startTimeOfStay = 0;
 
-    public static void init(Context context) {
+    public static void init() {
         if(instance==null) {
-            instance = new HazardModel(true, context);
+            instance = new HazardModel(true);
             reset();
         } else {
-            Log.w(TAG, "new instance was not created because instance has already existed.");
+            Log.w(TAG, "New instance was not created because instance has already existed.");
         }
     }
 
-    private HazardModel (boolean bgState, Context context) {
+    private HazardModel(boolean bgState) {
         hazardData = GlobalField.hazardData;
         if (bgState) {
             if (!GlobalField.mock_ens.isAlive() && hazardData.getDemoModeState()) {

@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         appLocationProvider = new AppLocationProvider(this, fusedLocationClient);
 
         // Exposure Notification Service API (mock) 起動
-        mock_ENS ens = new mock_ENS();
+        mock_ENS ens = mock_ENS.create();
         GlobalField.mock_ens = ens;
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
