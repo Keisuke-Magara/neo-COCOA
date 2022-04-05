@@ -34,6 +34,10 @@
 
   　<!-- Proof fragment -->
     <string name="title_proof">証明書</string>
+    <string name="proof_message_success_register">登録しました</string>
+    <string name="proof_message_failed_register">入力に間違いがあります</string>
+    <string name="proof_message_cancel_register">登録をキャンセルしました</string>
+    <string name="proof_data_no_data">登録されていません</string>
     <string name="proof_title_num_of_contacts">2週間の最大危険度</string>
     <string name="proof_title_num_of_positive_person">陽性者との接触</string>
     <string name="proof_message_no_contact_with_positive">陽性者との接触はありません</string>
@@ -44,6 +48,7 @@
     <string name="proof_unit_temperature">度</string>
     <string name="proof_button_vaccine">接種を登録</string>
     <string name="proof_unit_num">回</string>
+    <string name="proof_data_un_inoculated">未接種</string>
     <string name="proof_button_share">健康記録を共有する</string>
     <string name="proof_title_update_date">更新日時</string>
     <string name="proof_dialog_message_body_temperature">体温を入力してください</string>
