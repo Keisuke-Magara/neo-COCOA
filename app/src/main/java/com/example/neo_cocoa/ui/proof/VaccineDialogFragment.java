@@ -98,14 +98,16 @@ public class VaccineDialogFragment extends DialogFragment {
                                         Integer.valueOf(vacMonthEditText.getText().toString())*100 +
                                         Integer.valueOf(vacDayEditText.getText().toString()));
                         proofFragment.refreshProofFragment();
-                        msg = "接種回数を登録しました";
+                        msg = getString(R.string.proof_message_success_register);
 
-                    }else{
-                        msg = "入力に間違いがあります";
+                    }else if(Integer.valueOf(numOfVacEditText.getText().toString()) == 0) {
+                        msg = getString(R.string.proof_message_success_register);
+                    }else {
+                        msg = getString(R.string.proof_message_failed_register);
                     }
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
-                    msg = "登録をキャンセルしました";
+                    msg = getString(R.string.proof_message_cancel_register);
                     break;
             }
             Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
