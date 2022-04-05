@@ -125,4 +125,14 @@
     <string name="settings_shareThisapp_button">アプリを周りの人に知らせる</string>
     <string name="settings_shareThisapp_description">さらに多くの人にCOCOAを使ってもらえるように、
         アプリを広めてください！</string>
+
+    <!-- AppLocationProvider class -->
+    <string name="appLocationProvider_request_dialog_title">このアプリは位置情報を以下の目的で使用します。</string>
+    <string name="appLocationProvider_request_dialog_message">・現在地の都道府県のニュースを取得します。\n
+                                                                ・ハザード機能が正常に動作するには正確な位置情報が必要です。\n
+                                                                ・バックグラウンドハザード通知を使用するには位置情報を"常に許可"にしていただく必要があります。\n
+                                                                尚、取得した位置情報は端末内でのみ使用し、外部への送信は一切ありません。</string>
+    <string name="appLocationProvider_goToSettings_dialog_title">アプリの位置情報アクセスを許可してください</string>
+    <string name="appLocationProvider_goToSettings_dialog_message">端末の設定画面より位置情報アクセスを許可してください。</string>
+    <string name="appLocationProvider_positiveButton_title">位置情報アクセスを設定する</string>
 </resources>

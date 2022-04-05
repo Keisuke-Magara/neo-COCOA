@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.neo_cocoa.AppLocationProvider;
 import com.example.neo_cocoa.AppSettings;
 import com.example.neo_cocoa.GlobalField;
 import com.example.neo_cocoa.R;
@@ -27,6 +29,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
     private FragmentSettingsBinding binding;
     private AppSettings appsettings;
+    private Switch s;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -36,9 +39,11 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         TextView version_number = view.findViewById(R.id.settings_appversion);
         getAppVersion(version_number);
-        Switch s = view.findViewById(R.id.settings_bgnotification_switch);
+        s = view.findViewById(R.id.settings_bgnotification_switch);
         Button quit = view.findViewById(R.id.settings_quit_button);
-
+        if (!AppLocationProvider.checkPermission()) {
+            appsettings.setBgNotif(false);
+        }
         s.setOnCheckedChangeListener(this);
         s.setChecked(appsettings.getBgNotif());
         quit.setOnClickListener(quit_listener);
@@ -53,6 +58,12 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            if(!AppLocationProvider.checkBGPermission()) {
+                AppLocationProvider.requestBGPermission();
+                s.setChecked(false);
+            }
+        }
         appsettings.setBgNotif(isChecked);
     }
 

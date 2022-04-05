@@ -3,9 +3,14 @@ package com.example.neo_cocoa;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -42,6 +47,7 @@ public class AppLocationProvider {
     private static final int REQUEST_UPDATE = 2;
     private static final String[] permissions = {
             Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION
     };
     private static final String TAG = "AppLocationProvider";
 
@@ -104,10 +110,10 @@ public class AppLocationProvider {
     }
 
     /**
-     * 位置情報許可の確認
+     * フォアグラウンド位置情報アクセス許可の確認
      * @return Granted: true, Dined: false
      */
-    private static boolean checkPermission() {
+    public static boolean checkPermission() {
         Log.d(TAG, "function checkPermission called");
         // 既に許可している
         if (ContextCompat.checkSelfPermission(mainActivity,
@@ -117,22 +123,46 @@ public class AppLocationProvider {
         }
         // 拒否していた場合
         else{
-            return requestLocationPermission();
+            return requestLocationPermission(permissions[0]);
         }
     }
 
     /**
-     * 許可を求めるダイアログ表示
-     * @return Success: true, Dined: false
+     * バックグラウンド位置情報アクセス許可の確認
+     * @return Granted: true, Dined: false
      */
-    private static boolean requestLocationPermission() {
+    public static boolean checkBGPermission() {
+        Log.d(TAG, "function checkBGPermission called");
+        // 既に許可している
+        if (ContextCompat.checkSelfPermission(mainActivity,
+                permissions[1])
+                == PackageManager.PERMISSION_GRANTED){
+            return true;
+        }
+        // 拒否していた場合
+        else{
+            return false;
+        }
+    }
+
+    public static boolean requestBGPermission() {
+        return requestLocationPermission(permissions[1]);
+    }
+
+    /**
+     * 許可を求めるダイアログ表示
+     * @param requestPermission
+     * @return Success : true, Dined: false
+     */
+    private static boolean requestLocationPermission(String requestPermission) {
         Log.d(TAG, "function requestLocationPermission called");
         if (ActivityCompat.shouldShowRequestPermissionRationale(mainActivity,
-                permissions[0]) || GlobalField.appSettings.isFirstLaunch()) {
-            ActivityCompat.requestPermissions(mainActivity, permissions, REQUEST_ONESHOT);
+                requestPermission) || GlobalField.appSettings.isFirstLaunch()) {
+            ActivityCompat.requestPermissions(mainActivity, new String[] {requestPermission}, REQUEST_ONESHOT);
             return true;
         } else {
-            Log.e(TAG, "Cannot run Hazard without permission");
+            Log.e(TAG, requestPermission + " was not granted.");
+            goToSettings();
             return false;
         }
     }
@@ -157,6 +187,17 @@ public class AppLocationProvider {
     }
 
     public static void goToSettings() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+        builder.setTitle(R.string.appLocationProvider_goToSettings_dialog_title);
+        builder.setMessage(R.string.appLocationProvider_goToSettings_dialog_message);
+        builder.setPositiveButton(R.string.appLocationProvider_positiveButton_title, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:"+mainActivity.getPackageName()));
+                mainActivity.startActivity(intent);
+            }
+        });
+        builder.show();
         Toast.makeText(mainActivity, "位置情報が許可されていません", Toast.LENGTH_LONG).show();
     }
 
