@@ -111,6 +111,8 @@ public class VaccineDialogFragment extends DialogFragment {
                         msg = getString(R.string.proof_message_success_register);
 
                     }else if(Integer.valueOf(numOfVacEditText.getText().toString()) == 0) {
+                        proofFragment.setNumOfVaccine(Integer.valueOf(numOfVacEditText.getText().toString()));
+                        proofFragment.refreshProofFragment();
                         msg = getString(R.string.proof_message_success_register);
                     }else {
                         msg = getString(R.string.proof_message_failed_register);
