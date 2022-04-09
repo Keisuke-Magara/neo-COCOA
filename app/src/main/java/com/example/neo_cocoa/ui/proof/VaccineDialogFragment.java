@@ -40,7 +40,11 @@ public class VaccineDialogFragment extends DialogFragment {
         numOfVacTextView.setText(R.string.proof_dialog_message_num_of_vaccine);
 
         numOfVacEditText = new EditText(getActivity());
-        numOfVacEditText.setHint(String.valueOf(proofFragment.getNumOfVaccine()));
+        if(proofFragment.getNumOfVaccine() > 0) {
+            numOfVacEditText.setHint(String.valueOf(proofFragment.getNumOfVaccine()));
+        }else {
+            numOfVacEditText.setHint("0");
+        }
         numOfVacEditText.setInputType( InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
         Calendar c = Calendar.getInstance();
@@ -82,15 +86,21 @@ public class VaccineDialogFragment extends DialogFragment {
 
 
     private class DialogButtonClickListener implements DialogInterface.OnClickListener {
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onClick(DialogInterface dialog, int which) {
             String msg = "";
             switch(which) {
                 case DialogInterface.BUTTON_POSITIVE:
-                    if(numOfVacEditText.length() != 0
-                    && vacYearEditText.length() != 0
-                    && vacMonthEditText.length() != 0
-                    && vacDayEditText.length() != 0)
+                    if(numOfVacEditText.length() > 0
+                            && numOfVacEditText.length() < 3
+                            && vacYearEditText.length() > 0
+                            && vacYearEditText.length() < 5
+                            && vacMonthEditText.length() > 0
+                            && vacMonthEditText.length() < 3
+                            && vacDayEditText.length() > 0
+                            && vacDayEditText.length() < 3
+                    )
                     {
                         proofFragment.setNumOfVaccine(Integer.valueOf(numOfVacEditText.getText().toString()));
                         proofFragment.setVaccineDate(

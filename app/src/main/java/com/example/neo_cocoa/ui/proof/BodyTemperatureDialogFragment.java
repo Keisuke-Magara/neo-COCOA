@@ -3,14 +3,19 @@ package com.example.neo_cocoa.ui.proof;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.neo_cocoa.R;
+
+import java.util.Calendar;
 
 public class BodyTemperatureDialogFragment extends DialogFragment {
     private ProofFragment proofFragment;
@@ -35,13 +40,20 @@ public class BodyTemperatureDialogFragment extends DialogFragment {
     }
 
     private class DialogButtonClickListener implements DialogInterface.OnClickListener {
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onClick(DialogInterface dialog, int which) {
             String msg = "";
             switch(which) {
                 case DialogInterface.BUTTON_POSITIVE:
                     if(btEditText.length() != 0) {
+                        //体温を登録
                         proofFragment.setBodyTemperature(Float.valueOf(btEditText.getText().toString()));
+                        //体温更新日を登録
+                        Calendar c = Calendar.getInstance();
+                        SimpleDateFormat bodyTemperatureDate = new SimpleDateFormat("yyyyMMdd");
+                        Integer btd = Integer.valueOf(bodyTemperatureDate.format(c.getTime()));
+                        proofFragment.setBodyTemperatureDate(btd);
                         proofFragment.refreshProofFragment();
                         msg = "体温を登録しました";
                     }else {

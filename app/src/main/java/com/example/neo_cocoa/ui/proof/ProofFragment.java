@@ -10,7 +10,9 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -22,6 +24,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.content.res.ResourcesCompat;
@@ -38,6 +41,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Calendar;
 
 public class ProofFragment extends Fragment {
     private FragmentProofBinding binding;
@@ -49,6 +53,7 @@ public class ProofFragment extends Fragment {
     private Button buttonVaccine;
     private Button buttonShare;
 
+    private TextView dataUpdateDate;
     private TextView dataContact;
     private TextView dataPositive;
     private TextView dataBodyTemp;
@@ -61,6 +66,7 @@ public class ProofFragment extends Fragment {
 
     private Integer NUM_OF_POSITIVE = 0;//陽性者との接触人数
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         proofFragment = this;
@@ -204,6 +210,12 @@ public class ProofFragment extends Fragment {
     public void setBodyTemperature(Float bodyTemperature) {
         appProof.setBodyTemperature(bodyTemperature);
     }
+    public void setBodyTemperatureDate(Integer BodyTemperatureDate) {
+        appProof.setBodyTemperatureDate(BodyTemperatureDate);
+    }
+    public Integer getBodyTemperatureDate() {
+        return appProof.getBodyTemperatureDate();
+    }
     public void setNumOfVaccine(Integer numOfVaccine) {
         appProof.setNumOfVaccine(numOfVaccine);
     }
@@ -215,8 +227,14 @@ public class ProofFragment extends Fragment {
     }
 
     //Fragmentをの情報を更新
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void refreshProofFragment() {
         //データの表示
+        dataUpdateDate = (TextView) view.findViewById(R.id.proof_data_update_date);
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        dataUpdateDate.setText(sdf.format(c.getTime()));
+
         dataContact = (TextView) view.findViewById(R.id.proof_data_num_of_contacts);
         dataContact.setText(String.valueOf(GlobalField.hazardData.getMaxDangerLevel()));
 
@@ -228,7 +246,16 @@ public class ProofFragment extends Fragment {
         }
 
         dataBodyTemp = (TextView)view.findViewById(R.id.proof_data_body_temperature);
-        if(appProof.getBodyTemperature() != null) {
+        sdf = new SimpleDateFormat("yyyyMMdd");
+        Integer today = Integer.valueOf(sdf.format(c.getTime()));
+        Integer bodyTemperatureDate = getBodyTemperatureDate();
+        System.out.println(today);
+        System.out.println(bodyTemperatureDate);
+        System.out.println(appProof.getBodyTemperature());
+        if(today - bodyTemperatureDate != 0) {
+            setBodyTemperature(-1f);
+        }
+        if(appProof.getBodyTemperature() != -1) {
             dataBodyTemp.setText(String.valueOf(appProof.getBodyTemperature()) + getString(R.string.proof_unit_temperature));
         }else {
             dataBodyTemp.setText(getString(R.string.proof_data_no_data));
@@ -266,7 +293,7 @@ public class ProofFragment extends Fragment {
         }
 
         ivBodyTemperature = (ImageView) view.findViewById(R.id.proof_icon_body_temperature);
-        if(appProof.getBodyTemperature() < 37.0F) {
+        if(0 < appProof.getBodyTemperature() && appProof.getBodyTemperature() < 37.0) {
             ivBodyTemperature.setImageDrawable(okIcon);
         }else {
             ivBodyTemperature.setImageDrawable(ngIcon);
