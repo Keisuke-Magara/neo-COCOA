@@ -40,7 +40,9 @@
             android:foregroundServiceType="location">
             <!-- Any inner elements would go here. -->
         </service>
-        <receiver android:name=".GeofenceBroadcastHandler"></receiver>
+        <service android:name=".BackgroundHazardNotificationService"/>
+
+        <receiver android:name=".GeofenceBroadcastHandler" />
     </application>
 
 

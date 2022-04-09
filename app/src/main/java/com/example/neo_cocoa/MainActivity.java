@@ -2,13 +2,16 @@ package com.example.neo_cocoa;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     private AppLocationProvider appLocationProvider;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
         GlobalField.appSettings = appSettings;
         hazardData = new HazardData(this);
         GlobalField.hazardData = hazardData;
+
+        if(appSettings.getBgNotif()) {
+            System.out.println(("=========== Background Notification Enabled ============="));
+            Intent intent = new Intent(getApplication(), BackgroundHazardNotificationService.class);
+            startService(intent);
+        }
 
         // 位置情報関係初期化
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -95,4 +105,10 @@ public class MainActivity extends AppCompatActivity {
 //        appLocationProvider.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent(getApplication(), BackgroundHazardNotificationService.class);
+        //startService(intent);
+    }
 }
