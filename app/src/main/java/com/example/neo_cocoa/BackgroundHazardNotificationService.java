@@ -1,23 +1,18 @@
 package com.example.neo_cocoa;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationRequest;
 import android.os.IBinder;
-import android.provider.SyncStateContract;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 
 import com.example.neo_cocoa.hazard_models.HazardModel;
 import com.example.neo_cocoa.hazard_models.mock_ENS;
-import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
@@ -31,7 +26,7 @@ import java.util.List;
 
 public class BackgroundHazardNotificationService extends Service {
     private static final String TAG = "BackgroundHazardNotificationService";
-    private static final String REQUESTID = "BGHazardNotification";
+    private static final String REQUEST_ID = "BGHazardNotification";
     private static final float ACTIVE_RADIUS = 100; // [m]
     private static final long EXPIRATION_DURATION = 6 * 60 * 60 * 1000; // [ms]
     private mock_ENS mock_ens;
@@ -59,8 +54,9 @@ public class BackgroundHazardNotificationService extends Service {
                 .addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
+                        // add geofence at here in 100m.
                         geofenceList.add(new Geofence.Builder()
-                                .setRequestId(REQUESTID)
+                                .setRequestId(REQUEST_ID)
                                 .setCircularRegion(task.getResult().getLatitude(),
                                         task.getResult().getLongitude(),
                                         ACTIVE_RADIUS)
