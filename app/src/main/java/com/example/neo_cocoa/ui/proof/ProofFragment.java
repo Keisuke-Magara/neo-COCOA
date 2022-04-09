@@ -10,7 +10,9 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -18,9 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.content.res.ResourcesCompat;
@@ -37,6 +41,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Calendar;
 
 public class ProofFragment extends Fragment {
     private FragmentProofBinding binding;
@@ -48,6 +53,7 @@ public class ProofFragment extends Fragment {
     private Button buttonVaccine;
     private Button buttonShare;
 
+    private TextView dataUpdateDate;
     private TextView dataContact;
     private TextView dataPositive;
     private TextView dataBodyTemp;
@@ -60,6 +66,7 @@ public class ProofFragment extends Fragment {
 
     private Integer NUM_OF_POSITIVE = 0;//陽性者との接触人数
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         proofFragment = this;
@@ -98,7 +105,7 @@ public class ProofFragment extends Fragment {
             dialogFragment.show(getActivity().getSupportFragmentManager(), "VaccineDialogFragment");
         }
     };
-    //体温記録共有ボタンのリスナ
+    //健康記録共有ボタンのリスナ
     View.OnClickListener button_share_listener = new View.OnClickListener() {
         public void onClick(View view) {
             try {
@@ -120,15 +127,14 @@ public class ProofFragment extends Fragment {
         Canvas canvas = page.getCanvas();
         Paint paint;
         paint = new Paint();
-//        canvas.drawText("neoCOCOA",10f,10f, paint);
+        //viewからbitmapを生成してPDFに貼り付け
         CreateBitmap(view);
         Rect src = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
         Rect dst = new Rect(0, 0, 595, bitmap.getHeight()*595/bitmap.getWidth());
         canvas.drawBitmap(bitmap, src, dst, paint);
 
         pdfDocument.finishPage(page);
-        FileOutputStream out = null;
-        out = getContext().openFileOutput("proof.pdf", getContext().MODE_PRIVATE);
+        FileOutputStream out = getContext().openFileOutput("proof.pdf", getContext().MODE_PRIVATE);
         try {
             pdfDocument.writeTo(out);
             System.out.println("PDF generate");
@@ -139,24 +145,21 @@ public class ProofFragment extends Fragment {
         }
         pdfDocument.close();
     }
+
     //PDFを共有する
     private void sharePDF() {
         // ストレージの権限の確認
         if (ActivityCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
                 PackageManager.PERMISSION_GRANTED) {
-
             // ストレージの権限の許可を求めるダイアログを表示する
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1000);
         }
-        //PDFファイル共有
-        final String pathName = getContext().getFilesDir() +"/proof.pdf";
-        System.out.println(pathName);
+        //PDFファイル表示or共有
         Uri uri = FileProvider.getUriForFile(getContext(),
                 getContext().getApplicationContext().getPackageName() + ".provider",
                 new File(getContext().getFilesDir() + "/proof.pdf"));
-
         //表示
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(uri,"application/pdf");
@@ -165,9 +168,18 @@ public class ProofFragment extends Fragment {
         try {
             startActivity(intent);
         }catch (Exception e) {
-            e.printStackTrace();
+            //PDFが表示できない場合は共有
+            Intent it = new Intent(Intent.ACTION_SEND);
+            it.putExtra(Intent.EXTRA_STREAM, uri);
+            it.setType("application/pdf");
+            try {
+                startActivity(Intent.createChooser(it, "選択"));
+            }catch (Exception ex) {
+                e.printStackTrace();
+            }
         }
     }
+
     //viewからbitmapを生成
     private Bitmap bitmap =null;
     private final Bitmap.Config bitmapConfig = Bitmap.Config.ARGB_8888;
@@ -175,24 +187,34 @@ public class ProofFragment extends Fragment {
         bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), bitmapConfig);
         Canvas c = new Canvas();
         c.setBitmap(bitmap);
-        //ボタンの非表示
+        //不要ボタン等の非表示
         Button buttonShare = v.findViewById(R.id.proof_button_share);
         buttonShare.setVisibility(View.INVISIBLE);
         Button buttonBodyTemp = v.findViewById(R.id.proof_button_body_temperature);
         buttonBodyTemp.setVisibility(View.INVISIBLE);
         Button buttonVaccine = v.findViewById(R.id.proof_button_vaccine);
         buttonVaccine.setVisibility(View.INVISIBLE);
+        ScrollView scrollView = view.findViewById(R.id.proof_scrollView);
+        scrollView.scrollTo(0,0);
+        scrollView.setVerticalScrollBarEnabled(false);
         //描画
         v.draw(c);
-        //ボタンの再表示
+        //ボタン等の再表示
         buttonShare.setVisibility(View.VISIBLE);
         buttonBodyTemp.setVisibility(View.VISIBLE);
         buttonVaccine.setVisibility(View.VISIBLE);
+        scrollView.setVerticalScrollBarEnabled(true);
     }
 
 
     public void setBodyTemperature(Float bodyTemperature) {
         appProof.setBodyTemperature(bodyTemperature);
+    }
+    public void setBodyTemperatureDate(Integer BodyTemperatureDate) {
+        appProof.setBodyTemperatureDate(BodyTemperatureDate);
+    }
+    public Integer getBodyTemperatureDate() {
+        return appProof.getBodyTemperatureDate();
     }
     public void setNumOfVaccine(Integer numOfVaccine) {
         appProof.setNumOfVaccine(numOfVaccine);
@@ -205,8 +227,14 @@ public class ProofFragment extends Fragment {
     }
 
     //Fragmentをの情報を更新
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void refreshProofFragment() {
         //データの表示
+        dataUpdateDate = (TextView) view.findViewById(R.id.proof_data_update_date);
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        dataUpdateDate.setText(sdf.format(c.getTime()));
+
         dataContact = (TextView) view.findViewById(R.id.proof_data_num_of_contacts);
         dataContact.setText(String.valueOf(GlobalField.hazardData.getMaxDangerLevel()));
 
@@ -218,13 +246,33 @@ public class ProofFragment extends Fragment {
         }
 
         dataBodyTemp = (TextView)view.findViewById(R.id.proof_data_body_temperature);
-        dataBodyTemp.setText(String.valueOf(appProof.getBodyTemperature()) + getString(R.string.proof_unit_temperature));
+        sdf = new SimpleDateFormat("yyyyMMdd");
+        Integer today = Integer.valueOf(sdf.format(c.getTime()));
+        Integer bodyTemperatureDate = getBodyTemperatureDate();
+        System.out.println(today);
+        System.out.println(bodyTemperatureDate);
+        System.out.println(appProof.getBodyTemperature());
+        if(today - bodyTemperatureDate != 0) {
+            setBodyTemperature(-1f);
+        }
+        if(appProof.getBodyTemperature() != -1) {
+            dataBodyTemp.setText(String.valueOf(appProof.getBodyTemperature()) + getString(R.string.proof_unit_temperature));
+        }else {
+            dataBodyTemp.setText(getString(R.string.proof_data_no_data));
+        }
 
         dataVaccine = (TextView)view.findViewById(R.id.proof_data_num_of_vaccine);
-        dataVaccine.setText(appProof.getNumOfVaccine() + getString(R.string.proof_unit_num) + "(" +
-                appProof.getVaccineDate()/10000 + "/" +
-                (appProof.getVaccineDate()/100)%100 + "/" +
-                appProof.getVaccineDate()%100 + ")");
+        if(appProof.getNumOfVaccine() > 0) {
+            dataVaccine.setText(appProof.getNumOfVaccine() + getString(R.string.proof_unit_num) + "(" +
+                    appProof.getVaccineDate()/10000 + "/" +
+                    (appProof.getVaccineDate()/100)%100 + "/" +
+                    appProof.getVaccineDate()%100 + ")");
+        }else if(appProof.getNumOfVaccine() == 0) {
+            dataVaccine.setText(getString(R.string.proof_data_un_inoculated));
+        }else {
+            dataVaccine.setText(getString(R.string.proof_data_no_data));
+        }
+
 
         //アイコンの表示
         Resources res = getResources();
@@ -245,7 +293,7 @@ public class ProofFragment extends Fragment {
         }
 
         ivBodyTemperature = (ImageView) view.findViewById(R.id.proof_icon_body_temperature);
-        if(appProof.getBodyTemperature() < 37.0F) {
+        if(0 < appProof.getBodyTemperature() && appProof.getBodyTemperature() < 37.0) {
             ivBodyTemperature.setImageDrawable(okIcon);
         }else {
             ivBodyTemperature.setImageDrawable(ngIcon);

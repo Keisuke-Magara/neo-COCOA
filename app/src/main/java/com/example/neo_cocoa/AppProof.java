@@ -7,8 +7,10 @@ import android.content.SharedPreferences;
 
 public class AppProof {
     private Float bodyTemperature;
+    private Integer bodyTemperatureDate;
     private Integer numOfVaccine;
     private Integer vaccineDate;
+    private String updateDate;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
 //    private enum pref_keys{
@@ -35,6 +37,18 @@ public class AppProof {
         return this.bodyTemperature;
     }
 
+    public void setBodyTemperatureDate(Integer btd) {
+        this.bodyTemperatureDate = btd;
+        editor.putInt("bodyTemperatureDate", btd);
+        editor.apply();
+        this.refreshData();
+    }
+
+    public Integer getBodyTemperatureDate() {
+        this.refreshData();
+        return this.bodyTemperatureDate;
+    }
+
     public void setNumOfVaccine(Integer nov) {
         this.numOfVaccine = nov;
         editor.putInt("numOfVaccine", nov);
@@ -47,9 +61,9 @@ public class AppProof {
         return this.numOfVaccine;
     }
 
-    public void setVaccineDate(Integer nd) {
-        this.vaccineDate = nd;
-        editor.putInt("vaccineDate", nd);
+    public void setVaccineDate(Integer vd) {
+        this.vaccineDate = vd;
+        editor.putInt("vaccineDate", vd);
         editor.apply();
         this.refreshData();
     }
@@ -59,12 +73,21 @@ public class AppProof {
         return  this.vaccineDate;
     }
 
+    public void setUpdateDate(String ud) {
+        this.updateDate = ud;
+        editor.putString("updateDate", ud);
+        editor.apply();
+        this.refreshData();
+    }
+
     public void refreshData() {
 //        editor.putFloat("bodyTemperature", 0.0F);
 //        editor.apply();
-        this.bodyTemperature = this.sharedPref.getFloat("bodyTemperature", 0.0F);
-        this.numOfVaccine = this.sharedPref.getInt("numOfVaccine", 0);
-        this.vaccineDate = this.sharedPref.getInt("vaccineDate", 0);
+        this.bodyTemperature = this.sharedPref.getFloat("bodyTemperature", -1F);
+        this.bodyTemperatureDate = this.sharedPref.getInt("bodyTemperatureDate", -1);
+        this.numOfVaccine = this.sharedPref.getInt("numOfVaccine", -1);
+        this.vaccineDate = this.sharedPref.getInt("vaccineDate", -1);
+        this.updateDate = this.sharedPref.getString("updateDate", null);
 
     }
 }

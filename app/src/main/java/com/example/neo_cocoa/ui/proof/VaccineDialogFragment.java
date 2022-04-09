@@ -40,7 +40,11 @@ public class VaccineDialogFragment extends DialogFragment {
         numOfVacTextView.setText(R.string.proof_dialog_message_num_of_vaccine);
 
         numOfVacEditText = new EditText(getActivity());
-        numOfVacEditText.setHint(String.valueOf(proofFragment.getNumOfVaccine()));
+        if(proofFragment.getNumOfVaccine() > 0) {
+            numOfVacEditText.setHint(String.valueOf(proofFragment.getNumOfVaccine()));
+        }else {
+            numOfVacEditText.setHint("0");
+        }
         numOfVacEditText.setInputType( InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
         Calendar c = Calendar.getInstance();
@@ -82,15 +86,21 @@ public class VaccineDialogFragment extends DialogFragment {
 
 
     private class DialogButtonClickListener implements DialogInterface.OnClickListener {
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onClick(DialogInterface dialog, int which) {
             String msg = "";
             switch(which) {
                 case DialogInterface.BUTTON_POSITIVE:
-                    if(numOfVacEditText.length() != 0
-                    && vacYearEditText.length() != 0
-                    && vacMonthEditText.length() != 0
-                    && vacDayEditText.length() != 0)
+                    if(numOfVacEditText.length() > 0
+                            && numOfVacEditText.length() < 3
+                            && vacYearEditText.length() > 0
+                            && vacYearEditText.length() < 5
+                            && vacMonthEditText.length() > 0
+                            && vacMonthEditText.length() < 3
+                            && vacDayEditText.length() > 0
+                            && vacDayEditText.length() < 3
+                    )
                     {
                         proofFragment.setNumOfVaccine(Integer.valueOf(numOfVacEditText.getText().toString()));
                         proofFragment.setVaccineDate(
@@ -98,14 +108,16 @@ public class VaccineDialogFragment extends DialogFragment {
                                         Integer.valueOf(vacMonthEditText.getText().toString())*100 +
                                         Integer.valueOf(vacDayEditText.getText().toString()));
                         proofFragment.refreshProofFragment();
-                        msg = "接種回数を登録しました";
+                        msg = getString(R.string.proof_message_success_register);
 
-                    }else{
-                        msg = "入力に間違いがあります";
+                    }else if(Integer.valueOf(numOfVacEditText.getText().toString()) == 0) {
+                        msg = getString(R.string.proof_message_success_register);
+                    }else {
+                        msg = getString(R.string.proof_message_failed_register);
                     }
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
-                    msg = "登録をキャンセルしました";
+                    msg = getString(R.string.proof_message_cancel_register);
                     break;
             }
             Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();

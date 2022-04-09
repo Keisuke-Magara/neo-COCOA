@@ -125,13 +125,13 @@ public class HazardFragment extends Fragment implements CompoundButton.OnChecked
                     numOfContactView.setText(num_of_contact_text);
                     dangerLevelView.setText(dangerLevel_text);
                     switch (dangerLevel) {
-                        case 0: dangerLevelView.setTextColor(Color.BLACK);
+                        case 0: dangerLevelView.setTextColor(getResources().getColor(R.color.black, requireActivity().getTheme()));
                                 commentView.setText(R.string.hazard_danger_level_0_comment);
                                 break;
                         case 1: dangerLevelView.setTextColor(getResources().getColor(R.color.dark_green, requireActivity().getTheme()));
                                 commentView.setText(R.string.hazard_danger_level_1_comment);
                                 break;
-                        case 2: dangerLevelView.setTextColor(Color.BLUE);
+                        case 2: dangerLevelView.setTextColor(getResources().getColor(R.color.blue, requireActivity().getTheme()));
                                 commentView.setText(R.string.hazard_danger_level_2_comment);
                                 break;
                         case 3: dangerLevelView.setTextColor(getResources().getColor(R.color.orange, requireActivity().getTheme()));
