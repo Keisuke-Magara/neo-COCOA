@@ -33,7 +33,7 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
   　<!-- Proof fragment -->
-    <string name="title_proof">証明書</string>
+    <string name="title_proof">健康記録</string>
     <string name="proof_message_success_register">登録しました</string>
     <string name="proof_message_failed_register">入力に間違いがあります</string>
     <string name="proof_message_cancel_register">登録をキャンセルしました</string>
