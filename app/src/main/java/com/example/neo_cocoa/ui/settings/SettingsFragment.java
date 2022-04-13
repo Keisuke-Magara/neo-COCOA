@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,8 +42,10 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         getAppVersion(version_number);
         s = view.findViewById(R.id.settings_bgnotification_switch);
         Button quit = view.findViewById(R.id.settings_quit_button);
-        if (!AppLocationProvider.checkBGPermission()) {
-            appsettings.setBgNotif(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!AppLocationProvider.checkBGPermission()) {
+                appsettings.setBgNotif(false);
+            }
         }
         s.setChecked(appsettings.getBgNotif());
         s.setOnCheckedChangeListener(this);
@@ -59,8 +62,10 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-            if(!AppLocationProvider.checkBGPermission()) {
-                AppLocationProvider.requestBGPermission();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (!AppLocationProvider.checkBGPermission()) {
+                    AppLocationProvider.requestBGPermission();
+                }
             }
         }
         appsettings.setBgNotif(isChecked);

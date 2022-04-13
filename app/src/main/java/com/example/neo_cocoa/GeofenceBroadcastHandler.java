@@ -1,25 +1,19 @@
 package com.example.neo_cocoa;
 
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.os.IBinder;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
-import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofenceStatusCodes;
-import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingEvent;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class GeofenceBroadcastHandler extends BroadcastReceiver {
+public class GeofenceBroadcastHandler extends BroadcastReceiver  implements NotificationConfig{
     private static final String TAG = "GeofenceBroadcastHandler";
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -42,7 +36,18 @@ public class GeofenceBroadcastHandler extends BroadcastReceiver {
             System.out.println(triggeringLocation);
         } else {
             if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER || geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL) {
-                // do nothing.
+                List<Geofence> geofenceList = new LinkedList<>();
+                // remove current geofence
+                // todo: implements method.
+                // add new geofence list.
+                /*geofenceList.add(new Geofence.Builder()
+                        .setRequestId(REQUEST_ID)
+                        .setCircularRegion(task.getResult().getLatitude(),
+                                task.getResult().getLongitude(),
+                                ACTIVE_RADIUS)
+                        .setExpirationDuration(EXPIRATION_DURATION)
+                        .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_EXIT)
+                        .build());*/
             } else {
                 // Log the error.
                 Log.e(TAG, "geofenceTransition() returned abnormal value.");

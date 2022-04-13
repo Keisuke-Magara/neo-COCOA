@@ -33,12 +33,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class BackgroundHazardNotificationService extends Service {
+public class BackgroundHazardNotificationService extends Service implements NotificationConfig{
     private static final String TAG = "BackgroundHazardNotificationService";
-    private static final String REQUEST_ID = "BGHazardNotification";
-    private static final float ACTIVE_RADIUS = 100; // [m]
-    private static final long EXPIRATION_DURATION = 6 * 60 * 60 * 1000; // [ms]
-    private static final String CHANNEL_ID = "neoCOCOA.BackgroundHazardNotification";
     private static int notificationId = 0;
     private mock_ENS mock_ens;
     private GeofencingClient geofencingClient;
@@ -52,7 +48,7 @@ public class BackgroundHazardNotificationService extends Service {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Log.d(TAG, "===== Service is runnning...=====");
+                Log.d(TAG, "===== Service is running...=====");
                 Notification notification = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
                         .setSmallIcon(R.drawable.app_icon)
                         .setContentText("TEST")
@@ -82,8 +78,15 @@ public class BackgroundHazardNotificationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "Service was started.");
+        /*Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+                           @Override
+                           public void run() {
 
-        List<Geofence> geofenceList = new LinkedList<>();
+                           }
+                       }, 5000, 10000);
+*/
+        List < Geofence > geofenceList = new LinkedList<>();
         CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         FusedLocationProviderClient flpc = LocationServices.getFusedLocationProviderClient(this);
         flpc.getCurrentLocation(LocationRequest.QUALITY_HIGH_ACCURACY, cancellationTokenSource.getToken())
@@ -119,4 +122,21 @@ public class BackgroundHazardNotificationService extends Service {
         Intent intent = new Intent(getApplication(), BackgroundHazardNotificationService.class);
         startService(intent);
     }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "TEST";
+            String description = "This is test channel of neo COCOA.";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
 }
