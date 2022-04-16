@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-
         // 緯度経度をtoast通知する(サンプル)
         CancellationTokenSource cts = new CancellationTokenSource();
         CancellationToken token1 = cts.getToken().onCanceledRequested(new OnTokenCanceledListener() {

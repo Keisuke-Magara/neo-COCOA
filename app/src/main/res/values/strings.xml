@@ -16,7 +16,7 @@
     <string name="loading_error">読み込みエラー</string>
     <string name="NA">不明</string>
     <string name="ShutdownApp">アプリを終了する</string>
-
+    <string name="help">使い方</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>

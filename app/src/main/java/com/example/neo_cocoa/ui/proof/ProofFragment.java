@@ -222,7 +222,7 @@ public class ProofFragment extends Fragment {
     public Integer getNumOfVaccine() {
         return appProof.getNumOfVaccine();
     }
-    public void setVaccineDate(Integer vaccineDate) {
+    public void setVaccineDate(String vaccineDate) {
         appProof.setVaccineDate(vaccineDate);
     }
 
@@ -263,10 +263,7 @@ public class ProofFragment extends Fragment {
 
         dataVaccine = (TextView)view.findViewById(R.id.proof_data_num_of_vaccine);
         if(appProof.getNumOfVaccine() > 0) {
-            dataVaccine.setText(appProof.getNumOfVaccine() + getString(R.string.proof_unit_num) + "(" +
-                    appProof.getVaccineDate()/10000 + "/" +
-                    (appProof.getVaccineDate()/100)%100 + "/" +
-                    appProof.getVaccineDate()%100 + ")");
+            dataVaccine.setText(appProof.getNumOfVaccine() + getString(R.string.proof_unit_num) + "(" + appProof.getVaccineDate() + ")");
         }else if(appProof.getNumOfVaccine() == 0) {
             dataVaccine.setText(getString(R.string.proof_data_un_inoculated));
         }else {

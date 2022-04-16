@@ -9,7 +9,7 @@ public class AppProof {
     private Float bodyTemperature;
     private Integer bodyTemperatureDate;
     private Integer numOfVaccine;
-    private Integer vaccineDate;
+    private String vaccineDate;
     private String updateDate;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
@@ -61,14 +61,14 @@ public class AppProof {
         return this.numOfVaccine;
     }
 
-    public void setVaccineDate(Integer vd) {
+    public void setVaccineDate(String vd) {
         this.vaccineDate = vd;
-        editor.putInt("vaccineDate", vd);
+        editor.putString("vaccineDate", vd);
         editor.apply();
         this.refreshData();
     }
 
-    public Integer getVaccineDate() {
+    public String getVaccineDate() {
         this.refreshData();
         return  this.vaccineDate;
     }
@@ -86,7 +86,7 @@ public class AppProof {
         this.bodyTemperature = this.sharedPref.getFloat("bodyTemperature", -1F);
         this.bodyTemperatureDate = this.sharedPref.getInt("bodyTemperatureDate", -1);
         this.numOfVaccine = this.sharedPref.getInt("numOfVaccine", -1);
-        this.vaccineDate = this.sharedPref.getInt("vaccineDate", -1);
+        this.vaccineDate = this.sharedPref.getString("vaccineDate", null);
         this.updateDate = this.sharedPref.getString("updateDate", null);
 
     }

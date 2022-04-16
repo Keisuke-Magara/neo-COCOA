@@ -12,6 +12,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -72,10 +75,38 @@ public class HomeFragment extends Fragment {
         };
         shareButton.setOnClickListener(shareButtonListener);
 
+        // helpボタンの表示
+        setHasOptionsMenu(true);
+
         //画面の表示データを更新
         refreshHomeFragment();
 
         return view;
+    }
+    //helpボタンの表示
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.help_menu, menu);
+    }
+    //helpボタンタップ時の処理
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_help:  {
+                // navigate to settings screen
+                System.out.println("click help");
+                View help = view.findViewById(R.id.home_scrollView2);
+                if(help.getVisibility() == View.INVISIBLE){
+                    help.setVisibility(View.VISIBLE);
+                }else {
+                    help.setVisibility(View.INVISIBLE);
+                }
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     @SuppressLint("ResourceAsColor")
