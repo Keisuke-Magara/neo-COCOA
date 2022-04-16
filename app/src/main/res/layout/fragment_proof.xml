@@ -212,21 +212,25 @@
 
                 <TextView
                     android:id="@+id/proof_data_body_temperature"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
                     android:text="@string/getting"
+                    app:layout_constraintEnd_toStartOf="@+id/proof_button_body_temperature"
                     app:layout_constraintStart_toEndOf="@+id/proof_icon_body_temperature"
                     app:layout_constraintTop_toBottomOf="@+id/proof_title_body_temperature" />
 
                 <TextView
                     android:id="@+id/proof_data_num_of_vaccine"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
                     android:text="@string/getting"
+                    app:layout_constraintEnd_toStartOf="@+id/proof_button_vaccine"
                     app:layout_constraintStart_toEndOf="@+id/proof_icon_num_of_vaccine"
                     app:layout_constraintTop_toBottomOf="@+id/proof_title_num_of_vaccine" />
 

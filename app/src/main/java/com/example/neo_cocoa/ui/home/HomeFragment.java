@@ -95,7 +95,8 @@ public class HomeFragment extends Fragment {
             case R.id.action_help:  {
                 // navigate to settings screen
                 System.out.println("click help");
-                View help = view.findViewById(R.id.home_scrollView2);
+
+                View help = view.findViewById(R.id.home_help_constraint);
                 if(help.getVisibility() == View.INVISIBLE){
                     help.setVisibility(View.VISIBLE);
                 }else {
