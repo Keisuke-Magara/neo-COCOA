@@ -33,6 +33,13 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
+/***
+ * Foreground notification service.
+ * This service runs as foreground service and notify hazard danger level to user
+ * when receive geofence trigger.
+ */
+
 public class BackgroundHazardNotificationService extends Service implements NotificationConfig{
     private static final String TAG = "BackgroundHazardNotificationService";
     private static int notificationId = 0;
