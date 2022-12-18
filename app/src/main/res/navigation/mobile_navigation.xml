@@ -12,14 +12,31 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.neo_cocoa.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_infomation"
+        android:name="com.example.neo_cocoa.ui.information.InformationFragment"
+        android:label="@string/title_information"
+        tools:layout="@layout/fragment_information" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.neo_cocoa.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_settings"
+        android:name="com.example.neo_cocoa.ui.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" >
+<!--        <argument-->
+<!--            android:id="@+id/argument_appSettings"-->
+<!--            android:name="appSettings"-->
+<!--            app:argType="com.example.neo_cocoa.AppSettings" />-->
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_hazard"
+        android:name="com.example.neo_cocoa.ui.hazard.HazardFragment"
+        android:label="@string/title_hazard"
+        tools:layout="@layout/fragment_hazard" />
+
+    <fragment
+        android:id="@+id/navigation_proof"
+        android:name="com.example.neo_cocoa.ui.proof.ProofFragment"
+        android:label="@string/title_proof"
+        tools:layout="@layout/fragment_proof" />
 </navigation>
